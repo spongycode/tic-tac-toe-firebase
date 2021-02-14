@@ -6,4 +6,6 @@
     <string name="dont_have_account">Register Here</string>
     <string name="don_t_have_an_account">Don\'t Have an Account?</string>
     <string name="sign_up">Register Me</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

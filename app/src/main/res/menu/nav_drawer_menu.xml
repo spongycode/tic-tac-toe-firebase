@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/miItem1"
+        android:title="Profile"/>
+
+    <item
+        android:id="@+id/miItem2"
+        android:title="Play (Offline)"/>
+
+    <item
+        android:id="@+id/miItem3"
+        android:title="Settings"/>
+
+    <item
+        android:id="@+id/miItem4"
+        android:title="Log Out"/>
+
+</menu>

@@ -12,15 +12,14 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_signin.*
 
 class SigninActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
 
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
 
         auth = Firebase.auth
-
 
         btn_log_in.setOnClickListener {
             loginUser()
@@ -29,6 +28,7 @@ class SigninActivity : AppCompatActivity() {
         btn_sign_up.setOnClickListener {
             startActivity(Intent(this, SignupActivity::class.java))
         }
+
     }
 
     private fun loginUser() {
@@ -70,15 +70,11 @@ class SigninActivity : AppCompatActivity() {
         if (currentUser != null) {
             LoggingYou(currentUser)
         }
-
-
     }
 
     fun LoggingYou(currentUser: FirebaseUser?) {
         startActivity(Intent(this, HomeActivity::class.java))
         finish()
-
-
     }
 
 }

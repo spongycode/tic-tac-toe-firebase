@@ -19,7 +19,6 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
@@ -43,9 +42,6 @@ class SignupActivity : AppCompatActivity() {
             tv_signup_lname.requestFocus()
             return
         }
-
-
-
         if (tv_signup_email.text.toString().isEmpty()) {
             tv_signup_email.error = "Please enter Email"
             tv_signup_email.requestFocus()
@@ -56,7 +52,6 @@ class SignupActivity : AppCompatActivity() {
             tv_signup_email.requestFocus()
             return
         }
-
         if (tv_signup_password.text.toString().isEmpty()) {
             tv_signup_password.error = "Please enter Password"
             tv_signup_password.requestFocus()
@@ -76,8 +71,6 @@ class SignupActivity : AppCompatActivity() {
                         .set(UserDataClass(tv_signup_fname.text.toString(),tv_signup_lname.text.toString(),tv_signup_email.text.toString(),userid))
                         .addOnSuccessListener { Log.d("BlogActivity", "DocumentSnapshot successfully written!") }
                         .addOnFailureListener { e -> Log.w("BlogActivity", "Error writing document", e) }
-
-
                     startActivity(Intent(this, SigninActivity::class.java))
                     finish()
                 } else {
@@ -85,8 +78,6 @@ class SignupActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT).show()
                 }
             }
-
-
 
     }
 }

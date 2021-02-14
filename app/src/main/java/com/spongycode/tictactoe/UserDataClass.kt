@@ -18,7 +18,6 @@ class UserDataClass {
     }
 
     fun toMap(): Map<String, Any> {
-
         val result = HashMap<String, Any>()
         result.put("fname", fname)
         result.put("lname", lname)
