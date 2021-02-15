@@ -43,8 +43,10 @@ class HomeActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setText("Live Games"))
         tabLayout.addTab(tabLayout.newTab().setText("Friends"))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
-        val adapter = TabLayoutAdapter(this, supportFragmentManager,
-                tabLayout.tabCount)
+        val adapter = TabLayoutAdapter(
+            this, supportFragmentManager,
+            tabLayout.tabCount
+        )
         viewPager.adapter = adapter
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -69,12 +71,24 @@ class HomeActivity : AppCompatActivity() {
         nav_view.setNavigationItemSelectedListener {
             when (it.itemId) {
 
-                R.id.miItem1 -> Toast.makeText(applicationContext, "Profile Activity (soon)", Toast.LENGTH_SHORT)
+                R.id.miItem1 -> Toast.makeText(
+                    applicationContext,
+                    "Profile Activity (soon)",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                R.id.miItem2 -> {
+                    startActivity(Intent(this, TttInterface::class.java))
+                    Toast.makeText(applicationContext, "TTT Interface", Toast.LENGTH_SHORT)
                         .show()
-                R.id.miItem2 -> Toast.makeText(applicationContext, "TTT Interface", Toast.LENGTH_SHORT)
-                        .show()
-                R.id.miItem3 -> Toast.makeText(applicationContext, "Settings TODO", Toast.LENGTH_SHORT)
-                        .show()
+                }
+
+                R.id.miItem3 -> Toast.makeText(
+                    applicationContext,
+                    "Settings TODO",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
                 R.id.miItem4 -> {
                     Firebase.auth.signOut()
                     startActivity(Intent(this, SigninActivity::class.java))
@@ -93,28 +107,28 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getProfileNameAndPic() {
         firestore.collection("users")
-                .whereEqualTo("userid", auth.currentUser?.uid.toString())
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (data in task.result!!) {
-                            val fname = data.toObject(UserDataClass::class.java).fname
-                            val lname = data.toObject(UserDataClass::class.java).lname
-                            val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                            nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_fname)
-                                    .setText(fname)
-                            nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_lname)
-                                    .setText(lname)
-                            Glide.with(this).load(imageurl)
-                                    .into(
-                                            nav_view.getHeaderView(0)
-                                                    .findViewById<ImageView>(R.id.nav_profile_pic)
-                                    )
-                        }
-                    } else {
-                        // to handle
+            .whereEqualTo("userid", auth.currentUser?.uid.toString())
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (data in task.result!!) {
+                        val fname = data.toObject(UserDataClass::class.java).fname
+                        val lname = data.toObject(UserDataClass::class.java).lname
+                        val imageurl = data.toObject(UserDataClass::class.java).imageurl
+                        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_fname)
+                            .setText(fname)
+                        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_lname)
+                            .setText(lname)
+                        Glide.with(this).load(imageurl)
+                            .into(
+                                nav_view.getHeaderView(0)
+                                    .findViewById<ImageView>(R.id.nav_profile_pic)
+                            )
                     }
+                } else {
+                    // to handle
                 }
+            }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
