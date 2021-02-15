@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:weightSum="10">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cons_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/user_fname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fname"
+            android:textColor="#DD5454"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/cons_margin"
+            app:layout_constraintLeft_toLeftOf="@id/cons_margin"
+            app:layout_constraintTop_toTopOf="@id/cons_margin" />
+
+        <TextView
+            android:id="@+id/user_lname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:text="Lanme"
+            android:textColor="#DD5454"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/cons_margin"
+            app:layout_constraintLeft_toRightOf="@id/user_fname"
+            app:layout_constraintTop_toTopOf="@id/cons_margin" />
+
+        <ImageView
+            android:id="@+id/user_imageurl"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintRight_toLeftOf="@id/btn_battle"
+            app:layout_constraintTop_toTopOf="@id/cons_margin"
+            android:src="@drawable/register_logo"/>
+        <Button
+            android:id="@+id/btn_battle"
+            android:layout_width="90dp"
+            android:layout_height="60dp"
+            android:text="battle"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cons_margin"
+            app:layout_constraintBottom_toBottomOf="@id/cons_margin"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
