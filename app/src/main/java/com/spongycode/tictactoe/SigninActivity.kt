@@ -25,6 +25,7 @@ class SigninActivity : AppCompatActivity() {
             loginUser()
         }
 
+
         btn_sign_up.setOnClickListener {
             startActivity(Intent(this, SignupActivity::class.java))
         }

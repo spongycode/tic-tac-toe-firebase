@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -34,6 +35,7 @@ class HomeActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         firestore = FirebaseFirestore.getInstance()
+
 
 
         // Tab Layout init
