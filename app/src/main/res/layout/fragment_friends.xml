@@ -7,8 +7,10 @@
     tools:context=".Friends">
 
     <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/rv_users"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:foregroundGravity="center_horizontal"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,6 +47,10 @@ class Blogs : Fragment() {
 
 
 
+        firestore.collection("users")
+            .addSnapshotListener{ snapshot, e ->
+                loadAllBlogs()
+            }
 
         firestoreListener = firestore.collection("blogs")
             .addSnapshotListener { snapshot, e ->

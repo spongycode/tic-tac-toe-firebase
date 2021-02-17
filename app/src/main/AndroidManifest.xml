@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-        <activity android:name=".WritePost"></activity>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".WritePost" />
         <activity android:name=".TttInterface" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".SignupActivity" />

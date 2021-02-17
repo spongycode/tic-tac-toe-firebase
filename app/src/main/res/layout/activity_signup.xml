@@ -24,8 +24,7 @@
             android:layout_height="wrap_content"
             android:hint="First Name"
             android:inputType="text"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/tv_signup_lname"
@@ -34,8 +33,7 @@
             android:hint="Last Name"
 
             android:inputType="text"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:textColor="@color/black"/>
 
 
         <EditText
@@ -44,8 +42,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:textColor="@color/black"/>
 
         <EditText
             android:id="@+id/tv_signup_password"
@@ -53,8 +50,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:textColor="@color/black"/>
 
         <Button
             android:id="@+id/btn_sign_up"

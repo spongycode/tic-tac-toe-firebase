@@ -1,5 +1,6 @@
 package com.spongycode.tictactoe
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -24,23 +25,24 @@ class BlogRvAdapter(
         return ViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val blog = blogList[position]
 
-        holder.author.text = blog.author
         holder.content.text = blog.content
+
         Glide.with(context).load(blog.image).into(holder.realimage)
 
-
-
-        // getting profile image for each blog init
+        // getting profile image and name (since name can be changed now real time) <author field to be removed now> for each blog init
         firestore.collection("users")
                 .whereEqualTo("userid", blog.userid)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         for (data in task.result!!) {
-
+                            val fname = data.toObject(UserDataClass::class.java).fname
+                            val lname = data.toObject(UserDataClass::class.java).lname
+                            holder.author.text = "$fname $lname"
                             val imageurl = data.toObject(UserDataClass::class.java).imageurl
                             Glide.with(context).load(imageurl).into(holder.profileimage)
                         }

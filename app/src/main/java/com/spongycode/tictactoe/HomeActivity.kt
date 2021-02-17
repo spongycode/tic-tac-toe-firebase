@@ -75,12 +75,11 @@ class HomeActivity : AppCompatActivity() {
         nav_view.setNavigationItemSelectedListener {
             when (it.itemId) {
 
-                R.id.miItem1 -> Toast.makeText(
-                    applicationContext,
-                    "Profile Activity (soon)",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                R.id.miItem1 -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    Toast.makeText(applicationContext, "Profile Activity", Toast.LENGTH_SHORT).show()
+                }
+
                 R.id.miItem2 -> {
                     startActivity(Intent(this, TttInterface::class.java))
                     Toast.makeText(applicationContext, "TTT Interface", Toast.LENGTH_SHORT)
@@ -104,6 +103,12 @@ class HomeActivity : AppCompatActivity() {
         // Nav Drawer end
 
 
+
+        firestore.collection("users")
+                .addSnapshotListener{ snapshot, e ->
+                    getProfileNameAndPic()
+                }
+
         getProfileNameAndPic()
 
 
@@ -123,6 +128,8 @@ class HomeActivity : AppCompatActivity() {
                             .setText(fname)
                         nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_lname)
                             .setText(lname)
+                        //
+                        //
                         Glide.with(this).load(imageurl)
                             .into(
                                 nav_view.getHeaderView(0)

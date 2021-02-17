@@ -48,6 +48,7 @@ class WritePost : AppCompatActivity() {
 
 
     @RequiresApi(Build.VERSION_CODES.Q)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_post)
@@ -83,9 +84,9 @@ class WritePost : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 val state = s.toString().trim { it <= ' ' }.isNotEmpty()
                 write_post_btn_post.isEnabled = state // trim <initial blank spaces not allowed>
-                if (state){
+                if (state) {
                     write_post_btn_post.setAlpha(1f)
-                }else{
+                } else {
                     write_post_btn_post.setAlpha(.5f);
 
                 }
@@ -104,7 +105,7 @@ class WritePost : AppCompatActivity() {
 
     private fun updateWriterImage(userid: String) {
         firestore.collection("users")
-                .whereEqualTo("userid",userid)
+                .whereEqualTo("userid", userid)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -119,32 +120,14 @@ class WritePost : AppCompatActivity() {
     }
 
     private fun postToFirestore() {
-        firestore.collection("users")
-                .whereEqualTo("userid", auth.currentUser?.uid.toString())
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (data in task.result!!) {
-                            val fname = data.toObject(UserDataClass::class.java).fname
-                            val lname = data.toObject(UserDataClass::class.java).lname
-                            val eachBlog = EachBlog(write_post_et_content.text.toString(),
-                                    downloadUri.toString(),
-                                    "$fname $lname",
-                                    auth.currentUser?.uid.toString())
-                            firestore.collection("blogs")
-                                    .add(eachBlog)
-                                    .addOnSuccessListener {
-                                        Toast.makeText(this, "post upload success", Toast.LENGTH_LONG).show()
-                                        finish()
-
-                                    }
-                                    .addOnFailureListener { e -> Toast.makeText(this, "post upload failed", Toast.LENGTH_LONG).show() }
-                        }
-                    } else {
-                        // to handle
-                    }
+        val eachBlog = EachBlog(write_post_et_content.text.toString(), downloadUri.toString(), auth.currentUser?.uid.toString())
+        firestore.collection("blogs")
+                .add(eachBlog)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "post upload success", Toast.LENGTH_LONG).show()
+                    finish()
                 }
-
+                .addOnFailureListener { e -> Toast.makeText(this, "post upload failed", Toast.LENGTH_LONG).show() }
 
     }
 
@@ -155,7 +138,7 @@ class WritePost : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == pickImage && data != null) {
-            write_post_btn_post.isClickable=false
+            write_post_btn_post.isClickable = false
             write_post_progressbar.isVisible = true
             write_post_btn_post.setAlpha(.5f);
             write_post_tv_add_image.setText("Uploading...")
@@ -180,7 +163,7 @@ class WritePost : AppCompatActivity() {
                             write_post_progressbar.isVisible = false
                             write_post_tv_add_image.setText("Uploaded!!")
                             write_post_btn_post.setAlpha(1f)
-                            write_post_btn_post.isClickable=true
+                            write_post_btn_post.isClickable = true
                         } else {
                             // Handle failures
                         }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,7 +31,7 @@ class Friends : Fragment() {
                             val user = document.toObject(UserDataClass::class.java)
                             userList.add(user)
                         }
-                        linearLayoutManager = LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false)
+                        linearLayoutManager = GridLayoutManager(getActivity(),2, RecyclerView.VERTICAL, false)
                         rv_users?.layoutManager = linearLayoutManager
                         rv_users?.adapter = UserAdapter(userList, requireContext(), firestore) // Your adapter
                         rv_users?.setHasFixedSize(true);

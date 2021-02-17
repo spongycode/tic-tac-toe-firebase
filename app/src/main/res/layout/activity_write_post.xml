@@ -6,34 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".WritePost">
 
-
-    <ImageView
-        android:id="@+id/write_post_profile_pic"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/write_post_profile_pic_cv"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
-        android:src="@drawable/register_logo"
+        app:cardCornerRadius="100dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/write_post_profile_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/register_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+    </androidx.cardview.widget.CardView>
+
 
     <EditText
         android:id="@+id/write_post_et_content"
         android:layout_width="300dp"
         android:layout_height="200dp"
-
         android:background="@drawable/custom_box_text_input"
         android:gravity="top|left"
-
-
         android:hint="Enter your Thoughts"
         android:paddingHorizontal="15dp"
         android:paddingVertical="15dp"
         android:textSize="20sp"
-        app:layout_constraintLeft_toRightOf="@id/write_post_profile_pic"
+        app:layout_constraintLeft_toRightOf="@id/write_post_profile_pic_cv"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/write_post_profile_pic" />
+        app:layout_constraintTop_toTopOf="@id/write_post_profile_pic_cv" />
 
 
     <Button
@@ -55,14 +62,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="Add an Image"
-        android:textStyle="bold"
         android:textColor="#323232"
         android:textSize="18sp"
+        android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="@id/write_post_upd_img"
         app:layout_constraintLeft_toRightOf="@id/write_post_upd_img"
-        app:layout_constraintTop_toTopOf="@id/write_post_upd_img"
-        />
+        app:layout_constraintTop_toTopOf="@id/write_post_upd_img" />
 
 
     <ProgressBar
@@ -70,25 +76,24 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginLeft="20dp"
-        app:layout_constraintTop_toTopOf="@id/write_post_upd_img"
         app:layout_constraintBottom_toBottomOf="@id/write_post_upd_img"
+        app:layout_constraintLeft_toRightOf="@id/write_post_tv_add_image"
 
-        app:layout_constraintLeft_toRightOf="@id/write_post_tv_add_image" />
+        app:layout_constraintTop_toTopOf="@id/write_post_upd_img" />
 
 
     <Button
         android:id="@+id/write_post_btn_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="25dp"
         android:background="#406DDF"
-        app:cornerRadius="100dp"
         android:text="Post"
         android:textColor="@color/white"
-        android:layout_marginRight="25dp"
-        app:layout_constraintTop_toTopOf="@id/write_post_upd_img"
+        app:cornerRadius="100dp"
         app:layout_constraintBottom_toBottomOf="@id/write_post_upd_img"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/write_post_upd_img" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
