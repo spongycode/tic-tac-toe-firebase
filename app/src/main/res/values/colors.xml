@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="fade">#A3A2A2</color>
+    <color name="canplay">#BBF4B7</color>
+    <color name="cantplay">#FAB0B0</color>
 
 
 

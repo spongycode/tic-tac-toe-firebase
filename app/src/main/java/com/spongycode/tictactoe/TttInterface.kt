@@ -1,185 +1,277 @@
 package com.spongycode.tictactoe
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_ttt_interface.*
+import kotlinx.android.synthetic.main.fragment_live_games.*
 
 class TttInterface : AppCompatActivity() {
-
-    var dot_player_can_move = true
-    var cross_player_can_move = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ttt_interface)
 
+        val gamemode = intent?.getStringExtra("gamemode")
+        val opponentid = intent?.getStringExtra("opponentid")
+
+
+
         initButtonState()
-        var list_of_buttons = mutableListOf<Button>(
-                findViewById(R.id.button1), findViewById(R.id.button2), findViewById(R.id.button3),
-                findViewById(R.id.button4), findViewById(R.id.button5), findViewById(R.id.button6),
-                findViewById(R.id.button7), findViewById(R.id.button8), findViewById(R.id.button9)
-        )
-        val opponentid = "tempNULLvalue" //offline (to be changed with firestore capture, in online mode)
+        disableButtons(true)
+
+        val tempArrayPlayers = arrayOf(auth.currentUser?.uid.toString(), opponentid)
+        tempArrayPlayers.sort()
+        val gameid = tempArrayPlayers[0] + "@" + tempArrayPlayers[1]
+
+        // find state <dot cross> init
+        var MY_STATE = ""
+        firestore.collection("allgames")
+            .whereEqualTo("gameid", gameid)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (document.toObject(LiveGameData::class.java).receiverid == auth.currentUser?.uid.toString()) {
+                        MY_STATE = "X"
+                    } else {
+                        MY_STATE = "O"
+                    }
+                }
+            }
+        // find state <dot cross> end
+
+        firestore.collection("allgames").document(gameid)
+            .addSnapshotListener { sanpshot, e ->
+                seekToEnableButtons(gameid)
+                seekAllPostionMark(gameid)
+                findWinner()
+            }
+
+
+        if (gamemode == "online") {
+            updateImageNameBothPlayer(opponentid!!)
+            seekToEnableButtons(gameid)
+            findWinner()
+        }
+
 
         btn_reset_game.setOnClickListener {
 
-            list_of_buttons = mutableListOf<Button>(
-                    findViewById(R.id.button1), findViewById(R.id.button2), findViewById(R.id.button3),
-                    findViewById(R.id.button4), findViewById(R.id.button5), findViewById(R.id.button6),
-                    findViewById(R.id.button7), findViewById(R.id.button8), findViewById(R.id.button9)
-            )
 
-            dot_player_can_move = true
-            cross_player_can_move = false
             initButtonState()
             disableButtons(false)
             win_message.visibility = GONE
 
+            firestore.collection("allgames").document(gameid).update("pos1", "-1")
+                .addOnCompleteListener { button1.setText("-1") }
+            firestore.collection("allgames").document(gameid).update("pos2", "-1")
+                .addOnCompleteListener { button2.setText("-1") }
+            firestore.collection("allgames").document(gameid).update("pos3", "-1")
+                .addOnCompleteListener { button3.setText("-1") }
+            firestore.collection("allgames").document(gameid).update("pos4", "-1")
+                .addOnCompleteListener { button4.setText("-1") }
+            firestore.collection("allgames").document(gameid).update("pos5", "-1")
+                .addOnCompleteListener { button5.setText("-1") }
+            firestore.collection("allgames").document(gameid).update("pos6", "-1")
+                .addOnCompleteListener { button6.setText("-1") }
+            firestore.collection("allgames").document(gameid).update("pos7", "-1")
+                .addOnCompleteListener { button7.setText("-1") }
+            firestore.collection("allgames").document(gameid).update("pos8", "-1")
+                .addOnCompleteListener { button8.setText("-1") }
+            firestore.collection("allgames").document(gameid).update("pos9", "-1")
+                .addOnCompleteListener { button9.setText("-1") }
 
-            button1.setText("-1")
-            button2.setText("-1")
-            button3.setText("-1")
-            button4.setText("-1")
-            button5.setText("-1")
-            button6.setText("-1")
-            button7.setText("-1")
-            button8.setText("-1")
-            button9.setText("-1")
         }
 
         win_message.visibility = GONE
 
         button1.setOnClickListener {
-            list_of_buttons.remove(findViewById(R.id.button1))
-            tapButton(opponentid.toString(), findViewById(R.id.button1))
-            findWinner()
-
-            if (list_of_buttons.isNotEmpty()) {
-                val random = list_of_buttons.random()
-                list_of_buttons.remove(random)
-                Toast.makeText(this, random.text.toString(), Toast.LENGTH_SHORT).show()
-                tapButton("compID", random)
-                findWinner()
-
-            }
-
+            tapButtonOnline(MY_STATE, findViewById(R.id.button1), 1, opponentid!!, gameid)
         }
         button2.setOnClickListener {
-            list_of_buttons.remove(findViewById(R.id.button2))
-            tapButton(opponentid.toString(), findViewById(R.id.button2))
-            findWinner()
-
-            if (list_of_buttons.isNotEmpty()) {
-                val random = list_of_buttons.random()
-                list_of_buttons.remove(random)
-                Toast.makeText(this, random.text.toString(), Toast.LENGTH_SHORT).show()
-                tapButton("compID", random)
-                findWinner()
-
-            }
+            tapButtonOnline(MY_STATE, findViewById(R.id.button2), 2, opponentid!!, gameid)
         }
         button3.setOnClickListener {
-            list_of_buttons.remove(findViewById(R.id.button3))
-            tapButton(opponentid.toString(), findViewById(R.id.button3))
-            findWinner()
-
-            if (list_of_buttons.isNotEmpty()) {
-                val random = list_of_buttons.random()
-                list_of_buttons.remove(random)
-                Toast.makeText(this, random.text.toString(), Toast.LENGTH_SHORT).show()
-                tapButton("compID", random)
-                findWinner()
-
-            }
+            tapButtonOnline(MY_STATE, findViewById(R.id.button3), 3, opponentid!!, gameid)
         }
         button4.setOnClickListener {
-            list_of_buttons.remove(findViewById(R.id.button4))
-            tapButton(opponentid.toString(), findViewById(R.id.button4))
-            findWinner()
-
-            if (list_of_buttons.isNotEmpty()) {
-                val random = list_of_buttons.random()
-                list_of_buttons.remove(random)
-                Toast.makeText(this, random.text.toString(), Toast.LENGTH_SHORT).show()
-                tapButton("compID", random)
-                findWinner()
-
-            }
+            tapButtonOnline(MY_STATE, findViewById(R.id.button4), 4, opponentid!!, gameid)
         }
         button5.setOnClickListener {
-            list_of_buttons.remove(findViewById(R.id.button5))
-            tapButton(opponentid.toString(), findViewById(R.id.button5))
-            findWinner()
-
-            if (list_of_buttons.isNotEmpty()) {
-                val random = list_of_buttons.random()
-                list_of_buttons.remove(random)
-                Toast.makeText(this, random.text.toString(), Toast.LENGTH_SHORT).show()
-                tapButton("compID", random)
-                findWinner()
-
-            }
+            tapButtonOnline(MY_STATE, findViewById(R.id.button5), 5, opponentid!!, gameid)
         }
         button6.setOnClickListener {
-            list_of_buttons.remove(findViewById(R.id.button6))
-            tapButton(opponentid.toString(), findViewById(R.id.button6))
-            findWinner()
-
-            if (list_of_buttons.isNotEmpty()) {
-                val random = list_of_buttons.random()
-                list_of_buttons.remove(random)
-                Toast.makeText(this, random.text.toString(), Toast.LENGTH_SHORT).show()
-                tapButton("compID", random)
-                findWinner()
-
-            }
+            tapButtonOnline(MY_STATE, findViewById(R.id.button6), 6, opponentid!!, gameid)
         }
         button7.setOnClickListener {
-            list_of_buttons.remove(findViewById(R.id.button7))
-            tapButton(opponentid.toString(), findViewById(R.id.button7))
-            findWinner()
-
-            if (list_of_buttons.isNotEmpty()) {
-                val random = list_of_buttons.random()
-                list_of_buttons.remove(random)
-                Toast.makeText(this, random.text.toString(), Toast.LENGTH_SHORT).show()
-                tapButton("compID", random)
-                findWinner()
-
-            }
+            tapButtonOnline(MY_STATE, findViewById(R.id.button7), 7, opponentid!!, gameid)
         }
         button8.setOnClickListener {
-            list_of_buttons.remove(findViewById(R.id.button8))
-            tapButton(opponentid.toString(), findViewById(R.id.button8))
-            findWinner()
-
-            if (list_of_buttons.isNotEmpty()) {
-                val random = list_of_buttons.random()
-                list_of_buttons.remove(random)
-                Toast.makeText(this, random.text.toString(), Toast.LENGTH_SHORT).show()
-                tapButton("compID", random)
-                findWinner()
-
-            }
+            tapButtonOnline(MY_STATE, findViewById(R.id.button8), 8, opponentid!!, gameid)
         }
         button9.setOnClickListener {
-            list_of_buttons.remove(findViewById(R.id.button9))
-            tapButton(opponentid.toString(), findViewById(R.id.button9))
-            findWinner()
+            tapButtonOnline(MY_STATE, findViewById(R.id.button9), 9, opponentid!!, gameid)
+        }
+    }
 
-            if (list_of_buttons.isNotEmpty()) {
-                val random = list_of_buttons.random()
-                list_of_buttons.remove(random)
-                Toast.makeText(this, random.text.toString(), Toast.LENGTH_SHORT).show()
-                tapButton("compID", random)
-                findWinner()
+    private fun seekAllPostionMark(gameid: String) {
+        firestore.collection("allgames")
+            .whereEqualTo("gameid", gameid)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    tapDotCross(document.get("pos1").toString(), findViewById(R.id.button1))
+                    tapDotCross(document.get("pos2").toString(), findViewById(R.id.button2))
+                    tapDotCross(document.get("pos3").toString(), findViewById(R.id.button3))
+                    tapDotCross(document.get("pos4").toString(), findViewById(R.id.button4))
+                    tapDotCross(document.get("pos5").toString(), findViewById(R.id.button5))
+                    tapDotCross(document.get("pos6").toString(), findViewById(R.id.button6))
+                    tapDotCross(document.get("pos7").toString(), findViewById(R.id.button7))
+                    tapDotCross(document.get("pos8").toString(), findViewById(R.id.button8))
+                    tapDotCross(document.get("pos9").toString(), findViewById(R.id.button9))
+                }
+            }
+    }
+
+    private fun tapDotCross(dc: String, buttonid: Button) {
+        val button: Button = buttonid
+        if (dc == "X") {
+            button.setText("X")
+            button.setBackgroundResource(R.drawable.ic_cross)
+            button.isClickable = false
+        }
+        if (dc == "O") {
+            button.setText("O")
+            button.setBackgroundResource(R.drawable.ic_dot)
+            button.isClickable = false
+        }
+        if (dc == "-1") {
+            button.setBackgroundResource(R.drawable.ic_btn_default_state)
+        }
+        findWinner()
+    }
+
+    private fun tapButtonOnline(
+        myState: String,
+        buttonid: Button,
+        pos: Int,
+        opponentid: String = "",
+        gameid: String) {
+        val button: Button = buttonid
+        if (myState == "O") {
+            button.setText("O")
+            button.setBackgroundResource(R.drawable.ic_dot)
+            button.isClickable = false
+        } else {
+            button.setText("X")
+            button.setBackgroundResource(R.drawable.ic_cross)
+            button.isClickable = false
+        }
+        disableButtons(true)
+        firestore.collection("allgames").document(gameid)
+            .update("canplay", opponentid)
+            .addOnCompleteListener {
+            }
+        firestore.collection("allgames").document(gameid)
+            .update("pos" + pos.toString(), myState)
+            .addOnCompleteListener {
 
             }
-        }
+        firestore.collection("allgames").document(gameid)
+            .update("gamestat", "start")
+            .addOnCompleteListener {
+            }
+        findWinner()
+
+
+    }
+
+    private fun seekToEnableButtons(gameid: String) {
+        firestore.collection("allgames")
+            .whereEqualTo("gameid", gameid)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val canplay = document.toObject(LiveGameData::class.java).canplay
+                    if (canplay == auth.currentUser?.uid.toString()) {
+                        disableButtons(false)
+                        cl_player_bg.setBackgroundColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.canplay
+                            )
+                        )
+                        cl_opponent_bg.setBackgroundColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.cantplay
+                            )
+                        )
+
+                    } else {
+                        disableButtons(true)
+                        cl_player_bg.setBackgroundColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.cantplay
+                            )
+                        )
+                        cl_opponent_bg.setBackgroundColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.canplay
+                            )
+                        )
+                    }
+                }
+            }
+
+
+    }
+
+    private fun updateImageNameBothPlayer(opponentid: String) {
+        firestore.collection("users").whereEqualTo("userid", auth.currentUser?.uid.toString())
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (data in task.result!!) {
+                        val fname = data.toObject(UserDataClass::class.java).fname
+                        val lname = data.toObject(UserDataClass::class.java).lname
+                        val imageurl = data.toObject(UserDataClass::class.java).imageurl
+                        fname_holder_player.setText(fname)
+                        lname_holder_player.setText(lname)
+                        Glide.with(this).load(imageurl)
+                            .into(image_holder_player)
+                    }
+                } else {
+
+                }
+            }
+        firestore.collection("users").whereEqualTo("userid", opponentid)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (data in task.result!!) {
+                        val fname = data.toObject(UserDataClass::class.java).fname
+                        val lname = data.toObject(UserDataClass::class.java).lname
+                        val imageurl = data.toObject(UserDataClass::class.java).imageurl
+                        fname_holder_opponent.setText(fname)
+                        lname_holder_opponent.setText(lname)
+                        Glide.with(applicationContext).load(imageurl)
+                            .into(image_holder_opponent)
+                    }
+                } else {
+
+                }
+            }
+
 
     }
 
@@ -196,29 +288,7 @@ class TttInterface : AppCompatActivity() {
 
     }
 
-
-    fun tapButton(opponentid: String, buttonid: Button) {
-        // opponent id is not used, used in online mode
-
-        val button: Button = buttonid
-        if (dot_player_can_move == true) {
-            button.setText("O")
-            button.setBackgroundResource(R.drawable.ic_dot)
-            button.isClickable = false
-            cross_player_can_move = true
-            dot_player_can_move = false
-
-        } else {
-            button.setText("X")
-            button.setBackgroundResource(R.drawable.ic_cross)
-            button.isClickable = false
-            cross_player_can_move = false
-            dot_player_can_move = true
-        }
-    }
-
     private fun disableButtons(state: Boolean) {
-
         button1.isClickable = !state
         button2.isClickable = !state
         button3.isClickable = !state
@@ -336,6 +406,4 @@ class TttInterface : AppCompatActivity() {
             disableButtons(true)
         }
     }
-
-
 }

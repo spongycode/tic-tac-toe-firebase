@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LiveGames">
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/rv_live_games"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Ongoing Games Fragment"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:foregroundGravity="center_horizontal"/>
 
 </FrameLayout>
