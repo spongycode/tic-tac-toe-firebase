@@ -7,16 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_home.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class BlogRvAdapter(
         private val blogList: MutableList<EachBlog>,
         private val context: Context,
         private val firestoreDB: FirebaseFirestore)
+
     : RecyclerView.Adapter<BlogRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,6 +37,10 @@ class BlogRvAdapter(
 
         Glide.with(context).load(blog.image).into(holder.realimage)
 
+        val listDate = blog.timestamp!!.toDate().toString().split(":| ".toRegex()).map { it.trim() }
+        val dateFinal = listDate[3] + ":" + listDate[4] + " on " + listDate[1] + " " + listDate[2]
+        holder.postedtime.setText(dateFinal)
+
         // getting profile image and name (since name can be changed now real time) <author field to be removed now> for each blog init
         firestore.collection("users")
                 .whereEqualTo("userid", blog.userid)
@@ -42,6 +50,7 @@ class BlogRvAdapter(
                         for (data in task.result!!) {
                             val fname = data.toObject(UserDataClass::class.java).fname
                             val lname = data.toObject(UserDataClass::class.java).lname
+
                             holder.author.text = "$fname $lname"
                             val imageurl = data.toObject(UserDataClass::class.java).imageurl
                             Glide.with(context).load(imageurl).into(holder.profileimage)
@@ -60,7 +69,8 @@ class BlogRvAdapter(
     inner class ViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
         internal var author: TextView = view.findViewById(R.id.tvAuthor)
         internal var content: TextView = view.findViewById(R.id.tvContent)
-        internal var realimage : ImageView = view.findViewById(R.id.blog_image_holder)
-        internal var profileimage : ImageView = view.findViewById(R.id.blog_profile_image)
+        internal var realimage: ImageView = view.findViewById(R.id.blog_image_holder)
+        internal var profileimage: ImageView = view.findViewById(R.id.blog_profile_image)
+        internal var postedtime: TextView = view.findViewById(R.id.tvDate)
     }
 }

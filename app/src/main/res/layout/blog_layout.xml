@@ -33,6 +33,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:src="@drawable/register_logo"
+                    android:scaleType="centerCrop"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.cardview.widget.CardView>
@@ -45,11 +46,27 @@
                 android:layout_marginLeft="6dp"
                 android:text="Author"
                 android:textColor="#151515"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
+                android:layout_marginBottom="15dp"
                 app:layout_constraintBottom_toBottomOf="@id/blog_profile_image_cv"
                 app:layout_constraintLeft_toRightOf="@id/blog_profile_image_cv"
                 app:layout_constraintTop_toTopOf="@id/blog_profile_image_cv" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="6dp"
+                android:text="time"
+                android:textColor="#403E3E"
+                android:textSize="10sp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toBottomOf="@id/blog_profile_image_cv"
+                app:layout_constraintLeft_toRightOf="@id/blog_profile_image_cv"
+                app:layout_constraintTop_toTopOf="@id/blog_profile_image_cv" />
+
 
             <TextView
                 android:id="@+id/tvContent"

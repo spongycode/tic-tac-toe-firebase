@@ -2,7 +2,10 @@ package com.spongycode.tictactoe
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -28,6 +31,7 @@ import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_write_post.*
+import java.io.ByteArrayOutputStream
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -56,12 +60,12 @@ class ProfileActivity : AppCompatActivity() {
             startActivityForResult(gallery, pickImage)
         }
 
-        cl_name_change_btn_abs.setOnClickListener { v->
+        cl_name_change_btn_abs.setOnClickListener { v ->
             if (profile_name_hint_cmd.hint.toString() == "(Tap to change)") {
                 profile_name_hint_cmd.hint = "(Tap to cancel)"
                 cl_name_change_data_entry.visibility = VISIBLE
             } else {
-                getProfileNameAndPic("lname","fname","no")
+                getProfileNameAndPic("lname", "fname", "no")
                 cl_name_change_data_entry.visibility = GONE
                 profile_name_hint_cmd.hint = "(Tap to change)"
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -197,11 +201,20 @@ class ProfileActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == pickImage && data != null) {
-            val imageUri: Uri = data.data!!
-            Toast.makeText(applicationContext, imageUri.toString(), Toast.LENGTH_SHORT).show()
+
             if (data.getData() != null) {
+                val imageUri: Uri = data.data!!
+                val extension: String = imageUri.toString().substring(imageUri.toString().lastIndexOf("."))
                 val ref = storageReference!!.child("profilepics/${System.currentTimeMillis()}")
-                val uploadTask = ref.putFile(imageUri)
+                val uploadTask: UploadTask
+                if (extension.toLowerCase().trim() != ".gif") {
+                    Toast.makeText(this, "Uploading Profile Pic, Please Wait", Toast.LENGTH_SHORT).show()
+
+                    val imageByteArray = getImageByteArray(imageUri)
+                    uploadTask = ref.putBytes(imageByteArray as ByteArray)
+                } else {
+                    uploadTask = ref.putFile(imageUri)
+                }
                 val urlTask =
                         uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
                             if (!task.isSuccessful) {
@@ -221,6 +234,8 @@ class ProfileActivity : AppCompatActivity() {
                                         .addOnSuccessListener {
                                         }
                                         .addOnCompleteListener {
+                                            Toast.makeText(this, "Profile Pic Updated", Toast.LENGTH_SHORT).show()
+
                                             profile_profile_pic.setImageURI(imageUri)
                                         }
                             } else {
@@ -233,5 +248,18 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
+    private fun getImageByteArray(imageUri: Uri): Any {
+        val originalBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val source = ImageDecoder.createSource(contentResolver, imageUri)
+            ImageDecoder.decodeBitmap(source)
+        } else {
+            MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+        }
+        val scaledBitmap = BitmapScaler.scaleToFitHeight(originalBitmap, 1000)
+        val byteOutputStream = ByteArrayOutputStream()
+        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteOutputStream)
+        return byteOutputStream.toByteArray()
+    }
 
 }
+

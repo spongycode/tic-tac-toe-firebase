@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/register_logo"
+                android:scaleType="centerCrop"
                 app:layout_constraintRight_toLeftOf="@id/btn_battle"
                 app:layout_constraintTop_toTopOf="@id/cons_margin" />
 

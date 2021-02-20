@@ -1,29 +1,23 @@
 package com.spongycode.tictactoe
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.Color
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.MotionEvent
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.aghajari.zoomhelper.ZoomHelper
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -34,6 +28,8 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_write_post.*
+import java.io.ByteArrayOutputStream
+
 
 class WritePost : AppCompatActivity() {
 
@@ -120,7 +116,11 @@ class WritePost : AppCompatActivity() {
     }
 
     private fun postToFirestore() {
-        val eachBlog = EachBlog(write_post_et_content.text.toString(), downloadUri.toString(), auth.currentUser?.uid.toString())
+        val eachBlog = EachBlog(write_post_et_content.text.toString(),
+                downloadUri.toString(),
+                auth.currentUser?.uid.toString(),
+                Timestamp.now(),
+                System.currentTimeMillis())
         firestore.collection("blogs")
                 .add(eachBlog)
                 .addOnSuccessListener {
@@ -144,13 +144,22 @@ class WritePost : AppCompatActivity() {
             write_post_tv_add_image.setText("Uploading...")
             write_post_upd_img.isClickable = false
 
-            var imageUri: Uri = data.data!!
-            //   iv_image.setImageURI(imageUri) Here you can assign the picked image uri to your imageview
+            val imageUri: Uri = data.data!!
 
             val ref = storageReference!!.child("pics/${System.currentTimeMillis()}")
-            val uploadTask = ref?.putFile(imageUri)
+
+            val extension: String = imageUri.toString().substring(imageUri.toString().lastIndexOf("."))
+
+            val uploadTask: UploadTask
+            if (extension.toLowerCase().trim()!=".gif"){
+                val imageByteArray = getImageByteArray(imageUri)
+                uploadTask = ref.putBytes(imageByteArray as ByteArray)
+            }else{
+                uploadTask = ref.putFile(imageUri)
+            }
+
             val urlTask =
-                    uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                    uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
                         if (!task.isSuccessful) {
                             task.exception?.let {
                                 throw it
@@ -173,5 +182,17 @@ class WritePost : AppCompatActivity() {
         }
     }
 
+    private fun getImageByteArray(imageUri: Uri): ByteArray {
+        val originalBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val source = ImageDecoder.createSource(contentResolver, imageUri)
+            ImageDecoder.decodeBitmap(source)
+        } else {
+            MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+        }
+        val scaledBitmap = BitmapScaler.scaleToFitHeight(originalBitmap, 1000)
+        val byteOutputStream = ByteArrayOutputStream()
+        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteOutputStream)
+        return byteOutputStream.toByteArray()
+    }
 
 }
