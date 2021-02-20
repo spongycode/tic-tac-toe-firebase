@@ -2,12 +2,14 @@ package com.spongycode.tictactoe
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
@@ -37,6 +39,13 @@ class BlogRvAdapter(
 
         Glide.with(context).load(blog.image).into(holder.realimage)
 
+
+        holder.realimage.setOnClickListener{
+            val intent = Intent(context, PhotoViewerActivity::class.java)
+            intent.putExtra("IMAGE_URL",blog.image)
+            context.startActivity(intent)
+        }
+
         val listDate = blog.timestamp!!.toDate().toString().split(":| ".toRegex()).map { it.trim() }
         val dateFinal = listDate[3] + ":" + listDate[4] + " on " + listDate[1] + " " + listDate[2]
         holder.postedtime.setText(dateFinal)
@@ -50,10 +59,15 @@ class BlogRvAdapter(
                         for (data in task.result!!) {
                             val fname = data.toObject(UserDataClass::class.java).fname
                             val lname = data.toObject(UserDataClass::class.java).lname
-
                             holder.author.text = "$fname $lname"
                             val imageurl = data.toObject(UserDataClass::class.java).imageurl
                             Glide.with(context).load(imageurl).into(holder.profileimage)
+
+                            holder.profileimage.setOnClickListener {
+                                val intent = Intent(context, PhotoViewerActivity::class.java)
+                                intent.putExtra("IMAGE_URL",imageurl)
+                                context.startActivity(intent)
+                            }
                         }
                     } else {
                         // to handle

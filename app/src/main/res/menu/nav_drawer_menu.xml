@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
     <item
         android:id="@+id/miItem1"
-        android:title="Profile"/>
+        android:icon="@drawable/ic_baseline_profile"
+        android:title="Profile"
 
+        />
     <item
         android:id="@+id/miItem2"
-        android:title="Play (Offline)"/>
-
+        android:icon="@drawable/ic_baseline_settings"
+        android:title="Settings"/>
     <item
         android:id="@+id/miItem3"
-        android:title="Settings"/>
-
-    <item
-        android:id="@+id/miItem4"
+        android:icon="@drawable/ic_baseline_logout"
         android:title="Log Out"/>
-
 </menu>

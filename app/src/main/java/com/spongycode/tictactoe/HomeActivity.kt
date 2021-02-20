@@ -13,7 +13,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.viewpager.widget.ViewPager
 import com.aghajari.zoomhelper.ZoomHelper
 import com.bumptech.glide.Glide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -39,7 +38,6 @@ class HomeActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
 
 
-
         // Tab Layout init
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
@@ -48,8 +46,8 @@ class HomeActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setText("Friends"))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         val adapter = TabLayoutAdapter(
-            this, supportFragmentManager,
-            tabLayout.tabCount
+                this, supportFragmentManager,
+                tabLayout.tabCount
         )
         viewPager.adapter = adapter
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
@@ -80,19 +78,13 @@ class HomeActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Profile Activity", Toast.LENGTH_SHORT).show()
                 }
 
-                R.id.miItem2 -> {
-                    startActivity(Intent(this, TttInterface::class.java))
-                    Toast.makeText(applicationContext, "TTT Interface", Toast.LENGTH_SHORT)
-                        .show()
-                }
 
-                R.id.miItem3 -> Toast.makeText(
-                    applicationContext,
-                    "Settings TODO",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-                R.id.miItem4 -> {
+
+                R.id.miItem2 -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                    Toast.makeText(applicationContext, "Settings TODO", Toast.LENGTH_SHORT).show()
+                }
+                R.id.miItem3 -> {
                     Firebase.auth.signOut()
                     startActivity(Intent(this, SigninActivity::class.java))
                     finish()
@@ -103,9 +95,8 @@ class HomeActivity : AppCompatActivity() {
         // Nav Drawer end
 
 
-
         firestore.collection("users")
-                .addSnapshotListener{ snapshot, e ->
+                .addSnapshotListener { snapshot, e ->
                     getProfileNameAndPic()
                 }
 
@@ -116,30 +107,30 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getProfileNameAndPic() {
         firestore.collection("users")
-            .whereEqualTo("userid", auth.currentUser?.uid.toString())
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (data in task.result!!) {
-                        val fname = data.toObject(UserDataClass::class.java).fname
-                        val lname = data.toObject(UserDataClass::class.java).lname
-                        val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_fname)
-                            .setText(fname)
-                        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_lname)
-                            .setText(lname)
-                        //
-                        //
-                        Glide.with(this).load(imageurl)
-                            .into(
-                                nav_view.getHeaderView(0)
-                                    .findViewById<ImageView>(R.id.nav_profile_pic)
-                            )
+                .whereEqualTo("userid", auth.currentUser?.uid.toString())
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        for (data in task.result!!) {
+                            val fname = data.toObject(UserDataClass::class.java).fname
+                            val lname = data.toObject(UserDataClass::class.java).lname
+                            val imageurl = data.toObject(UserDataClass::class.java).imageurl
+                            nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_fname)
+                                    .setText(fname)
+                            nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_lname)
+                                    .setText(lname)
+                            //
+                            //
+                            Glide.with(this).load(imageurl)
+                                    .into(
+                                            nav_view.getHeaderView(0)
+                                                    .findViewById<ImageView>(R.id.nav_profile_pic)
+                                    )
+                        }
+                    } else {
+                        // to handle
                     }
-                } else {
-                    // to handle
                 }
-            }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -152,7 +143,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         return ZoomHelper.getInstance().dispatchTouchEvent(ev!!, this) || super.dispatchTouchEvent(
-            ev
+                ev
         )
     }
 

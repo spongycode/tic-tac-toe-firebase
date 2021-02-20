@@ -6,7 +6,7 @@ class EachBlog {
 
     var content: String? = null
     var image: String? = null
-    var userid: String? = null
+    var userid: String?= null
     var timestamp: com.google.firebase.Timestamp? = null
     var sysmillis: Long? = null
 

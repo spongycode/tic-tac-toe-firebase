@@ -9,12 +9,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_home.*
 
 
 val firestore = FirebaseFirestore.getInstance()
@@ -47,7 +45,7 @@ class UserAdapter(
         if (user.userid == auth.currentUser?.uid.toString()) {
             btn_battle.setText("Profile")
             btn_battle.setOnClickListener {
-                val intent = Intent(context, ProfileActivity::class.java)
+                val intent = Intent(context, SettingsActivity::class.java)
                 context.startActivity(intent)
             }
         } else {
