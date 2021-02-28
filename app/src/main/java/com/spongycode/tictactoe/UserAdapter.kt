@@ -20,9 +20,9 @@ val auth = FirebaseAuth.getInstance()
 
 
 class UserAdapter(
-    private val userList: MutableList<UserDataClass>,
-    private val context: Context,
-    private val firestoreDB: FirebaseFirestore
+        private val userList: MutableList<UserDataClass>,
+        private val context: Context,
+        private val firestoreDB: FirebaseFirestore
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -60,18 +60,18 @@ class UserAdapter(
 
 
             firestore.collection("allgames")
-                .whereEqualTo("gameid", gameid)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (data in task.result!!) {
-                            btn_battle.isEnabled = false
-                            btn_battle.alpha = 0.5f
+                    .whereEqualTo("gameid", gameid)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            for (data in task.result!!) {
+                                btn_battle.isEnabled = false
+                                btn_battle.alpha = 0.5f
+                            }
+                        } else {
+                            // to handle
                         }
-                    } else {
-                        // to handle
                     }
-                }
 
 
 
@@ -79,70 +79,24 @@ class UserAdapter(
                 val docref = firestore.collection("allgames").document(gameid)
                 if (btn_battle.alpha != 0.5f) {
                     docref.set(
-                        hashMapOf(
-                            "receiverid" to user.userid,
-                            "senderid" to auth.currentUser?.uid.toString(),
-                            "canplay" to user.userid,
-                            "gamestat" to "notstart",
-                            "gameid" to gameid,
-                            "rematchto" to "none"
-                        )
+                            hashMapOf(
+                                    "receiverid" to user.userid,
+                                    "senderid" to auth.currentUser?.uid.toString(),
+                                    "canplay" to user.userid,
+                                    "gamestat" to "notstart",
+                                    "gameid" to gameid,
+                                    "rematchto" to "none",
+                                    user.userid to "0",
+                                    auth.currentUser?.uid.toString() to "0"
+                            )
                     )
-                        .addOnSuccessListener {
-                            btn_battle.isEnabled = false
-                            btn_battle.alpha = 0.5f
-
-                        }
-
-
-                }
-
-
-                firestore.collection("users")
-                    .whereEqualTo("userid", auth.currentUser?.uid.toString())
-                    .get()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            for (data in task.result!!) {
-                                val fname = data.toObject(UserDataClass::class.java).fname
-                                val lname = data.toObject(UserDataClass::class.java).lname
-                                val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                                firestore.collection("users")
-                                    .document(user.userid)
-                                    .collection("pendingrequest")
-                                    .document(auth.currentUser?.uid.toString())
-
-                                    //set function is being updated now, earlier it was "opponentid" <14-02> ,,,,now "userid"<15-02>
-                                    .set(
-                                        hashMapOf(
-                                            "fname" to fname,
-                                            "lname" to lname,
-                                            "imageurl" to imageurl,
-                                            "userid" to auth.currentUser?.uid.toString()
-
-                                        )
-                                    )
-                                    .addOnSuccessListener {
-                                        Toast.makeText(
-                                            context,
-                                            "Challenge Sent to $fname $lname",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                    .addOnFailureListener {
-                                        Toast.makeText(
-                                            context,
-                                            "Failed Sending Challenge",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Challenge Sent!!", Toast.LENGTH_SHORT).show()
+                                btn_battle.isEnabled = false
+                                btn_battle.alpha = 0.5f
 
                             }
-                        } else {
-
-                        }
-                    }
+                }
 
 
             }
