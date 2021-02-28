@@ -84,7 +84,8 @@ class UserAdapter(
                             "senderid" to auth.currentUser?.uid.toString(),
                             "canplay" to user.userid,
                             "gamestat" to "notstart",
-                            "gameid" to gameid
+                            "gameid" to gameid,
+                            "rematchto" to "none"
                         )
                     )
                         .addOnSuccessListener {

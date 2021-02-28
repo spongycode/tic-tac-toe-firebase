@@ -33,12 +33,12 @@
                     android:id="@+id/image_holder_player_cv"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginHorizontal="35dp"
                     android:layout_marginTop="12dp"
                     app:cardCornerRadius="100dp"
-
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="8dp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/image_holder_player_state_cv"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
@@ -50,11 +50,38 @@
 
                 </androidx.cardview.widget.CardView>
 
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/image_holder_player_state_cv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:cardCornerRadius="100dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp"
+
+                    app:layout_constraintLeft_toRightOf="@id/image_holder_player_cv"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/image_holder_player_cv"
+                    app:layout_constraintBottom_toBottomOf="@id/image_holder_player_cv">
+
+                    <ImageView
+                        android:id="@+id/image_holder_player_state"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="#fff"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.cardview.widget.CardView>
+
+
+
+
                 <TextView
                     android:id="@+id/fname_holder_player"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="First Name"
                     android:textSize="25sp"
                     android:layout_marginTop="8dp"
 
@@ -68,7 +95,6 @@
                     android:id="@+id/lname_holder_player"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Last Name"
                     android:textSize="25sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -93,7 +119,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_opponent_bg"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -103,10 +128,11 @@
                     android:layout_height="80dp"
                     app:cardCornerRadius="100dp"
                     android:layout_marginTop="12dp"
-                    android:layout_marginHorizontal="35dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent">
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="8dp"
+                    app:layout_constraintRight_toLeftOf="@id/image_holder_opponent_state_cv"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
 
                     <ImageView
@@ -119,11 +145,38 @@
 
                 </androidx.cardview.widget.CardView>
 
+
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/image_holder_opponent_state_cv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:cardCornerRadius="100dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/image_holder_opponent_cv"
+                    app:layout_constraintBottom_toBottomOf="@id/image_holder_opponent_cv"
+                    app:layout_constraintLeft_toRightOf="@id/image_holder_opponent_cv">
+
+
+                    <ImageView
+                        android:id="@+id/image_holder_opponent_state"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="#fff"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.cardview.widget.CardView>
+
+
                 <TextView
                     android:id="@+id/fname_holder_opponent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="First Name"
                     android:textSize="25sp"
                     android:layout_marginTop="8dp"
                     android:layout_marginHorizontal="12dp"
@@ -137,7 +190,6 @@
                     android:id="@+id/lname_holder_opponent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Last Name"
                     android:textSize="25sp"
                     android:layout_marginHorizontal="12dp"
                     app:layout_constraintRight_toRightOf="parent"
@@ -157,7 +209,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:text="pos1"
+        android:text="-1"
         android:textColor="#00FFFFFF"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/button2"
@@ -168,7 +220,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:text="pos2"
+        android:text="-1"
         android:textColor="#00FFFFFF"
         app:layout_constraintLeft_toRightOf="@+id/button1"
         app:layout_constraintRight_toLeftOf="@+id/button3"
@@ -179,7 +231,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:text="pos3"
+        android:text="-1"
         android:textColor="#00FFFFFF"
         app:layout_constraintLeft_toRightOf="@id/button2"
         app:layout_constraintRight_toRightOf="parent"
@@ -190,7 +242,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:text="pos4"
+        android:text="-1"
         android:textColor="#00FFFFFF"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/button5"
@@ -201,7 +253,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:text="pos5"
+        android:text="-1"
         android:textColor="#00FFFFFF"
         app:layout_constraintLeft_toRightOf="@+id/button4"
         app:layout_constraintRight_toLeftOf="@+id/button6"
@@ -212,7 +264,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:text="pos6"
+        android:text="-1"
         android:textColor="#00FFFFFF"
         app:layout_constraintLeft_toRightOf="@id/button5"
         app:layout_constraintRight_toRightOf="parent"
@@ -223,7 +275,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:text="pos7"
+        android:text="-1"
         android:textColor="#00FFFFFF"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/button8"
@@ -234,7 +286,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:text="pos8"
+        android:text="-1"
         android:textColor="#00FFFFFF"
         app:layout_constraintLeft_toRightOf="@+id/button7"
         app:layout_constraintRight_toLeftOf="@+id/button9"
@@ -245,14 +297,14 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:text="pos9"
+        android:text="-1"
         android:textColor="#00FFFFFF"
         app:layout_constraintLeft_toRightOf="@id/button8"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button6" />
 
     <TextView
-        android:id="@+id/win_message"
+        android:id="@+id/message_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="WIN MESSSAGE"
@@ -260,17 +312,66 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button8" />
+        app:layout_constraintTop_toBottomOf="@+id/button8"
+        app:layout_constraintVertical_bias="0.294" />
 
-    <Button
-        android:id="@+id/btn_reset_game"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="reset"
+
+
+    <ImageButton
+        android:id="@+id/ib_accept_rematch"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_accept_rematch"
+        android:scaleType="centerCrop"
+        android:background="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/ib_exit_rematch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/message_placeholder" />
+
+
+    <ImageButton
+        android:id="@+id/ib_exit_rematch"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_exit_rematch"
+        android:background="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ib_accept_rematch"
+        app:layout_constraintTop_toBottomOf="@+id/message_placeholder" />
+
+
+
+
+    <Button
+        android:id="@+id/btn_rematch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="rematch"
+        android:textColor="@color/white"
+        android:background="#40BD1C"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/btn_exit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/win_message" />
+        app:layout_constraintTop_toBottomOf="@+id/message_placeholder" />
+
+
+    <Button
+        android:id="@+id/btn_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="exit"
+        android:background="#F42E2E"
+        android:textColor="@color/white"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/btn_rematch"
+        app:layout_constraintTop_toBottomOf="@+id/message_placeholder" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

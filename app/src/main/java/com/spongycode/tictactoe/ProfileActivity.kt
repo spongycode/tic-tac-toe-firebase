@@ -49,57 +49,65 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun loadAllBlogs() {
         firestore.collection("blogs")
-            .orderBy("sysmillis", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { documents ->
-                try {
-                    val blogList = mutableListOf<EachBlog>()
-                    for (document in documents) {
-                        val blog = document.toObject(EachBlog::class.java)
-                        if (blog.userid == auth.currentUser?.uid.toString()) {
-                            blogList.add(blog)
+                .orderBy("sysmillis", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener { documents ->
+                    try {
+                        val blogList = mutableListOf<EachBlog>()
+                        for (document in documents) {
+                            val blog = document.toObject(EachBlog::class.java)
+                            if (blog.userid == auth.currentUser?.uid.toString()) {
+                                blogList.add(blog)
+                            }
+
                         }
+                        tv_myblogs.text = "My Blogs (${blogList.size})"
 
+                        linearLayoutManager =
+                                LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+                        recyclerViewStatus?.layoutManager = linearLayoutManager
+                        recyclerViewStatus?.adapter =
+                                BlogRvAdapter(blogList, this, firestore) // Your adapter
+                        val adapter = recyclerViewStatus?.adapter
+                        adapter?.notifyDataSetChanged()
+                        recyclerViewStatus?.setHasFixedSize(true);
+                    } catch (ex: Exception) {
+                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
                     }
-                    tv_myblogs.text = "My Blogs (${blogList.size})"
 
-                    linearLayoutManager =
-                        LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-                    recyclerViewStatus?.layoutManager = linearLayoutManager
-                    recyclerViewStatus?.adapter =
-                        BlogRvAdapter(blogList, this, firestore) // Your adapter
-                    val adapter = recyclerViewStatus?.adapter
-                    adapter?.notifyDataSetChanged()
-                    recyclerViewStatus?.setHasFixedSize(true);
-                } catch (ex: Exception) {
-                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
                 }
-
-            }
-            .addOnFailureListener { exception ->
-                // error handle
-            }
+                .addOnFailureListener { exception ->
+                    // error handle
+                }
     }
 
     private fun updateWriterImage(userid: String) {
         firestore.collection("users")
-            .whereEqualTo("userid", userid)
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (data in task.result!!) {
-                        val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                        Glide.with(this).load(imageurl).into(imageViewAvatar)
-                        val name =
-                            data.toObject(UserDataClass::class.java).fname + " " + data.toObject(
-                                UserDataClass::class.java
-                            ).lname
-                        textViewName.text = name
+                .whereEqualTo("userid", userid)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        for (data in task.result!!) {
+                            val imageurl = data.toObject(UserDataClass::class.java).imageurl
+                            Glide.with(this).load(imageurl).into(imageViewAvatar)
+                            val name =
+                                    data.toObject(UserDataClass::class.java).fname + " " + data.toObject(
+                                            UserDataClass::class.java
+                                    ).lname
+                            textViewName.text = name
+
+                            imageViewAvatar.setOnClickListener {
+                                val intent = Intent(this, PhotoViewerActivity::class.java)
+                                intent.putExtra("IMAGE_URL", imageurl)
+                                this.startActivity(intent)
+                            }
+                        }
+
+
+                    } else {
+                        // to handle
                     }
-                } else {
-                    // to handle
                 }
-            }
     }
 
 

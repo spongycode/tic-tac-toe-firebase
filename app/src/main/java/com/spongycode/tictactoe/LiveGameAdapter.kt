@@ -95,7 +95,6 @@ class LiveGameAdapter(
             val intent = Intent(context, TttInterface::class.java)
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("opponentid", id)
-            intent.putExtra("gamemode", "online")
             context.startActivity(intent)
         }
 
