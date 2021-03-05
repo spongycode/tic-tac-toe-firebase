@@ -73,16 +73,19 @@ class Blogs : Fragment() {
                     try {
                         val blogList = mutableListOf<EachBlog>()
                         for (document in documents) {
+
                             val blog = document.toObject(EachBlog::class.java)
+                            blog.id = document.id
                             blogList.add(blog)
                         }
 
                         linearLayoutManager = LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false)
                         rv_blogs?.layoutManager = linearLayoutManager
-                        rv_blogs?.adapter = BlogRvAdapter(blogList, requireContext(), firestore) // Your adapter
+                        rv_blogs?.adapter = BlogRvAdapter(blogList, requireContext(), "blogs",firestore) // Your adapter
                         val adapter = rv_blogs?.adapter
                         adapter?.notifyDataSetChanged()
                         rv_blogs?.setHasFixedSize(true);
+                        
                     } catch (ex: Exception) {
                         Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                     }

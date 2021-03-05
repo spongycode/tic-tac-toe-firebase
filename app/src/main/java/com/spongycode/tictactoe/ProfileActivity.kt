@@ -39,10 +39,6 @@ class ProfileActivity : AppCompatActivity() {
         loadAllBlogs()
 
 
-        blogs_floating_button_profile.setOnClickListener {
-            startActivity(Intent(this, WritePost::class.java))
-            finish()
-        }
 
     }
 
@@ -63,11 +59,9 @@ class ProfileActivity : AppCompatActivity() {
                         }
                         tv_myblogs.text = "My Blogs (${blogList.size})"
 
-                        linearLayoutManager =
-                                LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+                        linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
                         recyclerViewStatus?.layoutManager = linearLayoutManager
-                        recyclerViewStatus?.adapter =
-                                BlogRvAdapter(blogList, this, firestore) // Your adapter
+                        recyclerViewStatus?.adapter = BlogRvAdapter(blogList, this,"profile", firestore) // Your adapter
                         val adapter = recyclerViewStatus?.adapter
                         adapter?.notifyDataSetChanged()
                         recyclerViewStatus?.setHasFixedSize(true);

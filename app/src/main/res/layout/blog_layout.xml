@@ -68,6 +68,17 @@
                 app:layout_constraintTop_toTopOf="@id/blog_profile_image_cv" />
 
 
+            <ImageButton
+                android:id="@+id/blog_more_horiz"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_more_horiz"
+                android:background="@color/white"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
             <TextView
                 android:id="@+id/tvContent"
                 android:layout_width="match_parent"

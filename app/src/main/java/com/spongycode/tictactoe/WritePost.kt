@@ -36,7 +36,6 @@ class WritePost : AppCompatActivity() {
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-    private var firebaseStore: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
 
     private val pickImage = 100
@@ -50,7 +49,6 @@ class WritePost : AppCompatActivity() {
         setContentView(R.layout.activity_write_post)
 
         write_post_progressbar.isVisible = false
-        firebaseStore = FirebaseStorage.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
         auth = Firebase.auth
         val currentUser: FirebaseUser? = auth.currentUser

@@ -4,6 +4,7 @@ import java.sql.Timestamp
 
 class EachBlog {
 
+    var id: String? = null
     var content: String? = null
     var image: String? = null
     var userid: String?= null
