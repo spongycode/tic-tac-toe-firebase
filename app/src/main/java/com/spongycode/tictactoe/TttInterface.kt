@@ -17,6 +17,10 @@ class TttInterface : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ttt_interface)
 
+
+
+        rotate_st_line.layoutParams.height = 180
+
         val opponentid = intent?.getStringExtra("opponentid")
 
         initButtonState()

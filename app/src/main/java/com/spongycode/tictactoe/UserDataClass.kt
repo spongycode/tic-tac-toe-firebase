@@ -2,7 +2,7 @@ package com.spongycode.tictactoe
 
 class UserDataClass {
 
-    val imageurl: String = ""
+    var imageurl: String = ""
     var fname: String = ""
     var lname: String = ""
     var email: String = ""
@@ -10,11 +10,12 @@ class UserDataClass {
 
     constructor() {}
 
-    constructor(fname: String, lname: String, email: String, userid: String) {
+    constructor(fname: String, lname: String, email: String, userid: String, imageurl: String) {
         this.fname = fname
         this.lname = lname
         this.email = email
         this.userid = userid
+        this.imageurl = imageurl
     }
 
     fun toMap(): Map<String, Any> {

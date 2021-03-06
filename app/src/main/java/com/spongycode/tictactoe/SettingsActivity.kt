@@ -52,6 +52,8 @@ class SettingsActivity : AppCompatActivity() {
         cl_name_change_data_entry.visibility = GONE
 
 
+
+
         profile_profile_pic_btn_change.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
             startActivityForResult(gallery, pickImage)
@@ -185,6 +187,12 @@ class SettingsActivity : AppCompatActivity() {
                                 Glide.with(this)
                                         .load(data.toObject(UserDataClass::class.java).imageurl)
                                         .into(findViewById(R.id.profile_profile_pic))
+                            }
+
+                            profile_profile_pic.setOnClickListener {
+                                val intent = Intent(this, PhotoViewerActivity::class.java)
+                                intent.putExtra("IMAGE_URL", data.toObject(UserDataClass::class.java).imageurl )
+                                this.startActivity(intent)
                             }
                         }
 

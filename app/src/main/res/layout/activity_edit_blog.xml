@@ -28,6 +28,44 @@
     </androidx.cardview.widget.CardView>
 
 
+
+    <ImageView
+        android:id="@+id/counter_st_fade"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_height="200px"
+
+        android:src="@drawable/ver_counter_fade"
+        app:layout_constraintLeft_toLeftOf="@id/edit_post_profile_pic_cv"
+        app:layout_constraintRight_toRightOf="@id/edit_post_profile_pic_cv"
+        app:layout_constraintTop_toBottomOf="@id/edit_post_profile_pic_cv" />
+
+
+    <ImageView
+        android:id="@+id/edit_blog_counter_st_live"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ver_counter_live"
+        app:layout_constraintLeft_toLeftOf="@id/edit_post_profile_pic_cv"
+        app:layout_constraintRight_toRightOf="@id/edit_post_profile_pic_cv"
+        app:layout_constraintBottom_toBottomOf="@id/counter_st_fade" />
+
+
+    <TextView
+        android:id="@+id/edit_blog_counter_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0/1024"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@id/counter_st_fade"
+        app:layout_constraintRight_toRightOf="@id/counter_st_fade"
+        app:layout_constraintTop_toBottomOf="@id/counter_st_fade"
+        />
+
+
+
+
     <EditText
         android:id="@+id/edit_post_et_content"
         android:layout_width="300dp"

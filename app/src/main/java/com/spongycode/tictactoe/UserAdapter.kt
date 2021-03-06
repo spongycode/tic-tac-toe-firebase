@@ -1,5 +1,6 @@
 package com.spongycode.tictactoe
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ val firestore = FirebaseFirestore.getInstance()
 val auth = FirebaseAuth.getInstance()
 
 
+@Suppress("DEPRECATION")
 class UserAdapter(
         private val userList: MutableList<UserDataClass>,
         private val context: Context,
@@ -34,30 +36,19 @@ class UserAdapter(
         val user = userList[position]
         holder.fname.text = user.fname
         holder.lname.text = user.lname
+        Glide.with(context).load(user.imageurl).into(holder.imageurl)
 
-
-        if (user.imageurl != "") {
-
-            Glide.with(context).load(user.imageurl).into(holder.imageurl)
-        }
-
-        val btn_battle = holder.itemView.findViewById<Button>(R.id.btn_battle)
         if (user.userid == auth.currentUser?.uid.toString()) {
-            btn_battle.setText("Profile")
-            btn_battle.setOnClickListener {
-                val intent = Intent(context, SettingsActivity::class.java)
+            holder.btn_battle.setText("Profile")
+            holder.btn_battle.setOnClickListener {
+                val intent = Intent(context, ProfileActivity::class.java)
                 context.startActivity(intent)
             }
         } else {
 
-
             val tempArrayPlayers = arrayOf(auth.currentUser?.uid.toString(), user.userid)
             tempArrayPlayers.sort()
             val gameid = tempArrayPlayers[0] + "@" + tempArrayPlayers[1]
-
-
-
-
 
             firestore.collection("allgames")
                     .whereEqualTo("gameid", gameid)
@@ -65,19 +56,21 @@ class UserAdapter(
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             for (data in task.result!!) {
-                                btn_battle.isEnabled = false
-                                btn_battle.alpha = 0.5f
+                                holder.btn_battle.isEnabled = false
+                                holder.btn_battle.alpha = 0.5f
                             }
-                        } else {
-                            // to handle
                         }
                     }
 
 
+            holder.btn_battle.setOnClickListener {
+                val progressDialog = ProgressDialog(context)
+                progressDialog.setTitle("Battle...")
+                progressDialog.setMessage("Sending Challenge, Please Wait")
+                progressDialog.show()
 
-            btn_battle.setOnClickListener {
                 val docref = firestore.collection("allgames").document(gameid)
-                if (btn_battle.alpha != 0.5f) {
+                if (holder.btn_battle.alpha != 0.5f) {
                     docref.set(
                             hashMapOf(
                                     "receiverid" to user.userid,
@@ -91,10 +84,10 @@ class UserAdapter(
                             )
                     )
                             .addOnSuccessListener {
+                                progressDialog.hide()
                                 Toast.makeText(context, "Challenge Sent!!", Toast.LENGTH_SHORT).show()
-                                btn_battle.isEnabled = false
-                                btn_battle.alpha = 0.5f
-
+                                holder.btn_battle.isEnabled = false
+                                holder.btn_battle.alpha = 0.5f
                             }
                 }
 
@@ -113,5 +106,6 @@ class UserAdapter(
         internal var fname: TextView = view.findViewById(R.id.user_fname)
         internal var lname: TextView = view.findViewById(R.id.user_lname)
         internal var imageurl: ImageView = view.findViewById(R.id.user_imageurl)
+        internal var btn_battle: Button = view.findViewById(R.id.btn_battle)
     }
 }

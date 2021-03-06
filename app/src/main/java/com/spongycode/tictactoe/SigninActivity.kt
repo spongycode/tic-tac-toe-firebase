@@ -1,8 +1,12 @@
 package com.spongycode.tictactoe
 
+import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Patterns
+import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -11,19 +15,26 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_signin.*
 
+@Suppress("DEPRECATION")
 class SigninActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
 
         auth = Firebase.auth
+        this.supportActionBar?.hide()
 
         btn_log_in.setOnClickListener {
             loginUser()
         }
+
+
+        Utils.buttonEffect(btn_sign_up)
+        Utils.buttonEffect(btn_log_in)
 
 
         btn_sign_up.setOnClickListener {
@@ -33,6 +44,9 @@ class SigninActivity : AppCompatActivity() {
     }
 
     private fun loginUser() {
+
+
+
         if (tv_signin_email.text.toString().isEmpty()) {
             tv_signin_email.error = "Please enter Email"
             tv_signin_email.requestFocus()
@@ -49,17 +63,19 @@ class SigninActivity : AppCompatActivity() {
             tv_signin_password.requestFocus()
             return
         }
-
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setTitle("Signing In...")
+        progressDialog.setMessage("Authenticating, Please Wait")
+        progressDialog.show()
         auth.signInWithEmailAndPassword(tv_signin_email.text.toString(), tv_signin_password.text.toString())
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         startActivity(Intent(this, HomeActivity::class.java))
                         finish()
                     } else {
-                        Toast.makeText(
-                                baseContext, "Authentication failed.",
-                                Toast.LENGTH_SHORT
-                        ).show()
+                        progressDialog.hide()
+
+                        Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                     }
                 }
     }

@@ -1,6 +1,7 @@
 package com.spongycode.tictactoe
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -10,6 +11,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -27,10 +30,12 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.android.synthetic.main.activity_write_post.*
 import java.io.ByteArrayOutputStream
 
 
+@Suppress("DEPRECATION")
 class WritePost : AppCompatActivity() {
 
 
@@ -40,6 +45,7 @@ class WritePost : AppCompatActivity() {
 
     private val pickImage = 100
     private var downloadUri: Uri? = null
+    private var imageRouteClear = true
 
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -54,6 +60,10 @@ class WritePost : AppCompatActivity() {
         val currentUser: FirebaseUser? = auth.currentUser
         val userid = currentUser?.uid
         firestore = FirebaseFirestore.getInstance()
+
+
+        Utils.buttonEffect(write_post_btn_post)
+
 
 
         updateWriterImage(userid.toString())
@@ -75,16 +85,25 @@ class WritePost : AppCompatActivity() {
 
 
         write_post_et_content.addTextChangedListener(object : TextWatcher {
+            @SuppressLint("SetTextI18n")
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                val state = s.toString().trim { it <= ' ' }.isNotEmpty()
+
+                val text = s.toString()
+                val len = text.trimStart(' ').length
+                var lenH = len
+                if (len > 1024){
+                    lenH = 1024
+                }
+                val height: Int = (lenH*200/1024)
+                counter_text_size.setText("$len/1024")
+                setDimensions(counter_st_live, height)
+                val state = len > 0 && len <= 1024 && imageRouteClear
                 write_post_btn_post.isEnabled = state // trim <initial blank spaces not allowed>
                 if (state) {
                     write_post_btn_post.setAlpha(1f)
                 } else {
                     write_post_btn_post.setAlpha(.5f);
-
                 }
-
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -107,13 +126,16 @@ class WritePost : AppCompatActivity() {
                             val imageurl = data.toObject(UserDataClass::class.java).imageurl
                             Glide.with(this).load(imageurl).into(write_post_profile_pic)
                         }
-                    } else {
-                        // to handle
                     }
                 }
     }
 
     private fun postToFirestore() {
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setTitle("Uploading...")
+        progressDialog.setMessage("Working on it, Please Wait")
+        progressDialog.show()
+
         val eachBlog = EachBlog(write_post_et_content.text.toString(),
                 downloadUri.toString(),
                 auth.currentUser?.uid.toString(),
@@ -125,7 +147,10 @@ class WritePost : AppCompatActivity() {
                     Toast.makeText(this, "post upload success", Toast.LENGTH_LONG).show()
                     finish()
                 }
-                .addOnFailureListener { e -> Toast.makeText(this, "post upload failed", Toast.LENGTH_LONG).show() }
+                .addOnFailureListener {
+                    progressDialog.hide()
+                    Toast.makeText(this, "post upload failed", Toast.LENGTH_LONG).show()
+                }
 
     }
 
@@ -136,6 +161,7 @@ class WritePost : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == pickImage && data != null) {
+            imageRouteClear = false
             write_post_btn_post.isClickable = false
             write_post_progressbar.isVisible = true
             write_post_btn_post.setAlpha(.5f);
@@ -169,10 +195,18 @@ class WritePost : AppCompatActivity() {
                             downloadUri = task.result
                             write_post_progressbar.isVisible = false
                             write_post_tv_add_image.setText("Uploaded!!")
-                            write_post_btn_post.setAlpha(1f)
-                            write_post_btn_post.isClickable = true
-                        } else {
-                            // Handle failures
+
+                            val text = write_post_et_content.text.toString()
+                            val len = text.trimStart(' ').length
+
+                            if (len in 1..1024){
+                                write_post_btn_post.setAlpha(1f)
+                                write_post_btn_post.isEnabled = true
+                                write_post_btn_post.isClickable = true
+
+                            }
+
+                            imageRouteClear = true
                         }
                     }.addOnFailureListener {
                         // handle it
@@ -191,6 +225,13 @@ class WritePost : AppCompatActivity() {
         val byteOutputStream = ByteArrayOutputStream()
         scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteOutputStream)
         return byteOutputStream.toByteArray()
+    }
+
+
+    private fun setDimensions(view: View, height: Int) {
+        val params: ViewGroup.LayoutParams = view.getLayoutParams()
+        params.height = height
+        view.setLayoutParams(params)
     }
 
 }

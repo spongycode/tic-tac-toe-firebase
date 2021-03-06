@@ -50,7 +50,7 @@
             android:id="@+id/user_fname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fname"
+            android:text=" "
             android:textColor="#555454"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="Lname"
+            android:text=" "
             android:textColor="#555454"
             android:textSize="18sp"
             android:textStyle="bold"

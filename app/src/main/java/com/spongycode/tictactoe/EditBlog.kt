@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -50,15 +52,23 @@ class EditBlog : AppCompatActivity() {
                 }
         }
 
-
         edit_post_et_content.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                val state = s.toString().trim { it <= ' ' }.isNotEmpty()
+                val text = s.toString()
+                val len = text.trimStart(' ').length
+                var lenH = len
+                if (len > 1024){
+                    lenH = 1024
+                }
+                val height: Int = (lenH*200/1024)
+                edit_blog_counter_text_size.setText("$len/1024")
+                setDimensions(edit_blog_counter_st_live, height)
+                val state = len > 0 && len <= 1024
                 edit_post_btn_post.isEnabled = state // trim <initial blank spaces not allowed>
                 if (state) {
                     edit_post_btn_post.setAlpha(1f)
                 } else {
-                    edit_post_btn_post.setAlpha(.5f);
+                    edit_post_btn_post.setAlpha(.5f)
                 }
 
             }
@@ -69,9 +79,11 @@ class EditBlog : AppCompatActivity() {
                 // no use for now
             }
         })
+    }
 
-
-
-
+    private fun setDimensions(view: View, height: Int) {
+        val params: ViewGroup.LayoutParams = view.getLayoutParams()
+        params.height = height
+        view.setLayoutParams(params)
     }
 }

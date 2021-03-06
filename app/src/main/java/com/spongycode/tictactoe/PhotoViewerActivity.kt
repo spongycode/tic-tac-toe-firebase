@@ -9,7 +9,7 @@ class PhotoViewerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo_viewer)
-
+        this.supportActionBar?.hide()
 
         val imageUrl = intent.getStringExtra("IMAGE_URL")
         Glide.with(applicationContext).load(imageUrl).into(fullscreen_content)
