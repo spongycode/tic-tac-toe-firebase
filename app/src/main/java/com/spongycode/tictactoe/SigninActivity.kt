@@ -33,8 +33,8 @@ class SigninActivity : AppCompatActivity() {
         }
 
 
-        Utils.buttonEffect(btn_sign_up)
-        Utils.buttonEffect(btn_log_in)
+        Utils.buttonEffect(btn_sign_up, "#FF863BF1")
+        Utils.buttonEffect(btn_log_in, "#C665F37D" )
 
 
         btn_sign_up.setOnClickListener {

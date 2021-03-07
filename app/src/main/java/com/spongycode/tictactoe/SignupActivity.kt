@@ -31,7 +31,7 @@ class SignupActivity : AppCompatActivity() {
         val profileImages = listOf("cat", "croc","dino","mong", "wolf")
         var imageUrlProfile = ""
 
-        Utils.buttonEffect(btn_sign_up)
+        Utils.buttonEffect(btn_sign_up, "#C665F37D")
 
         when(profileImages.random()){
             "cat" -> {

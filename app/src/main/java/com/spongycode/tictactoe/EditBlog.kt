@@ -23,6 +23,8 @@ class EditBlog : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_blog)
 
+        this.title = "Blog"
+
         auth = Firebase.auth
         firestore = FirebaseFirestore.getInstance()
         val currentText = intent?.getStringExtra("currentText")

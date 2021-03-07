@@ -42,9 +42,7 @@
                 android:id="@+id/tvAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginLeft="6dp"
-                android:text="Author"
                 android:textColor="#151515"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -90,6 +88,9 @@
                 android:paddingTop="6dp"
                 android:textSize="16sp"
                 android:text="Text for Content"
+                android:autoLink="all"
+                android:textIsSelectable="true"
+                android:textColorLink="#0000EE "
                 android:textColor="#676666"
                 app:layout_constraintTop_toBottomOf="@id/blog_profile_image_cv" />
 

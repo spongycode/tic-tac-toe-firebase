@@ -54,6 +54,9 @@ class WritePost : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_post)
 
+
+        this.title = "Blog"
+
         write_post_progressbar.isVisible = false
         storageReference = FirebaseStorage.getInstance().reference
         auth = Firebase.auth
@@ -62,7 +65,7 @@ class WritePost : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
 
 
-        Utils.buttonEffect(write_post_btn_post)
+        Utils.buttonEffect(write_post_btn_post,"#FF1A749E")
 
 
 

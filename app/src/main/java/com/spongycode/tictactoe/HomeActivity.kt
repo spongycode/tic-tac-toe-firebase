@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.viewpager.widget.ViewPager
 import com.aghajari.zoomhelper.ZoomHelper
 import com.bumptech.glide.Glide
@@ -67,22 +68,18 @@ class HomeActivity : AppCompatActivity() {
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        nav_view.getHeaderView(0).setOnClickListener {
-            Toast.makeText(applicationContext, "out area", Toast.LENGTH_SHORT).show()
-        }
+
         nav_view.setNavigationItemSelectedListener {
             when (it.itemId) {
 
                 R.id.miItem1 -> {
+                    drawer_layout.closeDrawers()
                     startActivity(Intent(this, ProfileActivity::class.java))
-                    Toast.makeText(applicationContext, "Profile Activity", Toast.LENGTH_SHORT).show()
                 }
 
-
-
                 R.id.miItem2 -> {
+                    drawer_layout.closeDrawers()
                     startActivity(Intent(this, SettingsActivity::class.java))
-                    Toast.makeText(applicationContext, "Settings TODO", Toast.LENGTH_SHORT).show()
                 }
                 R.id.miItem3 -> {
                     Firebase.auth.signOut()

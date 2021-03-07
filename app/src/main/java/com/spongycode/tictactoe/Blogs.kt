@@ -18,49 +18,34 @@ import kotlinx.android.synthetic.main.fragment_friends.*
 
 class Blogs : Fragment() {
 
-
     private lateinit var firestore: FirebaseFirestore
     private var linearLayoutManager: LinearLayoutManager? = null
     private var firestoreListener: ListenerRegistration? = null
-
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
 
-
         firestore = FirebaseFirestore.getInstance()
-
         val view = inflater.inflate(R.layout.fragment_blogs, container, false);
-
         val button = view.findViewById<FloatingActionButton>(R.id.blogs_floating_button)
         button.setOnClickListener {
             startActivity(Intent(context, WritePost::class.java))
         }
 
-
         // rv in tab fragment for all blogs init
-
-
         loadAllBlogs()
-
-
-
         firestore.collection("users")
                 .addSnapshotListener { snapshot, e ->
                     loadAllBlogs()
                 }
-
-
         // rv in tab fragment for all blogs end
 
         firestore.collection("blogs")
-
                 .addSnapshotListener { snapshot, e ->
                     loadAllBlogs()
                 }
-
         // Inflating layout Blogs Fragment
         return view
     }
@@ -89,9 +74,6 @@ class Blogs : Fragment() {
                     } catch (ex: Exception) {
                         Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                     }
-                }
-                .addOnFailureListener { exception ->
-                    // error hanle
                 }
 
     }

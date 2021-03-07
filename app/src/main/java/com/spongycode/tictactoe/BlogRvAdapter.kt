@@ -21,37 +21,26 @@ class BlogRvAdapter(
         private val blogList: MutableList<EachBlog>,
         private val context: Context,
         private val caller: String,
-        private val firestoreDB: FirebaseFirestore)
-
-    : RecyclerView.Adapter<BlogRvAdapter.ViewHolder>() {
+        private val firestoreDB: FirebaseFirestore) : RecyclerView.Adapter<BlogRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.blog_layout, parent, false)
-
         return ViewHolder(view)
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val blog = blogList[position]
-
         holder.content.text = blog.content
-
         Glide.with(context).load(blog.image).into(holder.realimage)
-
-
         holder.realimage.setOnClickListener {
             val intent = Intent(context, PhotoViewerActivity::class.java)
             intent.putExtra("IMAGE_URL", blog.image)
             context.startActivity(intent)
         }
-
-
-
-        if (blog.userid == auth.currentUser?.uid.toString() && caller == "blogs"){
+        if (blog.userid == auth.currentUser?.uid.toString() && caller == "blogs") {
             holder.morehoriz.visibility = VISIBLE
         }
-
         holder.morehoriz.setOnClickListener {
             val popup = PopupMenu(context, holder.morehoriz)
             val inflater = popup.menuInflater
@@ -65,20 +54,16 @@ class BlogRvAdapter(
                         intent.putExtra("currentText", blog.content)
                         intent.putExtra("docId", blog.id!!)
                         context.startActivity(intent)
-
                     }
                     R.id.more_horiz_delete -> {
                         blogList.removeAt(position)
                         notifyItemRemoved(position)
                         notifyItemRangeChanged(position, getItemCount());
-
                         firestore.collection("blogs").document(blog.id!!)
                                 .delete()
                                 .addOnSuccessListener {
-                                    Toast.makeText(context,"Post Deleted", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Post Deleted", Toast.LENGTH_SHORT).show()
                                 }
-
-
                     }
                 }
                 true
@@ -91,7 +76,6 @@ class BlogRvAdapter(
         val dateFinal = listDate[3] + ":" + listDate[4] + " on " + listDate[1] + " " + listDate[2]
         holder.postedtime.setText(dateFinal)
 
-        // getting profile image and name (since name can be changed now real time) <author field to be removed now> for each blog init
         firestore.collection("users")
                 .whereEqualTo("userid", blog.userid)
                 .get()
@@ -110,11 +94,8 @@ class BlogRvAdapter(
                                 context.startActivity(intent)
                             }
                         }
-                    } else {
-                        // to handle
                     }
                 }
-        // getting profile image for each blog end
     }
 
     override fun getItemCount(): Int {

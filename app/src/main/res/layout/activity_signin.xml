@@ -7,10 +7,6 @@
     android:layout_height="match_parent"
     android:background="#FEFFFF"
     tools:context=".SigninActivity">
-
-
-
-
         <ImageView
             android:id="@+id/main_logo"
             android:layout_width="150dp"
@@ -20,7 +16,6 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="80dp"
             android:src="@drawable/ttt_logo"
-
             android:layout_gravity="center"
             />
 
@@ -30,7 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="35dp"
             android:layout_marginTop="10dp"
-
             android:paddingVertical="10dp"
             android:paddingLeft="8dp"
             android:background="@drawable/edit_text_round"
@@ -40,20 +34,29 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress" />
 
-        <EditText
-            android:id="@+id/tv_signin_password"
+
+        <com.google.android.material.textfield.TextInputLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/tv_signin_password_mat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="35dp"
-            android:paddingVertical="10dp"
+            app:passwordToggleEnabled="true"
             android:layout_marginTop="10dp"
-            android:paddingLeft="8dp"
+            app:hintEnabled="false"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_signin_email"
-            android:background="@drawable/edit_text_round"
-            android:hint="@string/password"
-            android:inputType="textPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_signin_email">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tv_signin_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="35dp"
+                    android:paddingVertical="10dp"
+                    android:paddingLeft="8dp"
+                    android:background="@drawable/edit_text_round"
+                    android:hint="Password"
+                    android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_log_in"
@@ -61,11 +64,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_signin_password"
+            app:layout_constraintTop_toBottomOf="@+id/tv_signin_password_mat"
             android:layout_marginTop="15dp"
             android:paddingHorizontal="20dp"
             android:text="@string/signin"
-
             android:letterSpacing="0.1"
             android:textAllCaps="false"
             android:background="#C618E13A"
@@ -79,10 +81,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
-
-
             android:layout_marginBottom="10dp"
-
             android:text="@string/don_t_have_an_account"
             android:textColor="@color/black"/>
 
@@ -102,6 +101,4 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
