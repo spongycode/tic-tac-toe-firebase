@@ -148,14 +148,12 @@ class SettingsActivity : AppCompatActivity() {
     private fun changeName(fname: String, lname: String) {
         val userRef = firestore.collection("users").document(auth.currentUser?.uid.toString())
         userRef.update("fname", fname)
-                .addOnSuccessListener {
-                }
                 .addOnCompleteListener {
+                    Utils.userlogged.fname = fname
                 }
         userRef.update("lname", lname)
-                .addOnSuccessListener {
-                }
                 .addOnCompleteListener {
+                    Utils.userlogged.lname = lname
                     getProfileNameAndPic("fname", "lname", "no")
                     profile_et_fname.setText("")
                     profile_et_lname.setText("")
@@ -193,7 +191,7 @@ class SettingsActivity : AppCompatActivity() {
 
                             profile_profile_pic.setOnClickListener {
                                 val intent = Intent(this, PhotoViewerActivity::class.java)
-                                intent.putExtra("IMAGE_URL", data.toObject(UserDataClass::class.java).imageurl )
+                                intent.putExtra("IMAGE_URL", data.toObject(UserDataClass::class.java).imageurl)
                                 this.startActivity(intent)
                             }
                         }
@@ -233,16 +231,11 @@ class SettingsActivity : AppCompatActivity() {
                         }).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 val downloadUri = task.result
-                                val userRef =
-                                        firestore.collection("users")
-                                                .document(auth.currentUser?.uid.toString())
-                                userRef
+                                Utils.userlogged.imageurl = downloadUri.toString()
+                                firestore.collection("users").document(auth.currentUser?.uid.toString())
                                         .update("imageurl", downloadUri.toString())
-                                        .addOnSuccessListener {
-                                        }
                                         .addOnCompleteListener {
                                             Toast.makeText(this, "Profile Pic Updated", Toast.LENGTH_SHORT).show()
-
                                             profile_profile_pic.setImageURI(imageUri)
                                         }
                             } else {

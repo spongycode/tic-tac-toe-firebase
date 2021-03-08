@@ -3,14 +3,11 @@ package com.spongycode.tictactoe
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Patterns
-import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_signin.*
@@ -70,7 +67,7 @@ class SigninActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(tv_signin_email.text.toString(), tv_signin_password.text.toString())
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        startActivity(Intent(this, HomeActivity::class.java))
+                        startActivity(Intent(this, Starter::class.java))
                         finish()
                     } else {
                         progressDialog.hide()
@@ -81,17 +78,5 @@ class SigninActivity : AppCompatActivity() {
     }
 
 
-    public override fun onStart() {
-        super.onStart()
-        val currentUser: FirebaseUser? = auth.currentUser
-        if (currentUser != null) {
-            LoggingYou(currentUser)
-        }
-    }
-
-    fun LoggingYou(currentUser: FirebaseUser?) {
-        startActivity(Intent(this, HomeActivity::class.java))
-        finish()
-    }
 
 }

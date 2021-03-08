@@ -38,7 +38,6 @@ class HomeActivity : AppCompatActivity() {
         auth = Firebase.auth
         firestore = FirebaseFirestore.getInstance()
 
-
         // Tab Layout init
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
@@ -61,7 +60,6 @@ class HomeActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
         // Tab Layout end
-
 
         // Nav Drawer init
         toggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
@@ -103,31 +101,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getProfileNameAndPic() {
-        firestore.collection("users")
-                .whereEqualTo("userid", auth.currentUser?.uid.toString())
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (data in task.result!!) {
-                            val fname = data.toObject(UserDataClass::class.java).fname
-                            val lname = data.toObject(UserDataClass::class.java).lname
-                            val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                            nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_fname)
-                                    .setText(fname)
-                            nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_lname)
-                                    .setText(lname)
-                            //
-                            //
-                            Glide.with(this).load(imageurl)
-                                    .into(
-                                            nav_view.getHeaderView(0)
-                                                    .findViewById<ImageView>(R.id.nav_profile_pic)
-                                    )
-                        }
-                    } else {
-                        // to handle
-                    }
-                }
+
+        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_fname)
+                .setText(Utils.userlogged.fname)
+        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_lname)
+                .setText(Utils.userlogged.lname)
+
+        Glide.with(applicationContext).load(Utils.userlogged.imageurl)
+                .into(nav_view.getHeaderView(0).findViewById<ImageView>(R.id.nav_profile_pic))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,5 +1,6 @@
 package com.spongycode.tictactoe
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -77,33 +78,15 @@ class ProfileActivity : AppCompatActivity() {
                 }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateWriterImage(userid: String) {
-        firestore.collection("users")
-                .whereEqualTo("userid", userid)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (data in task.result!!) {
-                            val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                            Glide.with(this).load(imageurl).into(imageViewAvatar)
-                            val name =
-                                    data.toObject(UserDataClass::class.java).fname + " " + data.toObject(
-                                            UserDataClass::class.java
-                                    ).lname
-                            textViewName.text = name
-
-                            imageViewAvatar.setOnClickListener {
-                                val intent = Intent(this, PhotoViewerActivity::class.java)
-                                intent.putExtra("IMAGE_URL", imageurl)
-                                this.startActivity(intent)
-                            }
-                        }
-
-
-                    } else {
-                        // to handle
-                    }
-                }
+        Glide.with(this).load(Utils.userlogged.imageurl).into(imageViewAvatar)
+        textViewName.text = Utils.userlogged.fname + " " + Utils.userlogged.lname
+        imageViewAvatar.setOnClickListener {
+            val intent = Intent(this, PhotoViewerActivity::class.java)
+            intent.putExtra("IMAGE_URL", Utils.userlogged.imageurl)
+            this.startActivity(intent)
+        }
     }
 
 

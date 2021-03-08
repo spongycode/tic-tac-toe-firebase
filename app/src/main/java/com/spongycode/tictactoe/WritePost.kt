@@ -69,7 +69,7 @@ class WritePost : AppCompatActivity() {
 
 
 
-        updateWriterImage(userid.toString())
+        Glide.with(this).load(Utils.userlogged.imageurl).into(write_post_profile_pic)
 
 
         write_post_upd_img.setOnClickListener {
@@ -119,19 +119,6 @@ class WritePost : AppCompatActivity() {
         })
     }
 
-    private fun updateWriterImage(userid: String) {
-        firestore.collection("users")
-                .whereEqualTo("userid", userid)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (data in task.result!!) {
-                            val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                            Glide.with(this).load(imageurl).into(write_post_profile_pic)
-                        }
-                    }
-                }
-    }
 
     private fun postToFirestore() {
         val progressDialog = ProgressDialog(this)

@@ -2,16 +2,15 @@ package com.spongycode.tictactoe
 
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.android.synthetic.main.activity_signin.btn_sign_up
 import kotlinx.android.synthetic.main.activity_signup.*
 
@@ -111,7 +110,7 @@ class SignupActivity : AppCompatActivity() {
                         .set(UserDataClass(tv_signup_fname.text.toString(),tv_signup_lname.text.toString(),tv_signup_email.text.toString(),userid,imageurl))
                         .addOnSuccessListener { Log.d("BlogActivity", "DocumentSnapshot successfully written!") }
                         .addOnFailureListener { e -> Log.w("BlogActivity", "Error writing document", e) }
-                    startActivity(Intent(this, SigninActivity::class.java))
+                    startActivity(Intent(this, Starter::class.java))
                     finish()
                 } else {
                     progressDialog.hide()
