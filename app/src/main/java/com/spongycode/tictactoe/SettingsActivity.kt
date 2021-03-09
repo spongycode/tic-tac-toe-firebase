@@ -147,59 +147,62 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun changeName(fname: String, lname: String) {
         val userRef = firestore.collection("users").document(auth.currentUser?.uid.toString())
+        Utils.userlogged.fname = fname
+        Utils.userlogged.lname = lname
         userRef.update("fname", fname)
-                .addOnCompleteListener {
-                    Utils.userlogged.fname = fname
-                }
+            .addOnCompleteListener {
+            }
         userRef.update("lname", lname)
-                .addOnCompleteListener {
-                    Utils.userlogged.lname = lname
-                    getProfileNameAndPic("fname", "lname", "no")
-                    profile_et_fname.setText("")
-                    profile_et_lname.setText("")
-                    profile_progress_bar.visibility = GONE
-                    profile_btn_rename.visibility = VISIBLE
-                    cl_name_change_data_entry.visibility = GONE
-                    profile_name_hint_cmd.hint = "(Tap to change)"
-                    Toast.makeText(this, "Name Updated", Toast.LENGTH_SHORT).show()
-                }
+            .addOnCompleteListener {
+                getProfileNameAndPic("fname", "lname", "no")
+                profile_et_fname.setText("")
+                profile_et_lname.setText("")
+                profile_progress_bar.visibility = GONE
+                profile_btn_rename.visibility = VISIBLE
+                cl_name_change_data_entry.visibility = GONE
+                profile_name_hint_cmd.hint = "(Tap to change)"
+                Toast.makeText(this, "Name Updated", Toast.LENGTH_SHORT).show()
+            }
     }
 
 
     private fun getProfileNameAndPic(fname: String, lname: String, imageurl: String) {
         firestore.collection("users")
-                .whereEqualTo("userid", auth.currentUser?.uid.toString())
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (data in task.result!!) {
-                            if (fname == "fname") {
+            .whereEqualTo("userid", auth.currentUser?.uid.toString())
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (data in task.result!!) {
+                        if (fname == "fname") {
 
-                                profile_tv_fname.setText(data.toObject(UserDataClass::class.java).fname)
-                            }
-
-                            if (lname == "lname") {
-
-                                profile_tv_lname.setText(data.toObject(UserDataClass::class.java).lname)
-                            }
-
-                            if (imageurl == "imageurl") {
-                                Glide.with(this)
-                                        .load(data.toObject(UserDataClass::class.java).imageurl)
-                                        .into(findViewById(R.id.profile_profile_pic))
-                            }
-
-                            profile_profile_pic.setOnClickListener {
-                                val intent = Intent(this, PhotoViewerActivity::class.java)
-                                intent.putExtra("IMAGE_URL", data.toObject(UserDataClass::class.java).imageurl)
-                                this.startActivity(intent)
-                            }
+                            profile_tv_fname.setText(data.toObject(UserDataClass::class.java).fname)
                         }
 
-                    } else {
-                        // to handle
+                        if (lname == "lname") {
+
+                            profile_tv_lname.setText(data.toObject(UserDataClass::class.java).lname)
+                        }
+
+                        if (imageurl == "imageurl") {
+                            Glide.with(this)
+                                .load(data.toObject(UserDataClass::class.java).imageurl)
+                                .into(findViewById(R.id.profile_profile_pic))
+                        }
+
+                        profile_profile_pic.setOnClickListener {
+                            val intent = Intent(this, PhotoViewerActivity::class.java)
+                            intent.putExtra(
+                                "IMAGE_URL",
+                                data.toObject(UserDataClass::class.java).imageurl
+                            )
+                            this.startActivity(intent)
+                        }
                     }
+
+                } else {
+                    // to handle
                 }
+            }
     }
 
     val REQUEST_CODE = 56
@@ -209,11 +212,13 @@ class SettingsActivity : AppCompatActivity() {
 
             if (data.getData() != null) {
                 val imageUri: Uri = data.data!!
-                val extension: String = imageUri.toString().substring(imageUri.toString().lastIndexOf("."))
+                val extension: String =
+                    imageUri.toString().substring(imageUri.toString().lastIndexOf("."))
                 val ref = storageReference!!.child("profilepics/${System.currentTimeMillis()}")
                 val uploadTask: UploadTask
                 if (extension.toLowerCase().trim() != ".gif") {
-                    Toast.makeText(this, "Uploading Profile Pic, Please Wait", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Uploading Profile Pic, Please Wait", Toast.LENGTH_SHORT)
+                        .show()
 
                     val imageByteArray = getImageByteArray(imageUri)
                     uploadTask = ref.putBytes(imageByteArray as ByteArray)
@@ -221,29 +226,30 @@ class SettingsActivity : AppCompatActivity() {
                     uploadTask = ref.putFile(imageUri)
                 }
                 val urlTask =
-                        uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                            if (!task.isSuccessful) {
-                                task.exception?.let {
-                                    throw it
-                                }
+                    uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                        if (!task.isSuccessful) {
+                            task.exception?.let {
+                                throw it
                             }
-                            return@Continuation ref.downloadUrl
-                        }).addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                val downloadUri = task.result
-                                Utils.userlogged.imageurl = downloadUri.toString()
-                                firestore.collection("users").document(auth.currentUser?.uid.toString())
-                                        .update("imageurl", downloadUri.toString())
-                                        .addOnCompleteListener {
-                                            Toast.makeText(this, "Profile Pic Updated", Toast.LENGTH_SHORT).show()
-                                            profile_profile_pic.setImageURI(imageUri)
-                                        }
-                            } else {
-                                // Handle failures
-                            }
-                        }.addOnFailureListener {
-                            // handle it
                         }
+                        return@Continuation ref.downloadUrl
+                    }).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val downloadUri = task.result
+                            Utils.userlogged.imageurl = downloadUri.toString()
+                            firestore.collection("users").document(auth.currentUser?.uid.toString())
+                                .update("imageurl", downloadUri.toString())
+                                .addOnCompleteListener {
+                                    Toast.makeText(this, "Profile Pic Updated", Toast.LENGTH_SHORT)
+                                        .show()
+                                    profile_profile_pic.setImageURI(imageUri)
+                                }
+                        } else {
+                            // Handle failures
+                        }
+                    }.addOnFailureListener {
+                        // handle it
+                    }
             }
         }
     }
