@@ -1,4 +1,4 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.adapter.UserAdapter
+import com.spongycode.tictactoe.model.UserDataClass
 import kotlinx.android.synthetic.main.fragment_friends.*
 
 class Friends : Fragment() {

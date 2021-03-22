@@ -1,4 +1,4 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.ui.blog
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
@@ -29,6 +29,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.spongycode.tictactoe.EachBlog
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.utils.BitmapScaler
+import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.android.synthetic.main.activity_write_post.*
@@ -36,7 +40,7 @@ import java.io.ByteArrayOutputStream
 
 
 @Suppress("DEPRECATION")
-class WritePost : AppCompatActivity() {
+class WriteBlogActivity : AppCompatActivity() {
 
 
     private lateinit var firestore: FirebaseFirestore
@@ -65,11 +69,11 @@ class WritePost : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
 
 
-        Utils.buttonEffect(write_post_btn_post,"#FF1A749E")
+        Helper.buttonEffect(write_post_btn_post,"#FF1A749E")
 
 
 
-        Glide.with(this).load(Utils.userlogged.imageurl).into(write_post_profile_pic)
+        Glide.with(this).load(Helper.userlogged.imageurl).into(write_post_profile_pic)
 
 
         write_post_upd_img.setOnClickListener {

@@ -1,4 +1,4 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.ui.welcome
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -11,6 +11,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.model.UserDataClass
+import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_signin.btn_sign_up
 import kotlinx.android.synthetic.main.activity_signup.*
 
@@ -30,7 +33,7 @@ class SignupActivity : AppCompatActivity() {
         val profileImages = listOf("cat", "croc","dino","mong", "wolf")
         var imageUrlProfile = ""
 
-        Utils.buttonEffect(btn_sign_up, "#C665F37D")
+        Helper.buttonEffect(btn_sign_up, "#C665F37D")
 
         when(profileImages.random()){
             "cat" -> {
@@ -110,7 +113,7 @@ class SignupActivity : AppCompatActivity() {
                         .set(UserDataClass(tv_signup_fname.text.toString(),tv_signup_lname.text.toString(),tv_signup_email.text.toString(),userid,imageurl))
                         .addOnSuccessListener { Log.d("BlogActivity", "DocumentSnapshot successfully written!") }
                         .addOnFailureListener { e -> Log.w("BlogActivity", "Error writing document", e) }
-                    startActivity(Intent(this, Starter::class.java))
+                    startActivity(Intent(this, StarterActivity::class.java))
                     finish()
                 } else {
                     progressDialog.hide()

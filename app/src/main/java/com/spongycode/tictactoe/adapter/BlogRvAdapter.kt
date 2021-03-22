@@ -1,4 +1,4 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,15 +6,17 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_home.*
-import java.util.*
+import com.spongycode.tictactoe.*
+import com.spongycode.tictactoe.ui.blog.EditBlogActivity
+import com.spongycode.tictactoe.ui.PhotoViewerActivity
+import com.spongycode.tictactoe.model.UserDataClass
 
 
 class BlogRvAdapter(
@@ -33,11 +35,14 @@ class BlogRvAdapter(
         val blog = blogList[position]
         holder.content.text = blog.content
         Glide.with(context).load(blog.image).into(holder.realimage)
-        holder.realimage.setOnClickListener {
-            val intent = Intent(context, PhotoViewerActivity::class.java)
-            intent.putExtra("IMAGE_URL", blog.image)
-            context.startActivity(intent)
+        if (blog.image != "null") {
+            holder.realimage.setOnClickListener {
+                val intent = Intent(context, PhotoViewerActivity::class.java)
+                intent.putExtra("IMAGE_URL", blog.image)
+                context.startActivity(intent)
+            }
         }
+
         if (blog.userid == auth.currentUser?.uid.toString() && caller == "blogs") {
             holder.morehoriz.visibility = VISIBLE
         }
@@ -49,7 +54,7 @@ class BlogRvAdapter(
                 when (item?.itemId) {
                     R.id.more_horiz_edit -> {
                         Toast.makeText(context, item.title, Toast.LENGTH_SHORT).show()
-                        val intent = Intent(context, EditBlog::class.java)
+                        val intent = Intent(context, EditBlogActivity::class.java)
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         intent.putExtra("currentText", blog.content)
                         intent.putExtra("docId", blog.id!!)

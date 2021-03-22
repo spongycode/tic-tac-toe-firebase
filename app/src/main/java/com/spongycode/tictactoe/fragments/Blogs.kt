@@ -1,4 +1,4 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.fragments
 
 
 import android.content.Intent
@@ -12,9 +12,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
+import com.spongycode.tictactoe.EachBlog
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.ui.blog.WriteBlogActivity
+import com.spongycode.tictactoe.adapter.BlogRvAdapter
 import kotlinx.android.synthetic.main.fragment_blogs.*
-import kotlinx.android.synthetic.main.fragment_blogs.view.*
-import kotlinx.android.synthetic.main.fragment_friends.*
 
 class Blogs : Fragment() {
 
@@ -31,7 +33,7 @@ class Blogs : Fragment() {
         val view = inflater.inflate(R.layout.fragment_blogs, container, false);
         val button = view.findViewById<FloatingActionButton>(R.id.blogs_floating_button)
         button.setOnClickListener {
-            startActivity(Intent(context, WritePost::class.java))
+            startActivity(Intent(context, WriteBlogActivity::class.java))
         }
 
         // rv in tab fragment for all blogs init

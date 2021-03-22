@@ -5,14 +5,14 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".ui.welcome.HomeActivity">
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomeActivity">
+        tools:context=".ui.welcome.HomeActivity">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -49,12 +49,19 @@
             android:layout_gravity="bottom"
             android:orientation="vertical"
             android:padding="16dp">
+            <ImageView
+                android:id="@+id/nav_image"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ttt_logo"/>
             <TextView
                 android:id="@+id/version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="v 0.1.0" />
+                android:text="v 0.1.0"
+                android:letterSpacing="0.1"/>
         </LinearLayout>
 
 

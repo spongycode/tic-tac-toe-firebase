@@ -1,28 +1,37 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.ui
 
 import android.app.ProgressDialog
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import com.bumptech.glide.Glide
+import com.spongycode.tictactoe.LiveGameData
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.adapter.auth
+import com.spongycode.tictactoe.adapter.firestore
+import com.spongycode.tictactoe.model.UserDataClass
+import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_ttt_interface.*
 
-class TttInterface : AppCompatActivity() {
+class TttInterfaceActivity : AppCompatActivity() {
     private var MY_STATE = ""
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ttt_interface)
 
-        Utils.buttonEffect(btn_exit,"#FFED4F4F")
-        Utils.buttonEffect(btn_rematch,"#FF68C84C")
-        Utils.buttonEffect(ib_accept_rematch,"#FFFFFFFF")
-        Utils.buttonEffect(ib_exit_rematch,"#FFFFFFFF")
+        Helper.buttonEffect(btn_exit,"#FFED4F4F")
+        Helper.buttonEffect(btn_rematch,"#FF68C84C")
+        Helper.buttonEffect(ib_accept_rematch,"#FFFFFFFF")
+        Helper.buttonEffect(ib_exit_rematch,"#FFFFFFFF")
         val opponentid = intent?.getStringExtra("opponentid")
 
         initButtonState()
@@ -305,6 +314,20 @@ class TttInterface : AppCompatActivity() {
     }
 
     private fun tapButtonOnline(myState: String, buttonid: Button, pos: Int, opponentid: String = "", gameid: String) {
+
+        val vibrate = applicationContext.getSystemService<Vibrator>()
+
+        vibrate?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrate.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                //deprecated in API 26
+                vibrate.vibrate(100)
+            }
+        }
+
+
+
         val button: Button = buttonid
         if (myState == "O") {
             button.setText("O")
@@ -343,33 +366,13 @@ class TttInterface : AppCompatActivity() {
                         val canplay = document.toObject(LiveGameData::class.java).canplay
                         if (canplay == auth.currentUser?.uid.toString() && document.toObject(LiveGameData::class.java).rematchto != auth.currentUser?.uid.toString()) {
                             disableButtons(false)
-                            cl_player_bg.setBackgroundColor(
-                                    ContextCompat.getColor(
-                                            this,
-                                            R.color.canplay
-                                    )
-                            )
-                            cl_opponent_bg.setBackgroundColor(
-                                    ContextCompat.getColor(
-                                            this,
-                                            R.color.cantplay
-                                    )
-                            )
+                            cl_player_bg.setBackgroundColor(ContextCompat.getColor(this, R.color.canplay))
+                            cl_opponent_bg.setBackgroundColor(ContextCompat.getColor(this, R.color.cantplay))
 
                         } else {
                             disableButtons(true)
-                            cl_player_bg.setBackgroundColor(
-                                    ContextCompat.getColor(
-                                            this,
-                                            R.color.cantplay
-                                    )
-                            )
-                            cl_opponent_bg.setBackgroundColor(
-                                    ContextCompat.getColor(
-                                            this,
-                                            R.color.canplay
-                                    )
-                            )
+                            cl_player_bg.setBackgroundColor(ContextCompat.getColor(this, R.color.cantplay))
+                            cl_opponent_bg.setBackgroundColor(ContextCompat.getColor(this, R.color.canplay))
                         }
                     }
                 }
@@ -631,6 +634,7 @@ class TttInterface : AppCompatActivity() {
                 message_placeholder.visibility = VISIBLE
                 btn_exit.visibility = VISIBLE
                 btn_rematch.visibility = VISIBLE
+                disableButtons(true)
             }
 
         }

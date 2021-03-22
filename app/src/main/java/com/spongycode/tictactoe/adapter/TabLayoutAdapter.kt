@@ -1,10 +1,12 @@
+package com.spongycode.tictactoe.adapter
+
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.spongycode.tictactoe.Blogs
-import com.spongycode.tictactoe.Friends
-import com.spongycode.tictactoe.LiveGames
+import com.spongycode.tictactoe.fragments.Blogs
+import com.spongycode.tictactoe.fragments.Friends
+import com.spongycode.tictactoe.fragments.LiveGames
 
 @Suppress("DEPRECATION")
 internal class TabLayoutAdapter(

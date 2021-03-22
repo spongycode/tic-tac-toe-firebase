@@ -1,8 +1,11 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.adapter
 
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +13,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.spongycode.tictactoe.ui.drawer.ProfileActivity
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.model.UserDataClass
 
 
 val firestore = FirebaseFirestore.getInstance()

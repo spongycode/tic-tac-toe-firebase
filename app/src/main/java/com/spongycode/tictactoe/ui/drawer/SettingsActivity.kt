@@ -1,4 +1,4 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.ui.drawer
 
 import android.content.Context
 import android.content.Intent
@@ -25,6 +25,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.model.UserDataClass
+import com.spongycode.tictactoe.ui.PhotoViewerActivity
+import com.spongycode.tictactoe.utils.BitmapScaler
+import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_write_post.*
@@ -147,8 +152,8 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun changeName(fname: String, lname: String) {
         val userRef = firestore.collection("users").document(auth.currentUser?.uid.toString())
-        Utils.userlogged.fname = fname
-        Utils.userlogged.lname = lname
+        Helper.userlogged.fname = fname
+        Helper.userlogged.lname = lname
         userRef.update("fname", fname)
             .addOnCompleteListener {
             }
@@ -236,7 +241,7 @@ class SettingsActivity : AppCompatActivity() {
                     }).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val downloadUri = task.result
-                            Utils.userlogged.imageurl = downloadUri.toString()
+                            Helper.userlogged.imageurl = downloadUri.toString()
                             firestore.collection("users").document(auth.currentUser?.uid.toString())
                                 .update("imageurl", downloadUri.toString())
                                 .addOnCompleteListener {

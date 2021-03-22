@@ -1,4 +1,4 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.utils
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -7,16 +7,13 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.view.MotionEvent
 import android.view.View
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
+import com.spongycode.tictactoe.model.DataClassUserLogged
 
 
-object Utils {
+object Helper {
 
 
-    var userlogged: UserLogged =  UserLogged("dummyID")
+    var userlogged: DataClassUserLogged =  DataClassUserLogged("dummyID")
 
 
     @SuppressLint("ClickableViewAccessibility")

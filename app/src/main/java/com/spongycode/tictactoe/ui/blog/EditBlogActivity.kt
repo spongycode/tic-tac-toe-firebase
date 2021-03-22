@@ -1,4 +1,4 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.ui.blog
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,10 +12,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.model.UserDataClass
 import kotlinx.android.synthetic.main.activity_edit_blog.*
-import kotlinx.android.synthetic.main.activity_write_post.*
 
-class EditBlog : AppCompatActivity() {
+class EditBlogActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
 

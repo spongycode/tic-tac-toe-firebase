@@ -1,4 +1,4 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.ui.welcome
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_signin.*
 
 @Suppress("DEPRECATION")
@@ -30,8 +32,8 @@ class SigninActivity : AppCompatActivity() {
         }
 
 
-        Utils.buttonEffect(btn_sign_up, "#FF863BF1")
-        Utils.buttonEffect(btn_log_in, "#C665F37D" )
+        Helper.buttonEffect(btn_sign_up, "#FF863BF1")
+        Helper.buttonEffect(btn_log_in, "#C665F37D" )
 
 
         btn_sign_up.setOnClickListener {
@@ -67,7 +69,7 @@ class SigninActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(tv_signin_email.text.toString(), tv_signin_password.text.toString())
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        startActivity(Intent(this, Starter::class.java))
+                        startActivity(Intent(this, StarterActivity::class.java))
                         finish()
                     } else {
                         progressDialog.hide()

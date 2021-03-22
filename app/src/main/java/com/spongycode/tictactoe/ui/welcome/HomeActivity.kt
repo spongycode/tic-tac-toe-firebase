@@ -1,6 +1,6 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.ui.welcome
 
-import TabLayoutAdapter
+import com.spongycode.tictactoe.adapter.TabLayoutAdapter
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,9 +8,7 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
 import androidx.viewpager.widget.ViewPager
 import com.aghajari.zoomhelper.ZoomHelper
 import com.bumptech.glide.Glide
@@ -19,6 +17,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.ui.drawer.ProfileActivity
+import com.spongycode.tictactoe.ui.drawer.SettingsActivity
+import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -103,11 +105,11 @@ class HomeActivity : AppCompatActivity() {
     private fun getProfileNameAndPic() {
 
         nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_fname)
-                .setText(Utils.userlogged.fname)
+                .setText(Helper.userlogged.fname)
         nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_lname)
-                .setText(Utils.userlogged.lname)
+                .setText(Helper.userlogged.lname)
 
-        Glide.with(applicationContext).load(Utils.userlogged.imageurl)
+        Glide.with(applicationContext).load(Helper.userlogged.imageurl)
                 .into(nav_view.getHeaderView(0).findViewById<ImageView>(R.id.nav_profile_pic))
     }
 

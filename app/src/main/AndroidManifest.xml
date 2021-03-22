@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.spongycode.tictactoe">
 
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ttt_logo"
@@ -10,16 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
 <!--        <activity android:name=".Starter"></activity>-->
-        <activity android:name=".EditBlog" />
-        <activity android:name=".PhotoViewerActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".WritePost" />
-        <activity android:name=".TttInterface" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".SigninActivity" />
-        <activity android:name=".Starter">
+        <activity android:name=".ui.blog.EditBlogActivity" />
+        <activity android:name=".ui.PhotoViewerActivity" />
+        <activity android:name=".ui.drawer.ProfileActivity" />
+        <activity android:name=".ui.drawer.SettingsActivity" />
+        <activity android:name=".ui.blog.WriteBlogActivity" />
+        <activity android:name=".ui.TttInterfaceActivity" />
+        <activity android:name=".ui.welcome.HomeActivity" />
+        <activity android:name=".ui.welcome.SignupActivity" />
+        <activity android:name=".ui.welcome.SigninActivity" />
+        <activity android:name=".ui.welcome.StarterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

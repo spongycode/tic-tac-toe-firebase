@@ -1,21 +1,21 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_friends.*
+import com.spongycode.tictactoe.LiveGameData
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.adapter.LiveGameAdapter
 import kotlinx.android.synthetic.main.fragment_live_games.*
 
 
@@ -48,24 +48,28 @@ class LiveGames : Fragment() {
 
     private fun updateAll() {
         // rv in live games fragment for all current games init
+
         val gameList = mutableListOf<LiveGameData>()
         firestore.collection("allgames")
                 .whereEqualTo("senderid", auth.currentUser?.uid.toString())
                 .get()
                 .addOnSuccessListener { documents ->
-                    for (document in documents) {
-//                        Log.d(TAG, "${document.id} => ${document.data}")
+                    no_game_text?.visibility = GONE
+                    no_game_image?.visibility = GONE
 
+
+                    for (document in documents) {
                         val game = document.toObject(LiveGameData::class.java)
                         gameList.add(game)
-                        linearLayoutManager = LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false)
-                        rv_live_games?.layoutManager = linearLayoutManager
-                        rv_live_games?.adapter = LiveGameAdapter(gameList, requireContext(), firestore) // Your adapter
-                        rv_live_games?.setHasFixedSize(true);
                     }
-                }
-                .addOnFailureListener { exception ->
-//                    Log.w(TAG, "Error getting documents: ", exception)
+                    if (gameList.isEmpty()){
+                        no_game_text?.visibility = VISIBLE
+                        no_game_image?.visibility = VISIBLE
+                    }
+                    linearLayoutManager = LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false)
+                    rv_live_games?.layoutManager = linearLayoutManager
+                    rv_live_games?.adapter = LiveGameAdapter(gameList, requireContext(), firestore) // Your adapter
+                    rv_live_games?.setHasFixedSize(true)
                 }
 
 

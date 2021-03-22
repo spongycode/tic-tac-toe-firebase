@@ -1,4 +1,4 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,6 +15,10 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.spongycode.tictactoe.LiveGameData
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.ui.TttInterfaceActivity
+import com.spongycode.tictactoe.model.UserDataClass
 
 
 class LiveGameAdapter(
@@ -59,7 +63,7 @@ class LiveGameAdapter(
                 }
 
 
-        val tempArrayPlayers = arrayOf(com.spongycode.tictactoe.auth.currentUser?.uid.toString(), id)
+        val tempArrayPlayers = arrayOf(auth.currentUser?.uid.toString(), id)
         tempArrayPlayers.sort()
         val gameid = tempArrayPlayers[0] + "@" + tempArrayPlayers[1]
 
@@ -92,7 +96,7 @@ class LiveGameAdapter(
 
 
         holder.live_gamestate_btn.setOnClickListener {
-            val intent = Intent(context, TttInterface::class.java)
+            val intent = Intent(context, TttInterfaceActivity::class.java)
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("opponentid", id)
             context.startActivity(intent)

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FEFFFF"
-    tools:context=".SigninActivity">
+    tools:context=".ui.welcome.SigninActivity">
         <ImageView
             android:id="@+id/main_logo"
             android:layout_width="150dp"

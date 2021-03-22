@@ -1,22 +1,22 @@
-package com.spongycode.tictactoe
+package com.spongycode.tictactoe.ui.drawer
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.spongycode.tictactoe.EachBlog
+import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.adapter.BlogRvAdapter
+import com.spongycode.tictactoe.ui.PhotoViewerActivity
+import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.activity_write_post.*
-import kotlinx.android.synthetic.main.fragment_blogs.*
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -80,11 +80,11 @@ class ProfileActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun updateWriterImage(userid: String) {
-        Glide.with(this).load(Utils.userlogged.imageurl).into(imageViewAvatar)
-        textViewName.text = Utils.userlogged.fname + " " + Utils.userlogged.lname
+        Glide.with(this).load(Helper.userlogged.imageurl).into(imageViewAvatar)
+        textViewName.text = Helper.userlogged.fname + " " + Helper.userlogged.lname
         imageViewAvatar.setOnClickListener {
             val intent = Intent(this, PhotoViewerActivity::class.java)
-            intent.putExtra("IMAGE_URL", Utils.userlogged.imageurl)
+            intent.putExtra("IMAGE_URL", Helper.userlogged.imageurl)
             this.startActivity(intent)
         }
     }
