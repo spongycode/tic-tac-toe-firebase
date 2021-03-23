@@ -1,14 +1,16 @@
 package com.spongycode.tictactoe.ui.welcome
 
-import com.spongycode.tictactoe.adapter.TabLayoutAdapter
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.aghajari.zoomhelper.ZoomHelper
 import com.bumptech.glide.Glide
@@ -18,10 +20,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.spongycode.tictactoe.R
+import com.spongycode.tictactoe.adapter.TabLayoutAdapter
 import com.spongycode.tictactoe.ui.drawer.ProfileActivity
 import com.spongycode.tictactoe.ui.drawer.SettingsActivity
 import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_home.*
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -33,11 +37,17 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var firestore: FirebaseFirestore
 
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        getSupportActionBar()?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#7049d1")));
+
         auth = Firebase.auth
+
         firestore = FirebaseFirestore.getInstance()
 
         // Tab Layout init

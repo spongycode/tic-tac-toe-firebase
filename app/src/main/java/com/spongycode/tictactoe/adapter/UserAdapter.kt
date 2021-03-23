@@ -85,6 +85,7 @@ class UserAdapter(
                                     "canplay" to user.userid,
                                     "gamestat" to "notstart",
                                     "gameid" to gameid,
+                                    "winnerfound" to "no",
                                     "rematchto" to "none",
                                     user.userid to "0",
                                     auth.currentUser?.uid.toString() to "0"

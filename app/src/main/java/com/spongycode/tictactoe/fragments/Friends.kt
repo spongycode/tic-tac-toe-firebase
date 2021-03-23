@@ -34,7 +34,6 @@ class Friends : Fragment() {
                 .addSnapshotListener { value, error ->
                     loadAllFriends()
                 }
-
         firestore.collection("allgames")
                 .whereEqualTo("gamestat", "start")
                 .addSnapshotListener { snapshots, e ->

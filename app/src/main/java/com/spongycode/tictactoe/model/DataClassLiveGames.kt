@@ -9,16 +9,18 @@ class LiveGameData {
     var canplay: String? = null
     var gameid: String? = null
     var rematchto: String? = null
+    var winnerfound: String? = null
 
 
     constructor() {}
 
-    constructor(senderid: String,receiverid:String,gamestat: String, canplay:String, rematchto : String) {
+    constructor(senderid: String,receiverid:String,gamestat: String, canplay:String, rematchto : String, winnerfound : String) {
         this.senderid = senderid
         this.receiverid = receiverid
         this.gamestat = gamestat
         this.canplay = canplay
         this.gameid = gameid
         this.rematchto = rematchto
+        this.winnerfound = winnerfound
     }
 }

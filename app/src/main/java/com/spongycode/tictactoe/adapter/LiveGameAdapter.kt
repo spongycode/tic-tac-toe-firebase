@@ -103,16 +103,7 @@ class LiveGameAdapter(
         }
 
 
-//        holder.close_btn.setOnClickListener {
-//            firestore.collection("allgames").document(gameid)
-//                    .delete()
-//                    .addOnSuccessListener {
-//                    }
-//        }
-
-
         holder.close_btn.setOnClickListener {
-            val theRemovedItem = gameList.get(position)
             // remove your item from data base
             gameList.removeAt(position) // remove the item from list
             notifyItemRemoved(position) // notify the adapter about the removed item

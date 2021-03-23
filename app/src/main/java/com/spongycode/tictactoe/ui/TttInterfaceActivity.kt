@@ -48,7 +48,7 @@ class TttInterfaceActivity : AppCompatActivity() {
         val gameid = tempArrayPlayers[0] + "@" + tempArrayPlayers[1]
 
         updateImageNameBothPlayer(opponentid!!)
-        seekToEnableButtons(gameid) // checks whose chance is now
+//        seekToEnableButtons(gameid) // checks whose chance is now
 
         // find state <dot cross> init
 
@@ -63,6 +63,7 @@ class TttInterfaceActivity : AppCompatActivity() {
                     findWinner(MY_STATE, gameid, opponentid)
                     updateScore(gameid, opponentid)
                     checkrematch(gameid)
+//                    seekToEnableButtons(gameid)
 
                 }
 
@@ -95,10 +96,29 @@ class TttInterfaceActivity : AppCompatActivity() {
         }
 
         btn_exit.setOnClickListener {
-            finish()
+            val progressDialog = ProgressDialog(this)
+            progressDialog.setTitle("Exiting...")
+            progressDialog.setMessage("Destroying Room")
+            progressDialog.show()
+            firestore.collection("allgames").document(gameid)
+                    .delete()
+                    .addOnSuccessListener {
+                        progressDialog.hide()
+                        finish()
+                    }
         }
+
         ib_exit_rematch.setOnClickListener {
-            finish()
+            val progressDialog = ProgressDialog(this)
+            progressDialog.setTitle("Exiting...")
+            progressDialog.setMessage("Destroying Room")
+            progressDialog.show()
+            firestore.collection("allgames").document(gameid)
+                    .delete()
+                    .addOnSuccessListener {
+                        progressDialog.hide()
+                        finish()
+                    }
         }
 
         btn_rematch.setOnClickListener {
@@ -248,6 +268,7 @@ class TttInterfaceActivity : AppCompatActivity() {
                         "gamestat" to "notstart",
                         "gameid" to gameid,
                         "rematchto" to opponentid,
+                        "winnerfound" to "no",
                         opponentid to opponentscore,
                         auth.currentUser?.uid.toString() to myscore
                 )
@@ -352,7 +373,7 @@ class TttInterfaceActivity : AppCompatActivity() {
                 .update("gamestat", "start")
                 .addOnCompleteListener {
                 }
-        findWinner(MY_STATE, gameid, opponentid)
+//        findWinner(MY_STATE, gameid, opponentid)
 
 
     }
@@ -364,7 +385,9 @@ class TttInterfaceActivity : AppCompatActivity() {
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         val canplay = document.toObject(LiveGameData::class.java).canplay
-                        if (canplay == auth.currentUser?.uid.toString() && document.toObject(LiveGameData::class.java).rematchto != auth.currentUser?.uid.toString()) {
+                        if (canplay == auth.currentUser?.uid.toString() &&
+                                document.toObject(LiveGameData::class.java).rematchto != auth.currentUser?.uid.toString() &&
+                                document.toObject(LiveGameData::class.java).winnerfound != "yes") {
                             disableButtons(false)
                             cl_player_bg.setBackgroundColor(ContextCompat.getColor(this, R.color.canplay))
                             cl_opponent_bg.setBackgroundColor(ContextCompat.getColor(this, R.color.cantplay))
@@ -614,6 +637,7 @@ class TttInterfaceActivity : AppCompatActivity() {
                                                     "gamestat" to "notstart",
                                                     "gameid" to gameid,
                                                     "rematchto" to "none",
+                                                    "winnerfound" to "yes",
                                                     opponentid to currscoreopp,
                                                     auth.currentUser?.uid.toString() to currscoremine.toInt() + 1
                                                 )
