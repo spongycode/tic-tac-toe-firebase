@@ -10,13 +10,26 @@
     <color name="fade">#A3A2A2</color>
     <color name="canplay">#BBF4B7</color>
     <color name="cantplay">#FAB0B0</color>
+    <color name="dark_green">#1db995</color>
+    <color name="light_green">#D5F8C9</color>
+    <color name="fab">#4ba84f</color>
+    <color name="tab_layout">#407c46</color>
+    <color name="tab_layout_focused_text">#fff</color>
+    <color name="tab_layout_fade_text">#c8e1cb</color>
+    <color name="nav_head">#459348</color>
+    <color name="nav_head_text">#fff</color>
+    <color name="nav_background">#fff</color>
+    <color name="nav_background_text">#3f3f3f</color>
+    <color name="menu_item_icon">#89958b</color>
+    <color name="fragments_background">#ECECED</color>
+    <color name="blogs_background">#fff</color>
+    <color name="regular_text_level4">#757171</color>
+    <color name="regular_text_level3">#403E3E</color>
+    <color name="regular_text_level2">#676666</color>
+    <color name="regular_text_level1">#151515</color>
+    <color name="friend_card_background">#E5CBEC</color>
+    <color name="profile_background">#407c46</color>
+    <color name="edit_name_background">#F8F8B6</color>
 
 
-
-
-
-
-
-    ///
-    ///
 </resources>

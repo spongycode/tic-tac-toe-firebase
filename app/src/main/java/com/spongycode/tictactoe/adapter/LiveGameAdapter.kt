@@ -55,7 +55,7 @@ class LiveGameAdapter(
                             holder.live_fname.text = data.toObject(UserDataClass::class.java).fname
                             holder.live_lname.text = data.toObject(UserDataClass::class.java).lname
                             val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                            Glide.with(context).load(imageurl).into(holder.live_imageurl)
+                            Glide.with(holder.itemView.context.applicationContext).load(imageurl).into(holder.live_imageurl)
                         }
                     } else {
                         // to handle

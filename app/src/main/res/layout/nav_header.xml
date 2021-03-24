@@ -1,32 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_head"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="#D5F8C9">
+    android:background="@color/nav_head">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/nav_profile_pic_cv"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:cardCornerRadius="100dp">
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/nav_profile_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/register_logo"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="centerCrop"/>
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.cardview.widget.CardView>
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_day_night"
+
+
+        app:layout_constraintBottom_toTopOf="@id/toggle_day_night"
+        app:layout_constraintLeft_toLeftOf="@id/toggle_day_night"
+        app:layout_constraintRight_toRightOf="@id/toggle_day_night" />
+
+
+    <Switch
+        android:id="@+id/toggle_day_night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/regular_text_level1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
     <TextView
@@ -34,8 +57,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textColor="@color/nav_head_text"
         android:textSize="20sp"
-        android:textColor="#323030"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@id/nav_profile_pic_cv"
         app:layout_constraintTop_toBottomOf="@id/nav_profile_pic_cv" />
@@ -44,9 +67,9 @@
         android:id="@+id/nav_head_lname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
         android:paddingLeft="5dp"
-        android:textColor="#323030"
+        android:textColor="@color/nav_head_text"
+        android:textSize="20sp"
         android:textStyle="bold"
 
         app:layout_constraintLeft_toRightOf="@id/nav_head_fname"

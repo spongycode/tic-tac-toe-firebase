@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Continuation
@@ -69,7 +70,7 @@ class WriteBlogActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
 
 
-        Helper.buttonEffect(write_post_btn_post,"#FF1A749E")
+        Helper.buttonEffect(write_post_btn_post, "#FF1A749E")
 
 
 
@@ -87,145 +88,149 @@ class WriteBlogActivity : AppCompatActivity() {
         }
 
 
-        write_post_btn_post.isEnabled = false
-        write_post_btn_post.setAlpha(.5f);
 
 
-        write_post_et_content.addTextChangedListener(object : TextWatcher {
-            @SuppressLint("SetTextI18n")
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-                val text = s.toString()
-                val len = text.trimStart(' ').length
-                var lenH = len
-                if (len > 1024){
-                    lenH = 1024
-                }
-                val height: Int = (lenH*200/1024)
-                counter_text_size.setText("$len/1024")
-                setDimensions(counter_st_live, height)
-                val state = len > 0 && len <= 1024 && imageRouteClear
-                write_post_btn_post.isEnabled = state // trim <initial blank spaces not allowed>
-                if (state) {
-                    write_post_btn_post.setAlpha(1f)
-                } else {
-                    write_post_btn_post.setAlpha(.5f);
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // no use for now
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                // no use for now
-            }
-        })
-    }
 
 
-    private fun postToFirestore() {
-        val progressDialog = ProgressDialog(this)
-        progressDialog.setTitle("Uploading...")
-        progressDialog.setMessage("Working on it, Please Wait")
-        progressDialog.show()
-
-        val eachBlog = EachBlog(write_post_et_content.text.toString(),
-                downloadUri.toString(),
-                auth.currentUser?.uid.toString(),
-                Timestamp.now(),
-                System.currentTimeMillis())
-        firestore.collection("blogs")
-                .add(eachBlog)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "post upload success", Toast.LENGTH_LONG).show()
-                    finish()
-                }
-                .addOnFailureListener {
-                    progressDialog.hide()
-                    Toast.makeText(this, "post upload failed", Toast.LENGTH_LONG).show()
-                }
-
-    }
-
-    val REQUEST_CODE = 200
-
-
-    @SuppressLint("ResourceAsColor")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == pickImage && data != null) {
-            imageRouteClear = false
-            write_post_btn_post.isClickable = false
-            write_post_progressbar.isVisible = true
+            write_post_btn_post.isEnabled = false
             write_post_btn_post.setAlpha(.5f);
-            write_post_tv_add_image.setText("Uploading...")
-            write_post_upd_img.isClickable = false
 
-            val imageUri: Uri = data.data!!
 
-            val ref = storageReference!!.child("pics/${System.currentTimeMillis()}")
+            write_post_et_content.addTextChangedListener(object : TextWatcher {
+                @SuppressLint("SetTextI18n")
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-            val extension: String = imageUri.toString().substring(imageUri.toString().lastIndexOf("."))
-
-            val uploadTask: UploadTask
-            if (extension.toLowerCase().trim()!=".gif"){
-                val imageByteArray = getImageByteArray(imageUri)
-                uploadTask = ref.putBytes(imageByteArray as ByteArray)
-            }else{
-                uploadTask = ref.putFile(imageUri)
-            }
-
-            val urlTask =
-                    uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                        if (!task.isSuccessful) {
-                            task.exception?.let {
-                                throw it
-                            }
-                        }
-                        return@Continuation ref.downloadUrl
-                    }).addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            downloadUri = task.result
-                            write_post_progressbar.isVisible = false
-                            write_post_tv_add_image.setText("Uploaded!!")
-
-                            val text = write_post_et_content.text.toString()
-                            val len = text.trimStart(' ').length
-
-                            if (len in 1..1024){
-                                write_post_btn_post.setAlpha(1f)
-                                write_post_btn_post.isEnabled = true
-                                write_post_btn_post.isClickable = true
-
-                            }
-
-                            imageRouteClear = true
-                        }
-                    }.addOnFailureListener {
-                        // handle it
+                    val text = s.toString()
+                    val len = text.trimStart(' ').length
+                    var lenH = len
+                    if (len > 1024) {
+                        lenH = 1024
                     }
+                    val height: Int = (lenH * 200 / 1024)
+                    counter_text_size.setText("$len/1024")
+                    setDimensions(counter_st_live, height)
+                    val state = len > 0 && len <= 1024 && imageRouteClear
+                    write_post_btn_post.isEnabled = state // trim <initial blank spaces not allowed>
+                    if (state) {
+                        write_post_btn_post.setAlpha(1f)
+                    } else {
+                        write_post_btn_post.setAlpha(.5f);
+                    }
+                }
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                    // no use for now
+                }
+
+                override fun afterTextChanged(s: Editable) {
+                    // no use for now
+                }
+            })
         }
-    }
 
-    private fun getImageByteArray(imageUri: Uri): ByteArray {
-        val originalBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val source = ImageDecoder.createSource(contentResolver, imageUri)
-            ImageDecoder.decodeBitmap(source)
-        } else {
-            MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+
+        private fun postToFirestore() {
+            val progressDialog = ProgressDialog(this)
+            progressDialog.setTitle("Uploading...")
+            progressDialog.setMessage("Working on it, Please Wait")
+            progressDialog.show()
+
+            val eachBlog = EachBlog(write_post_et_content.text.toString(),
+                    downloadUri.toString(),
+                    auth.currentUser?.uid.toString(),
+                    Timestamp.now(),
+                    System.currentTimeMillis())
+            firestore.collection("blogs")
+                    .add(eachBlog)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "post upload success", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                    .addOnFailureListener {
+                        progressDialog.hide()
+                        Toast.makeText(this, "post upload failed", Toast.LENGTH_LONG).show()
+                    }
+
         }
-        val scaledBitmap = BitmapScaler.scaleToFitHeight(originalBitmap, 1000)
-        val byteOutputStream = ByteArrayOutputStream()
-        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteOutputStream)
-        return byteOutputStream.toByteArray()
+
+        val REQUEST_CODE = 200
+
+
+        @SuppressLint("ResourceAsColor")
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+            if (resultCode == RESULT_OK && requestCode == pickImage && data != null) {
+                imageRouteClear = false
+                write_post_btn_post.isClickable = false
+                write_post_progressbar.isVisible = true
+                write_post_btn_post.setAlpha(.5f);
+                write_post_tv_add_image.setText("Uploading...")
+                write_post_upd_img.isClickable = false
+
+                val imageUri: Uri = data.data!!
+
+                val ref = storageReference!!.child("pics/${System.currentTimeMillis()}")
+
+                val extension: String = imageUri.toString().substring(imageUri.toString().lastIndexOf("."))
+
+                val uploadTask: UploadTask
+                if (extension.toLowerCase().trim() != ".gif") {
+                    val imageByteArray = getImageByteArray(imageUri)
+                    uploadTask = ref.putBytes(imageByteArray as ByteArray)
+                } else {
+                    uploadTask = ref.putFile(imageUri)
+                }
+
+                val urlTask =
+                        uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                            if (!task.isSuccessful) {
+                                task.exception?.let {
+                                    throw it
+                                }
+                            }
+                            return@Continuation ref.downloadUrl
+                        }).addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                downloadUri = task.result
+                                write_post_progressbar.isVisible = false
+                                write_post_tv_add_image.setText("Uploaded!!")
+
+                                val text = write_post_et_content.text.toString()
+                                val len = text.trimStart(' ').length
+
+                                if (len in 1..1024) {
+                                    write_post_btn_post.setAlpha(1f)
+                                    write_post_btn_post.isEnabled = true
+                                    write_post_btn_post.isClickable = true
+
+                                }
+
+                                imageRouteClear = true
+                            }
+                        }.addOnFailureListener {
+                            // handle it
+                        }
+            }
+        }
+
+        private fun getImageByteArray(imageUri: Uri): ByteArray {
+            val originalBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val source = ImageDecoder.createSource(contentResolver, imageUri)
+                ImageDecoder.decodeBitmap(source)
+            } else {
+                MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+            }
+            val scaledBitmap = BitmapScaler.scaleToFitHeight(originalBitmap, 1000)
+            val byteOutputStream = ByteArrayOutputStream()
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteOutputStream)
+            return byteOutputStream.toByteArray()
+        }
+
+
+        private fun setDimensions(view: View, height: Int) {
+            val params: ViewGroup.LayoutParams = view.getLayoutParams()
+            params.height = height
+            view.setLayoutParams(params)
+        }
+
     }
-
-
-    private fun setDimensions(view: View, height: Int) {
-        val params: ViewGroup.LayoutParams = view.getLayoutParams()
-        params.height = height
-        view.setLayoutParams(params)
-    }
-
-}

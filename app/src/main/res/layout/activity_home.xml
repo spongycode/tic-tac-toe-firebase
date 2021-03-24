@@ -18,12 +18,12 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextColor="@color/black"
-            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/tab_layout_fade_text"
+            app:tabSelectedTextColor="@color/tab_layout_focused_text"
             app:tabIndicatorColor="@color/white"
             app:tabIndicatorHeight="3dp"
             app:tabRippleColor="#FFF"
-            android:background="#1db995" />
+            android:background="@color/tab_layout" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
@@ -43,9 +43,10 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_drawer_menu"
-        android:background="#F8FBF7"
-        app:itemTextColor="@color/black"
+        android:background="@color/nav_background"
+        app:itemTextColor="@color/nav_background_text"
         app:itemBackground="@drawable/bg_menu_items"
+        app:itemIconTint="@color/menu_item_icon"
         app:itemIconSize="35dp">
 
         <LinearLayout
@@ -66,7 +67,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="v 0.1.0"
+                android:textColor="@color/nav_background_text"
                 android:letterSpacing="0.1"/>
+
+
+
+
+
         </LinearLayout>
 
 

@@ -13,7 +13,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="#79E5CBEC"
+        android:background="@color/friend_card_background"
         android:id="@+id/live_game_cons_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="#555454"
+            android:textColor="@color/regular_text_level1"
             android:textSize="15sp"
             android:textStyle="bold"
             android:layout_marginLeft="8dp"
@@ -65,7 +65,7 @@
             android:layout_marginLeft="6dp"
 
             android:text=""
-            android:textColor="#555454"
+            android:textColor="@color/regular_text_level1"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@id/live_game_user_fname"

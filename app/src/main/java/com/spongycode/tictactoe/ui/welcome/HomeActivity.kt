@@ -1,16 +1,20 @@
 package com.spongycode.tictactoe.ui.welcome
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.viewpager.widget.ViewPager
 import com.aghajari.zoomhelper.ZoomHelper
 import com.bumptech.glide.Glide
@@ -25,6 +29,8 @@ import com.spongycode.tictactoe.ui.drawer.ProfileActivity
 import com.spongycode.tictactoe.ui.drawer.SettingsActivity
 import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_write_post.*
+import kotlinx.android.synthetic.main.nav_header.*
 
 
 class HomeActivity : AppCompatActivity() {
@@ -37,14 +43,14 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var firestore: FirebaseFirestore
 
 
-
-
-
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        getSupportActionBar()?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#7049d1")));
+        val btn_toggle = nav_view.getHeaderView(0).findViewById<Switch>(R.id.toggle_day_night)
+
+//        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#407c46")));
 
         auth = Firebase.auth
 
@@ -78,6 +84,17 @@ class HomeActivity : AppCompatActivity() {
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
+        btn_toggle.setOnClickListener { view: View ->
+            if (btn_toggle.isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+            }
+        }
 
         nav_view.setNavigationItemSelectedListener {
             when (it.itemId) {

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="dark_green">#090657</color>
+    <color name="light_green">#312d9c</color>
+    <color name="fab">#5ea3de</color>
+    <color name="tab_layout">#212d3b</color>
+    <color name="tab_layout_focused_text">#6abfff</color>
+    <color name="tab_layout_fade_text">#8b97a3</color>
+    <color name="nav_head">#1c2632</color>
+    <color name="nav_head_text">#cccccc</color>
+    <color name="nav_background">#161d27</color>
+    <color name="nav_background_text">#c4c6c5</color>
+    <color name="menu_item_icon">#65727b</color>
+    <color name="fragments_background">#111820</color>
+    <color name="blogs_background">#243950</color>
+    <color name="regular_text_level4">#8E8F8F</color>
+    <color name="regular_text_level3">#7BA2C1</color>
+    <color name="regular_text_level2">#D3D1D1</color>
+    <color name="regular_text_level1">#FFFFFF</color>
+    <color name="friend_card_background">#243950</color>
+    <color name="profile_background">#111820</color>
+    <color name="edit_name_background">#243950</color>
+
+
+
+
+
+
+
+
+
+
+
+
+</resources>

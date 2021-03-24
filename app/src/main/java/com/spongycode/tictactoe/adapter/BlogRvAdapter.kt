@@ -34,7 +34,7 @@ class BlogRvAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val blog = blogList[position]
         holder.content.text = blog.content
-        Glide.with(context).load(blog.image).into(holder.realimage)
+        Glide.with(holder.itemView.context.applicationContext).load(blog.image).into(holder.realimage)
         if (blog.image != "null") {
             holder.realimage.setOnClickListener {
                 val intent = Intent(context, PhotoViewerActivity::class.java)
@@ -91,7 +91,7 @@ class BlogRvAdapter(
                             val lname = data.toObject(UserDataClass::class.java).lname
                             holder.author.text = "$fname $lname"
                             val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                            Glide.with(context).load(imageurl).into(holder.profileimage)
+                            Glide.with(holder.itemView.context.applicationContext).load(imageurl).into(holder.profileimage)
 
                             holder.profileimage.setOnClickListener {
                                 val intent = Intent(context, PhotoViewerActivity::class.java)

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/fragments_background"
     tools:context=".ui.drawer.SettingsActivity">
 
 
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
-            android:textColor="@color/black"
+            android:textColor="@color/regular_text_level1"
 
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
 
-            android:textColor="@color/black"
+            android:textColor="@color/regular_text_level1"
 
             android:textSize="20sp"
 
@@ -82,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="(Tap to change)"
+            android:textColorHint="@color/regular_text_level2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_tv_fname" />
@@ -103,7 +104,7 @@
             android:id="@+id/cl_name_change_data_entry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#F8F8B6"
+            android:background="@color/edit_name_background"
            android:paddingHorizontal="10dp">
 
             <EditText
@@ -111,12 +112,13 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:hint="First Name"
+                android:textColorHint="@color/regular_text_level4"
                 android:maxLength="15"
+                android:textColor="@color/regular_text_level2"
                 android:background="@drawable/edit_text_round"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="8dp"
                 android:paddingVertical="10dp"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -126,7 +128,9 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:hint="Last Name"
+                android:textColorHint="@color/regular_text_level4"
                 android:maxLength="15"
+                android:textColor="@color/regular_text_level2"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="8dp"
                 android:paddingVertical="10dp"
@@ -141,7 +145,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
-                android:background="#F8F8B6"
+                android:background="@color/edit_name_background"
                 android:src="@drawable/ic_baseline_done_green"
                 android:layout_marginLeft="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/profile_et_lname"
@@ -153,6 +157,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
+                android:indeterminateTint="@color/fab"
                 app:layout_constraintBottom_toBottomOf="@id/profile_et_lname"
                 app:layout_constraintLeft_toRightOf="@id/profile_et_fname"
                 app:layout_constraintTop_toTopOf="@id/profile_et_fname"/>

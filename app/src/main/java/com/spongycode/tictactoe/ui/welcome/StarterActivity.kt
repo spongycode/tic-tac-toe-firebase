@@ -3,6 +3,7 @@ package com.spongycode.tictactoe.ui.welcome
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -24,6 +25,10 @@ class StarterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_starter)
         this.supportActionBar?.hide()
         auth = Firebase.auth
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+
         firestore = FirebaseFirestore.getInstance()
         val currentUser: FirebaseUser? = auth.currentUser
         if (currentUser != null) {

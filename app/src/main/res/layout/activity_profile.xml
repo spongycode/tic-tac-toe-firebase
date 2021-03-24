@@ -5,7 +5,7 @@
     android:id="@+id/ml_tag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_700"
+    android:background="@color/profile_background"
     android:orientation="vertical"
     app:layoutDescription="@xml/motion_scene"
     app:showPaths="false">
@@ -58,7 +58,7 @@
         android:id="@+id/tv_myblogs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal_700"
+        android:background="@color/profile_background"
         android:paddingVertical="15dp"
         android:paddingLeft="20dp"
         android:text="My Blogs"

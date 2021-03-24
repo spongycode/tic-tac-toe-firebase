@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fragments_background"
     tools:context=".ui.blog.WriteBlogActivity">
 
     <androidx.cardview.widget.CardView
@@ -57,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0/1024"
-        android:textColor="@color/black"
+        android:textColor="@color/regular_text_level2"
         app:layout_constraintLeft_toLeftOf="@id/counter_st_fade"
         app:layout_constraintRight_toRightOf="@id/counter_st_fade"
         app:layout_constraintTop_toBottomOf="@id/counter_st_fade"
@@ -73,6 +74,8 @@
         android:background="@drawable/custom_box_text_input"
         android:gravity="top|left"
         android:hint="Enter your Thoughts"
+        android:textColorHint="@color/regular_text_level2"
+        android:textColor="@color/regular_text_level1"
         android:paddingHorizontal="15dp"
         android:paddingVertical="15dp"
         android:textSize="20sp"

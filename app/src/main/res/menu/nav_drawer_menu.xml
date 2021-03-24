@@ -5,7 +5,6 @@
         android:id="@+id/miItem1"
         android:icon="@drawable/ic_baseline_profile"
         android:title="Profile"
-
         />
     <item
         android:id="@+id/miItem2"
