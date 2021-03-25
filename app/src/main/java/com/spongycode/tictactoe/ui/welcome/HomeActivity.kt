@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -29,8 +28,6 @@ import com.spongycode.tictactoe.ui.drawer.ProfileActivity
 import com.spongycode.tictactoe.ui.drawer.SettingsActivity
 import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_write_post.*
-import kotlinx.android.synthetic.main.nav_header.*
 
 
 class HomeActivity : AppCompatActivity() {
@@ -50,9 +47,12 @@ class HomeActivity : AppCompatActivity() {
 
         val btn_toggle = nav_view.getHeaderView(0).findViewById<Switch>(R.id.toggle_day_night)
 
-//        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#407c46")));
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor(Helper.tablayout_color)))
 
         auth = Firebase.auth
+
+
+
 
         firestore = FirebaseFirestore.getInstance()
 
@@ -89,9 +89,11 @@ class HomeActivity : AppCompatActivity() {
         btn_toggle.setOnClickListener { view: View ->
             if (btn_toggle.isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                Helper.tablayout_color = "#212d3b"
 
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                Helper.tablayout_color = "#407c46"
 
             }
         }
@@ -128,6 +130,11 @@ class HomeActivity : AppCompatActivity() {
 
 
     }
+
+
+
+
+
 
     private fun getProfileNameAndPic() {
 

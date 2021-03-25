@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
 import android.view.MotionEvent
 import android.view.View
 import com.spongycode.tictactoe.model.DataClassUserLogged
@@ -12,7 +13,7 @@ import com.spongycode.tictactoe.model.DataClassUserLogged
 
 object Helper {
 
-
+    var tablayout_color = "#407c46"
     var userlogged: DataClassUserLogged =  DataClassUserLogged("dummyID")
 
 

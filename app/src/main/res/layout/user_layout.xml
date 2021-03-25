@@ -79,7 +79,7 @@
             android:layout_height="40dp"
             android:text="battle"
             android:layout_marginTop="10dp"
-            android:background="#C618E13A"
+            android:background="@drawable/round_button"
             android:textColor="@color/white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

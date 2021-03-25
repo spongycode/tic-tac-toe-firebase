@@ -30,6 +30,7 @@
     <color name="friend_card_background">#E5CBEC</color>
     <color name="profile_background">#407c46</color>
     <color name="edit_name_background">#F8F8B6</color>
+    <color name="transparent">#00D60A0A</color>
 
 
 </resources>

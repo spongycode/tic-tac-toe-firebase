@@ -53,7 +53,6 @@ class BlogRvAdapter(
             popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
                 when (item?.itemId) {
                     R.id.more_horiz_edit -> {
-                        Toast.makeText(context, item.title, Toast.LENGTH_SHORT).show()
                         val intent = Intent(context, EditBlogActivity::class.java)
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         intent.putExtra("currentText", blog.content)
