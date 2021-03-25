@@ -8,6 +8,9 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.view.MotionEvent
 import android.view.View
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.spongycode.tictactoe.Notifications.Token
 import com.spongycode.tictactoe.model.DataClassUserLogged
 
 
@@ -71,6 +74,15 @@ object Helper {
             }
             false
         }
+
+    }
+
+
+    fun updateToken(refreshToken: String?) {
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
+        val ref = FirebaseDatabase.getInstance().reference.child("Token")
+        val token = Token(refreshToken!!)
+        ref.child(firebaseUser!!.uid).setValue(token)
 
     }
 

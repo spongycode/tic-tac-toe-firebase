@@ -28,10 +28,10 @@ class TttInterfaceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ttt_interface)
 
-        Helper.buttonEffect(btn_exit,"#FFED4F4F")
-        Helper.buttonEffect(btn_rematch,"#FF68C84C")
-        Helper.buttonEffect(ib_accept_rematch,"#FFFFFFFF")
-        Helper.buttonEffect(ib_exit_rematch,"#FFFFFFFF")
+        Helper.buttonEffect(btn_exit, "#FFED4F4F")
+        Helper.buttonEffect(btn_rematch, "#FF68C84C")
+        Helper.buttonEffect(ib_accept_rematch, "#FFFFFFFF")
+        Helper.buttonEffect(ib_exit_rematch, "#FFFFFFFF")
         val opponentid = intent?.getStringExtra("opponentid")
 
         initButtonState()
@@ -72,8 +72,6 @@ class TttInterfaceActivity : AppCompatActivity() {
 
 
         ib_accept_rematch.setOnClickListener {
-
-
 
 
             settextm1()
@@ -348,7 +346,6 @@ class TttInterfaceActivity : AppCompatActivity() {
         }
 
 
-
         val button: Button = buttonid
         if (myState == "O") {
             button.setText("O")
@@ -469,141 +466,124 @@ class TttInterfaceActivity : AppCompatActivity() {
 
     private fun findWinner(myState: String, gameid: String, opponentid: String) {
 
+        var foundWinner = false
+        var winnerstate = "-1"
+        //row1
+        if (button1.text == "X" && button2.text == "X" && button3.text == "X") {
+            foundWinner = true;
+            winnerstate = "X"
+        }
+        if (button1.text == "O" && button2.text == "O" && button3.text == "O") {
+            foundWinner = true
+            winnerstate = "O"
 
-        if (button1.text != "-1" && button2.text != "-1" && button3.text != "-1" &&
-            button4.text != "-1" && button5.text != "-1" && button6.text != "-1" &&
-            button7.text != "-1" && button8.text != "-1" && button9.text != "-1"){
+        }
 
-            settextm1()
-            disableButtons(true)
-            message_placeholder.setText("Draw")
-            message_placeholder.visibility = VISIBLE
-            btn_exit.visibility = VISIBLE
-            btn_rematch.visibility = VISIBLE
+        //row2
+        if (button4.text == "X" && button5.text == "X" && button6.text == "X") {
+            foundWinner = true
+            winnerstate = "X"
+
+        }
+        if (button4.text == "O" && button5.text == "O" && button6.text == "O") {
+            foundWinner = true
+            winnerstate = "O"
+
+        }
+
+        //row3
+        if (button7.text == "X" && button8.text == "X" && button9.text == "X") {
+            foundWinner = true
+            winnerstate = "X"
 
 
         }
-        else{
+        if (button7.text == "O" && button8.text == "O" && button9.text == "O") {
+            foundWinner = true
+            winnerstate = "O"
 
 
-            var foundWinner = false
-            var winnerstate = "-1"
-            //row1
-            if (button1.text == "X" && button2.text == "X" && button3.text == "X") {
-                foundWinner = true;
-                winnerstate = "X"
-            }
-            if (button1.text == "O" && button2.text == "O" && button3.text == "O") {
-                foundWinner = true
-                winnerstate = "O"
+        }
 
-            }
-
-            //row2
-            if (button4.text == "X" && button5.text == "X" && button6.text == "X") {
-                foundWinner = true
-                winnerstate = "X"
-
-            }
-            if (button4.text == "O" && button5.text == "O" && button6.text == "O") {
-                foundWinner = true
-                winnerstate = "O"
-
-            }
-
-            //row3
-            if (button7.text == "X" && button8.text == "X" && button9.text == "X") {
-                foundWinner = true
-                winnerstate = "X"
+        //col1
+        if (button1.text == "X" && button4.text == "X" && button7.text == "X") {
+            foundWinner = true
+            winnerstate = "X"
 
 
-            }
-            if (button7.text == "O" && button8.text == "O" && button9.text == "O") {
-                foundWinner = true
-                winnerstate = "O"
+        }
+        if (button1.text == "O" && button4.text == "O" && button7.text == "O") {
+            foundWinner = true
+            winnerstate = "O"
 
 
-            }
+        }
 
-            //col1
-            if (button1.text == "X" && button4.text == "X" && button7.text == "X") {
-                foundWinner = true
-                winnerstate = "X"
-
-
-            }
-            if (button1.text == "O" && button4.text == "O" && button7.text == "O") {
-                foundWinner = true
-                winnerstate = "O"
+        //col2
+        if (button2.text == "X" && button5.text == "X" && button8.text == "X") {
+            foundWinner = true
+            winnerstate = "X"
 
 
-            }
-
-            //col2
-            if (button2.text == "X" && button5.text == "X" && button8.text == "X") {
-                foundWinner = true
-                winnerstate = "X"
+        }
+        if (button2.text == "O" && button5.text == "O" && button8.text == "O") {
+            foundWinner = true
+            winnerstate = "O"
 
 
-            }
-            if (button2.text == "O" && button5.text == "O" && button8.text == "O") {
-                foundWinner = true
-                winnerstate = "O"
+        }
+
+        //col3
+        if (button3.text == "X" && button6.text == "X" && button9.text == "X") {
+            foundWinner = true
+            winnerstate = "X"
 
 
-            }
-
-            //col3
-            if (button3.text == "X" && button6.text == "X" && button9.text == "X") {
-                foundWinner = true
-                winnerstate = "X"
+        }
+        if (button3.text == "O" && button6.text == "O" && button9.text == "O") {
+            foundWinner = true
+            winnerstate = "O"
 
 
-            }
-            if (button3.text == "O" && button6.text == "O" && button9.text == "O") {
-                foundWinner = true
-                winnerstate = "O"
+        }
+
+        //cross1
+        if (button1.text == "X" && button5.text == "X" && button9.text == "X") {
+            foundWinner = true
+            winnerstate = "X"
 
 
-            }
-
-            //cross1
-            if (button1.text == "X" && button5.text == "X" && button9.text == "X") {
-                foundWinner = true
-                winnerstate = "X"
+        }
+        if (button1.text == "O" && button5.text == "O" && button9.text == "O") {
+            foundWinner = true
+            winnerstate = "O"
 
 
-            }
-            if (button1.text == "O" && button5.text == "O" && button9.text == "O") {
-                foundWinner = true
-                winnerstate = "O"
+        }
+
+        //cross2
+        if (button3.text == "X" && button5.text == "X" && button7.text == "X") {
+
+            foundWinner = true
+            winnerstate = "X"
 
 
-            }
-
-            //cross2
-            if (button3.text == "X" && button5.text == "X" && button7.text == "X") {
-
-                foundWinner = true
-                winnerstate = "X"
+        }
+        if (button3.text == "O" && button5.text == "O" && button7.text == "O") {
+            foundWinner = true
+            winnerstate = "O"
 
 
-            }
-            if (button3.text == "O" && button5.text == "O" && button7.text == "O") {
-                foundWinner = true
-                winnerstate = "O"
+        }
 
+        if (foundWinner == true) {
 
-            }
+            settextm1()
+            disableButtons(true)
 
-            if (foundWinner == true) {
-
-                settextm1()
-                disableButtons(true)
-
-                if (winnerstate == myState) {
-                    message_placeholder.setText("You Win!!")
-                    firestore.collection("allgames")
+            if (winnerstate == myState) {
+                message_placeholder.setText("You Win!!")
+                firestore.collection("allgames")
                         .whereEqualTo("gameid", gameid)
                         .get()
                         .addOnCompleteListener { task ->
@@ -626,24 +606,24 @@ class TttInterfaceActivity : AppCompatActivity() {
                                     val canplay = data.get("canplay").toString()
 
                                     firestore.collection("allgames").document(gameid)
-                                        .delete()
-                                        .addOnCompleteListener {
-                                            val docref = firestore.collection("allgames").document(gameid)
-                                            docref.set(
-                                                hashMapOf(
-                                                    "receiverid" to receiveridtbs,
-                                                    "senderid" to senderidtbs,
-                                                    "canplay" to canplay,
-                                                    "gamestat" to "notstart",
-                                                    "gameid" to gameid,
-                                                    "rematchto" to "none",
-                                                    "winnerfound" to "yes",
-                                                    opponentid to currscoreopp,
-                                                    auth.currentUser?.uid.toString() to currscoremine.toInt() + 1
+                                            .delete()
+                                            .addOnCompleteListener {
+                                                val docref = firestore.collection("allgames").document(gameid)
+                                                docref.set(
+                                                        hashMapOf(
+                                                                "receiverid" to receiveridtbs,
+                                                                "senderid" to senderidtbs,
+                                                                "canplay" to canplay,
+                                                                "gamestat" to "notstart",
+                                                                "gameid" to gameid,
+                                                                "rematchto" to "none",
+                                                                "winnerfound" to "yes",
+                                                                opponentid to currscoreopp,
+                                                                auth.currentUser?.uid.toString() to currscoremine.toInt() + 1
+                                                        )
                                                 )
-                                            )
 
-                                        }
+                                            }
 
                                 }
                             } else {
@@ -651,16 +631,29 @@ class TttInterfaceActivity : AppCompatActivity() {
                             }
                         }
 
-                } else {
-                    message_placeholder.setText("You Lose!!")
-                }
-
-                message_placeholder.visibility = VISIBLE
-                btn_exit.visibility = VISIBLE
-                btn_rematch.visibility = VISIBLE
-                disableButtons(true)
+            } else {
+                message_placeholder.setText("You Lose!!")
             }
 
+            message_placeholder.visibility = VISIBLE
+            btn_exit.visibility = VISIBLE
+            btn_rematch.visibility = VISIBLE
+            disableButtons(true)
+        }
+
+
+
+        if (button1.text != "-1" && button2.text != "-1" && button3.text != "-1" &&
+                button4.text != "-1" && button5.text != "-1" && button6.text != "-1" &&
+                button7.text != "-1" && button8.text != "-1" && button9.text != "-1" && !foundWinner ){
+
+            settextm1()
+            disableButtons(true)
+            message_placeholder.setText("Draw")
+            message_placeholder.visibility = VISIBLE
+            btn_exit.visibility = VISIBLE
+            btn_rematch.visibility = VISIBLE
+            
         }
 
 

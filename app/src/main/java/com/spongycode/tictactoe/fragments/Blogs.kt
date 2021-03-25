@@ -3,7 +3,9 @@ package com.spongycode.tictactoe.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -15,9 +17,8 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.spongycode.tictactoe.EachBlog
 import com.spongycode.tictactoe.R
-import com.spongycode.tictactoe.ui.blog.WriteBlogActivity
 import com.spongycode.tictactoe.adapter.BlogRvAdapter
-import com.spongycode.tictactoe.ui.welcome.SignupActivity
+import com.spongycode.tictactoe.ui.blog.WriteBlogActivity
 import kotlinx.android.synthetic.main.fragment_blogs.*
 
 class Blogs : Fragment() {

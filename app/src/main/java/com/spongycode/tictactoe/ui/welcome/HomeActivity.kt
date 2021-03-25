@@ -21,15 +21,18 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
 import com.spongycode.tictactoe.R
 import com.spongycode.tictactoe.adapter.TabLayoutAdapter
 import com.spongycode.tictactoe.ui.drawer.ProfileActivity
 import com.spongycode.tictactoe.ui.drawer.SettingsActivity
 import com.spongycode.tictactoe.utils.Helper
+import com.spongycode.tictactoe.utils.Helper.updateToken
 import kotlinx.android.synthetic.main.activity_home.*
 
 
+@Suppress("DEPRECATION")
 class HomeActivity : AppCompatActivity() {
 
     lateinit var toggle: ActionBarDrawerToggle
@@ -52,6 +55,7 @@ class HomeActivity : AppCompatActivity() {
         auth = Firebase.auth
 
 
+        updateToken(FirebaseInstanceId.getInstance().token)
 
 
         firestore = FirebaseFirestore.getInstance()
