@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swiperefreshBlogs"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/fragments_background"
-    tools:context=".fragments.Blogs">
-    <androidx.recyclerview.widget.RecyclerView
+    android:layout_height="match_parent">
 
-        android:id="@+id/rv_blogs"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/fragments_background"
+        tools:context=".fragments.Blogs">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/blogs_floating_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="20dp"
-        android:clickable="true"
-        android:src="@drawable/ic_write_post"
-        android:scaleType="fitCenter"
-        app:maxImageSize="35dp"
-        android:backgroundTint="@color/fab"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/rv_blogs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/blogs_floating_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/fab"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_write_post"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:maxImageSize="35dp" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

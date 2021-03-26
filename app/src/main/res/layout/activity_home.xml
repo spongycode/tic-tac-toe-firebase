@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             app:tabTextColor="@color/tab_layout_fade_text"
             app:tabSelectedTextColor="@color/tab_layout_focused_text"
-            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorColor="@color/tab_layout_focused_text"
             app:tabIndicatorHeight="3dp"
             app:tabRippleColor="#FFF"
             android:background="@color/tab_layout" />

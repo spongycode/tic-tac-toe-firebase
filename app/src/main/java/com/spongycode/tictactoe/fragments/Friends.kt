@@ -20,6 +20,7 @@ class Friends : Fragment() {
 
     val firestore = FirebaseFirestore.getInstance()
     private var linearLayoutManager: LinearLayoutManager? = null
+    var viewLoad: View? = null
 
 
     override fun onCreateView(
@@ -27,20 +28,24 @@ class Friends : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
+        if (viewLoad == null) {
 
-        loadAllFriends()
+            viewLoad = inflater.inflate(R.layout.fragment_friends, container, false)
+
+            loadAllFriends()
+        }
 
         firestore.collection("users")
-                .addSnapshotListener { value, error ->
+                .addSnapshotListener { snapshots, e ->
                     loadAllFriends()
                 }
+
         firestore.collection("allgames")
                 .whereEqualTo("gamestat", "start")
                 .addSnapshotListener { snapshots, e ->
                     if (e != null) {
                         return@addSnapshotListener
                     }
-
                     for (dc in snapshots!!.documentChanges) {
                         when (dc.type) {
                             DocumentChange.Type.REMOVED -> {
@@ -56,7 +61,6 @@ class Friends : Fragment() {
                     if (e != null) {
                         return@addSnapshotListener
                     }
-
                     for (dc in snapshots!!.documentChanges) {
                         when (dc.type) {
                             DocumentChange.Type.REMOVED -> {
@@ -68,7 +72,8 @@ class Friends : Fragment() {
 
 
         // Inflating layout All Users Fragment
-        return inflater.inflate(R.layout.fragment_friends, container, false)
+
+        return viewLoad
 
     }
 
@@ -89,7 +94,9 @@ class Friends : Fragment() {
                         rv_users?.layoutManager = linearLayoutManager
                         rv_users?.adapter =
                                 UserAdapter(userList, requireContext(), firestore) // Your adapter
-                        rv_users?.setHasFixedSize(true);
+                        rv_users?.setHasFixedSize(true)
+                        swiperefreshFriends.isRefreshing = false
+
 
                     } catch (ex: Exception) {
                         android.widget.Toast.makeText(
@@ -103,5 +110,13 @@ class Friends : Fragment() {
 
                 }
         // rv in tab fragment for all end    }
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        swiperefreshFriends.setOnRefreshListener {
+            loadAllFriends()
+        }
     }
 }

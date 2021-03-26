@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.ColorDrawable
 import android.view.MotionEvent
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
@@ -80,7 +79,7 @@ object Helper {
 
     fun updateToken(refreshToken: String?) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser
-        val ref = FirebaseDatabase.getInstance().reference.child("Token")
+        val ref = FirebaseDatabase.getInstance().reference.child("Tokens")
         val token = Token(refreshToken!!)
         ref.child(firebaseUser!!.uid).setValue(token)
 

@@ -6,14 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.spongycode.tictactoe.EachBlog
 import com.spongycode.tictactoe.R
@@ -25,39 +24,68 @@ class Blogs : Fragment() {
 
     private lateinit var firestore: FirebaseFirestore
     private var linearLayoutManager: LinearLayoutManager? = null
-    private var firestoreListener: ListenerRegistration? = null
+    var viewLoad: View? = null
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         firestore = FirebaseFirestore.getInstance()
-        val view = inflater.inflate(R.layout.fragment_blogs, container, false);
-        val button = view.findViewById<FloatingActionButton>(R.id.blogs_floating_button)
-        button.setOnClickListener {
-            startActivity(Intent(context, WriteBlogActivity::class.java))
+        if (viewLoad == null) {
+
+            viewLoad = inflater.inflate(R.layout.fragment_blogs, container, false)
+
+            val button = viewLoad!!.findViewById<FloatingActionButton>(R.id.blogs_floating_button)
+            button.setOnClickListener {
+                startActivity(Intent(context, WriteBlogActivity::class.java))
+            }
+
+            loadAllBlogs()
+
+
         }
 
-        // rv in tab fragment for all blogs init
-        loadAllBlogs()
+
+
         firestore.collection("users")
-                .addSnapshotListener { snapshot, e ->
-                    loadAllBlogs()
+                .addSnapshotListener { snapshots, e ->
+
+                    if (e != null) {
+                        return@addSnapshotListener
+                    }
+                    for (dc in snapshots!!.documentChanges) {
+                        when (dc.type) {
+                            DocumentChange.Type.MODIFIED -> {
+                                loadAllBlogs()
+                            }
+                        }
+                    }
                 }
-        // rv in tab fragment for all blogs end
 
         firestore.collection("blogs")
-                .addSnapshotListener { snapshot, e ->
-                    loadAllBlogs()
+                .addSnapshotListener { snapshots, e ->
+                    if (e != null) {
+                        return@addSnapshotListener
+                    }
+                    for (dc in snapshots!!.documentChanges) {
+                        when (dc.type) {
+                            DocumentChange.Type.MODIFIED -> {
+                                loadAllBlogs()
+                            }
+                        }
+                    }
                 }
-        // Inflating layout Blogs Fragment
-        return view
+
+        return viewLoad
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        swiperefreshBlogs.setOnRefreshListener {
+            loadAllBlogs()
+        }
     }
 
 
-
-    private fun loadAllBlogs() {
+    fun loadAllBlogs() {
         firestore.collection("blogs")
                 .orderBy("sysmillis", Query.Direction.DESCENDING)
                 .get()
@@ -78,9 +106,11 @@ class Blogs : Fragment() {
                         adapter?.notifyDataSetChanged()
                         rv_blogs?.setHasFixedSize(true)
                         rv_blogs?.attachFab(blogs_floating_button, activity as AppCompatActivity)
+                        swiperefreshBlogs.isRefreshing = false
+
 
                     } catch (ex: Exception) {
-                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -93,7 +123,7 @@ class Blogs : Fragment() {
                 if (dy > 0) {
                     fab.hide()
 
-                } else if (dy < 0){
+                } else if (dy < 0) {
                     fab.show()
                     activity.supportActionBar!!.show()
 

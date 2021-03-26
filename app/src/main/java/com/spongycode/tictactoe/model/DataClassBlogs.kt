@@ -13,7 +13,8 @@ class EachBlog {
 
     constructor() {}
 
-    constructor(content: String, image: String, userid: String,timestamp: com.google.firebase.Timestamp,sysmillis:Long) {
+    constructor(id: String,content: String, image: String, userid: String,timestamp: com.google.firebase.Timestamp,sysmillis:Long) {
+        this.id= id
         this.content = content
         this.image = image
         this.userid = userid
