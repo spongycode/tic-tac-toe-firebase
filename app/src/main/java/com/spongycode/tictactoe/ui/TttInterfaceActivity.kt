@@ -149,6 +149,7 @@ class TttInterfaceActivity : AppCompatActivity() {
                                                         .addOnCompleteListener {
                                                             progressDialog.hide()
                                                             Toast.makeText(this, "Rematch offer Sent, Wait!!", Toast.LENGTH_SHORT).show()
+                                                            offWinningLines()
                                                             message_placeholder.visibility = GONE
                                                             btn_exit.visibility = GONE
                                                             btn_rematch.visibility = GONE
@@ -205,6 +206,17 @@ class TttInterfaceActivity : AppCompatActivity() {
         button9.setOnClickListener {
             tapButtonOnline(MY_STATE, findViewById(R.id.button9), 9, opponentid!!, gameid)
         }
+    }
+
+    private fun offWinningLines() {
+        winning_line_1.visibility = GONE
+        winning_line_2.visibility = GONE
+        winning_line_3.visibility = GONE
+        winning_line_4.visibility = GONE
+        winning_line_5.visibility = GONE
+        winning_line_6.visibility = GONE
+        winning_line_7.visibility = GONE
+        winning_line_8.visibility = GONE
     }
 
     private fun updateScore(gameid: String, opponentid: String) {
@@ -283,6 +295,7 @@ class TttInterfaceActivity : AppCompatActivity() {
                     for (document in documents) {
                         if (document.get("rematchto").toString() == auth.currentUser?.uid.toString()) {
                             initButtonState()
+                            offWinningLines()
                             btn_exit.visibility = GONE
                             btn_rematch.visibility = GONE
                             ib_accept_rematch.visibility = VISIBLE
@@ -470,110 +483,98 @@ class TttInterfaceActivity : AppCompatActivity() {
         var winnerstate = "-1"
         //row1
         if (button1.text == "X" && button2.text == "X" && button3.text == "X") {
-            foundWinner = true;
+            foundWinner = true
             winnerstate = "X"
+            winning_line_1.visibility = VISIBLE
         }
         if (button1.text == "O" && button2.text == "O" && button3.text == "O") {
             foundWinner = true
             winnerstate = "O"
-
+            winning_line_1.visibility = VISIBLE
         }
 
         //row2
         if (button4.text == "X" && button5.text == "X" && button6.text == "X") {
             foundWinner = true
             winnerstate = "X"
-
+            winning_line_2.visibility = VISIBLE
         }
         if (button4.text == "O" && button5.text == "O" && button6.text == "O") {
             foundWinner = true
             winnerstate = "O"
-
+            winning_line_2.visibility = VISIBLE
         }
 
         //row3
         if (button7.text == "X" && button8.text == "X" && button9.text == "X") {
             foundWinner = true
             winnerstate = "X"
-
-
+            winning_line_3.visibility = VISIBLE
         }
         if (button7.text == "O" && button8.text == "O" && button9.text == "O") {
             foundWinner = true
             winnerstate = "O"
-
-
+            winning_line_3.visibility = VISIBLE
         }
 
         //col1
         if (button1.text == "X" && button4.text == "X" && button7.text == "X") {
             foundWinner = true
             winnerstate = "X"
-
-
+            winning_line_4.visibility = VISIBLE
         }
         if (button1.text == "O" && button4.text == "O" && button7.text == "O") {
             foundWinner = true
             winnerstate = "O"
-
-
+            winning_line_4.visibility = VISIBLE
         }
 
         //col2
         if (button2.text == "X" && button5.text == "X" && button8.text == "X") {
             foundWinner = true
             winnerstate = "X"
-
-
+            winning_line_5.visibility = VISIBLE
         }
         if (button2.text == "O" && button5.text == "O" && button8.text == "O") {
             foundWinner = true
             winnerstate = "O"
-
-
+            winning_line_5.visibility = VISIBLE
         }
 
         //col3
         if (button3.text == "X" && button6.text == "X" && button9.text == "X") {
             foundWinner = true
             winnerstate = "X"
-
-
+            winning_line_6.visibility = VISIBLE
         }
         if (button3.text == "O" && button6.text == "O" && button9.text == "O") {
             foundWinner = true
             winnerstate = "O"
-
-
+            winning_line_6.visibility = VISIBLE
         }
 
         //cross1
         if (button1.text == "X" && button5.text == "X" && button9.text == "X") {
             foundWinner = true
             winnerstate = "X"
-
-
+            winning_line_7.visibility = VISIBLE
         }
         if (button1.text == "O" && button5.text == "O" && button9.text == "O") {
             foundWinner = true
             winnerstate = "O"
-
-
+            winning_line_7.visibility = VISIBLE
         }
 
         //cross2
         if (button3.text == "X" && button5.text == "X" && button7.text == "X") {
-
             foundWinner = true
             winnerstate = "X"
-
-
+            winning_line_8.visibility = VISIBLE
         }
         if (button3.text == "O" && button5.text == "O" && button7.text == "O") {
             foundWinner = true
             winnerstate = "O"
-
-
+            winning_line_8.visibility = VISIBLE
         }
 
         if (foundWinner == true) {

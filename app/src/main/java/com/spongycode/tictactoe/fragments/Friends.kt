@@ -99,12 +99,12 @@ class Friends : Fragment() {
 
 
                     } catch (ex: Exception) {
-                        android.widget.Toast.makeText(
-                                requireContext(),
-                                ex.toString(),
-                                android.widget.Toast.LENGTH_SHORT
-                        )
-                                .show()
+//                        android.widget.Toast.makeText(
+//                                requireContext(),
+//                                ex.toString(),
+//                                android.widget.Toast.LENGTH_SHORT
+//                        )
+//                                .show()
                     }
 
 

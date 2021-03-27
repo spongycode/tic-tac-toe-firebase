@@ -243,6 +243,113 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+    <ImageView
+        android:id="@+id/winning_line_1"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/winning_hor_line"
+        app:layout_constraintTop_toTopOf="@id/button2"
+        app:layout_constraintBottom_toBottomOf="@id/button2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        android:elevation="4dp"/>
+
+    <ImageView
+        android:id="@+id/winning_line_2"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/winning_hor_line"
+        app:layout_constraintTop_toTopOf="@id/button5"
+        app:layout_constraintBottom_toBottomOf="@id/button5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        android:elevation="4dp"/>
+
+
+    <ImageView
+        android:id="@+id/winning_line_3"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/winning_hor_line"
+        app:layout_constraintTop_toTopOf="@id/button8"
+        app:layout_constraintBottom_toBottomOf="@id/button8"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        android:elevation="4dp"/>
+
+    <ImageView
+        android:id="@+id/winning_line_4"
+        android:layout_width="wrap_content"
+        android:layout_height="270dp"
+        android:src="@drawable/winning_ver_line"
+        app:layout_constraintTop_toTopOf="@id/button1"
+        app:layout_constraintBottom_toBottomOf="@id/button7"
+        app:layout_constraintLeft_toLeftOf="@id/button4"
+        app:layout_constraintRight_toRightOf="@id/button4"
+        android:visibility="gone"
+        android:elevation="4dp"/>
+    <ImageView
+        android:id="@+id/winning_line_5"
+        android:layout_width="wrap_content"
+        android:layout_height="270dp"
+        android:src="@drawable/winning_ver_line"
+        app:layout_constraintTop_toTopOf="@id/button1"
+        app:layout_constraintBottom_toBottomOf="@id/button7"
+        app:layout_constraintLeft_toLeftOf="@id/button5"
+        app:layout_constraintRight_toRightOf="@id/button5"
+        android:visibility="gone"
+        android:elevation="4dp"/>
+    <ImageView
+        android:id="@+id/winning_line_6"
+        android:layout_width="wrap_content"
+        android:layout_height="270dp"
+        android:src="@drawable/winning_ver_line"
+        app:layout_constraintTop_toTopOf="@id/button1"
+        app:layout_constraintBottom_toBottomOf="@id/button7"
+        app:layout_constraintLeft_toLeftOf="@id/button6"
+        app:layout_constraintRight_toRightOf="@id/button6"
+        android:visibility="gone"
+        android:elevation="4dp"/>
+    <ImageView
+        android:id="@+id/winning_line_7"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:src="@drawable/winning_rot_neg_line"
+        app:layout_constraintTop_toTopOf="@id/button1"
+        app:layout_constraintBottom_toBottomOf="@id/button9"
+        app:layout_constraintLeft_toLeftOf="@id/button1"
+        app:layout_constraintRight_toRightOf="@id/button9"
+        android:visibility="gone"
+        android:elevation="4dp"/>
+    <ImageView
+        android:id="@+id/winning_line_8"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:src="@drawable/winning_rot_pos_line"
+        app:layout_constraintTop_toTopOf="@id/button1"
+        app:layout_constraintBottom_toBottomOf="@id/button9"
+        app:layout_constraintLeft_toLeftOf="@id/button1"
+        app:layout_constraintRight_toRightOf="@id/button9"
+        android:visibility="gone"
+        android:elevation="4dp"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <ImageView
         android:id="@+id/hr_line_0"
         android:layout_width="340dp"
@@ -299,6 +406,8 @@
         app:layout_constraintLeft_toRightOf="@+id/button1"
         app:layout_constraintRight_toLeftOf="@+id/button3"
         app:layout_constraintTop_toBottomOf="@id/cl_name_holder" />
+
+
 
     <Button
         android:id="@+id/button3"
