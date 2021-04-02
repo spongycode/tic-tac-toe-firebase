@@ -43,11 +43,8 @@ class Blogs : Fragment() {
 
         }
 
-
-
         firestore.collection("users")
                 .addSnapshotListener { snapshots, e ->
-
                     if (e != null) {
                         return@addSnapshotListener
                     }
@@ -85,7 +82,7 @@ class Blogs : Fragment() {
     }
 
 
-    fun loadAllBlogs() {
+    private fun loadAllBlogs() {
         firestore.collection("blogs")
                 .orderBy("sysmillis", Query.Direction.DESCENDING)
                 .get()
@@ -98,10 +95,9 @@ class Blogs : Fragment() {
                             blog.id = document.id
                             blogList.add(blog)
                         }
-
                         linearLayoutManager = LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false)
                         rv_blogs?.layoutManager = linearLayoutManager
-                        rv_blogs?.adapter = BlogRvAdapter(blogList, requireContext(), "blogs", firestore) // Your adapter
+                        rv_blogs?.adapter = BlogRvAdapter(blogList, requireContext(), "blogs")
                         val adapter = rv_blogs?.adapter
                         adapter?.notifyDataSetChanged()
                         rv_blogs?.setHasFixedSize(true)
@@ -113,7 +109,6 @@ class Blogs : Fragment() {
 //                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                     }
                 }
-
     }
 
     private fun RecyclerView.attachFab(fab: FloatingActionButton, activity: AppCompatActivity) {

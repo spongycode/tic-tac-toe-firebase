@@ -51,6 +51,7 @@ class Friends : Fragment() {
                             DocumentChange.Type.REMOVED -> {
                                 loadAllFriends()
                             }
+                            else -> Unit
                         }
                     }
                 }
@@ -66,6 +67,7 @@ class Friends : Fragment() {
                             DocumentChange.Type.REMOVED -> {
                                 loadAllFriends()
                             }
+                            else -> Unit
                         }
                     }
                 }
@@ -90,26 +92,19 @@ class Friends : Fragment() {
                             userList.add(user)
                         }
                         linearLayoutManager =
-                                GridLayoutManager(getActivity(), 2, RecyclerView.VERTICAL, false)
+                                GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false)
                         rv_users?.layoutManager = linearLayoutManager
                         rv_users?.adapter =
-                                UserAdapter(userList, requireContext(), firestore) // Your adapter
+                                UserAdapter(userList, requireContext())
                         rv_users?.setHasFixedSize(true)
                         swiperefreshFriends.isRefreshing = false
 
 
                     } catch (ex: Exception) {
-//                        android.widget.Toast.makeText(
-//                                requireContext(),
-//                                ex.toString(),
-//                                android.widget.Toast.LENGTH_SHORT
-//                        )
-//                                .show()
                     }
 
 
                 }
-        // rv in tab fragment for all end    }
     }
 
 

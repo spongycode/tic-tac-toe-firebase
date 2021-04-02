@@ -23,8 +23,7 @@ import com.spongycode.tictactoe.model.UserDataClass
 
 class LiveGameAdapter(
         private val gameList: MutableList<LiveGameData>,
-        private val context: Context,
-        private val firestoreDB: FirebaseFirestore)
+        private val context: Context)
     : RecyclerView.Adapter<LiveGameAdapter.ViewHolder>() {
 
 
@@ -38,13 +37,11 @@ class LiveGameAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val game = gameList[position]
-        // getting profile image and name of opponent init
-        var id = ""
 
-        if (game.senderid != auth.currentUser?.uid.toString()) {
-            id = game.senderid!!
+        val id = if (game.senderid != auth.currentUser?.uid.toString()) {
+            game.senderid!!
         } else {
-            id = game.receiverid!!
+            game.receiverid!!
         }
         firestore.collection("users")
                 .whereEqualTo("userid", id)
@@ -52,13 +49,11 @@ class LiveGameAdapter(
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         for (data in task.result!!) {
-                            holder.live_fname.text = data.toObject(UserDataClass::class.java).fname
-                            holder.live_lname.text = data.toObject(UserDataClass::class.java).lname
+                            holder.liveFname.text = data.toObject(UserDataClass::class.java).fname
+                            holder.liveLname.text = data.toObject(UserDataClass::class.java).lname
                             val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                            Glide.with(holder.itemView.context.applicationContext).load(imageurl).into(holder.live_imageurl)
+                            Glide.with(holder.itemView.context.applicationContext).load(imageurl).into(holder.liveImageurl)
                         }
-                    } else {
-                        // to handle
                     }
                 }
 
@@ -67,46 +62,36 @@ class LiveGameAdapter(
         tempArrayPlayers.sort()
         val gameid = tempArrayPlayers[0] + "@" + tempArrayPlayers[1]
 
-
-        // getting profile image of opponent end
-
-
-        // assign state of button <continue, accept, wait> on button init
         firestore.collection("allgames")
                 .whereEqualTo("gameid", gameid)
                 .get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         if (document.get("senderid") == id && document.get("gamestat") == "notstart") {
-                            holder.live_gamestate_btn.setText("Accept")
+                            holder.liveGamestateBtn.text = "Accept"
                         }
                         if (document.get("receiverid") == id && document.get("gamestat") == "notstart") {
-                            holder.live_gamestate_btn.isEnabled = false
-                            holder.live_gamestate_btn.setText("Wait")
-                            holder.live_gamestate_btn.alpha = 0.5f
+                            holder.liveGamestateBtn.isEnabled = false
+                            holder.liveGamestateBtn.text = "Wait"
+                            holder.liveGamestateBtn.alpha = 0.5f
                         }
                         if (document.get("gamestat") != "notstart") {
-                            holder.live_gamestate_btn.setText("Continue")
+                            holder.liveGamestateBtn.text = "Continue"
                         }
                     }
                 }
 
-
-        // assign state of button <continue, accept, wait> on button end
-
-
-        holder.live_gamestate_btn.setOnClickListener {
+        holder.liveGamestateBtn.setOnClickListener {
             val intent = Intent(context, TttInterfaceActivity::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             intent.putExtra("opponentid", id)
             context.startActivity(intent)
         }
 
 
-        holder.close_btn.setOnClickListener {
-            // remove your item from data base
-            gameList.removeAt(position) // remove the item from list
-            notifyItemRemoved(position) // notify the adapter about the removed item
+        holder.closeBtn.setOnClickListener {
+            gameList.removeAt(position)
+            notifyItemRemoved(position)
             firestore.collection("allgames").document(gameid)
                     .delete()
                     .addOnSuccessListener {
@@ -121,10 +106,10 @@ class LiveGameAdapter(
     }
 
     inner class ViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
-        internal var live_fname: TextView = view.findViewById(R.id.live_game_user_fname)
-        internal var live_lname: TextView = view.findViewById(R.id.live_game_user_lname)
-        internal var live_imageurl: ImageView = view.findViewById(R.id.live_game_user_imageurl)
-        internal var live_gamestate_btn: Button = view.findViewById(R.id.live_game_btn_gamestate)
-        internal var close_btn: ImageButton = view.findViewById(R.id.btn_close)
+        internal var liveFname: TextView = view.findViewById(R.id.live_game_user_fname)
+        internal var liveLname: TextView = view.findViewById(R.id.live_game_user_lname)
+        internal var liveImageurl: ImageView = view.findViewById(R.id.live_game_user_imageurl)
+        internal var liveGamestateBtn: Button = view.findViewById(R.id.live_game_btn_gamestate)
+        internal var closeBtn: ImageButton = view.findViewById(R.id.btn_close)
     }
 }

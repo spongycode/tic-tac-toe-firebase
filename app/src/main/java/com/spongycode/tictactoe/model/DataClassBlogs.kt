@@ -30,15 +30,4 @@ class EachBlog {
 
     }
 
-    fun toMap(): Map<String, Any> {
-
-        val result = HashMap<String, Any>()
-        result.put("content", content!!)
-        result.put("image", image!!)
-        result.put("userid", userid!!)
-        result.put("timestamp", timestamp!!)
-        result.put("sysmillis", sysmillis!!)
-
-        return result
-    }
 }

@@ -22,8 +22,7 @@ import com.spongycode.tictactoe.ui.blog.EditBlogActivity
 class BlogRvAdapter(
         private val blogList: MutableList<EachBlog>,
         private val context: Context,
-        private val caller: String,
-        private val firestoreDB: FirebaseFirestore) : RecyclerView.Adapter<BlogRvAdapter.ViewHolder>() {
+        private val caller: String) : RecyclerView.Adapter<BlogRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.blog_layout, parent, false)
@@ -54,7 +53,7 @@ class BlogRvAdapter(
                 when (item?.itemId) {
                     R.id.more_horiz_edit -> {
                         val intent = Intent(context, EditBlogActivity::class.java)
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                         intent.putExtra("currentText", blog.content)
                         intent.putExtra("docId", blog.id!!)
                         context.startActivity(intent)
@@ -62,7 +61,7 @@ class BlogRvAdapter(
                     R.id.more_horiz_delete -> {
                         blogList.removeAt(position)
                         notifyItemRemoved(position)
-                        notifyItemRangeChanged(position, getItemCount());
+                        notifyItemRangeChanged(position, itemCount)
                         firestore.collection("blogs").document(blog.id!!)
                                 .delete()
                                 .addOnSuccessListener {
@@ -78,7 +77,7 @@ class BlogRvAdapter(
 
         val listDate = blog.timestamp!!.toDate().toString().split(":| ".toRegex()).map { it.trim() }
         val dateFinal = listDate[3] + ":" + listDate[4] + " on " + listDate[1] + " " + listDate[2]
-        holder.postedtime.setText(dateFinal)
+        holder.postedtime.text = dateFinal
 
         firestore.collection("users")
                 .whereEqualTo("userid", blog.userid)

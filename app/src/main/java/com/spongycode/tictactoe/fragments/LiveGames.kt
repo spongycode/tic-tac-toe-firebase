@@ -62,9 +62,9 @@ class LiveGames : Fragment() {
                         no_game_text?.visibility = VISIBLE
                         no_game_image?.visibility = VISIBLE
                     }
-                    linearLayoutManager = LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false)
+                    linearLayoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                     rv_live_games?.layoutManager = linearLayoutManager
-                    rv_live_games?.adapter = LiveGameAdapter(gameList, requireContext(), firestore) // Your adapter
+                    rv_live_games?.adapter = LiveGameAdapter(gameList, requireContext())
                     rv_live_games?.setHasFixedSize(true)
                 }
 
@@ -78,9 +78,9 @@ class LiveGames : Fragment() {
 
                         val game = document.toObject(LiveGameData::class.java)
                         gameList.add(game)
-                        linearLayoutManager = LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false)
+                        linearLayoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                         rv_live_games?.layoutManager = linearLayoutManager
-                        rv_live_games?.adapter = LiveGameAdapter(gameList, requireContext(), firestore) // Your adapter
+                        rv_live_games?.adapter = LiveGameAdapter(gameList, requireContext())
                         rv_live_games?.setHasFixedSize(true)
 
                     }

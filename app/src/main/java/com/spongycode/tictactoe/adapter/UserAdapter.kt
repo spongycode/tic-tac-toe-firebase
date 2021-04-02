@@ -38,8 +38,7 @@ var apiService: APIService? = null
 @Suppress("DEPRECATION")
 class UserAdapter(
     private val userList: MutableList<UserDataClass>,
-    private val context: Context,
-    private val firestoreDB: FirebaseFirestore ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+    private val context: Context) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.user_layout, parent, false)
@@ -55,8 +54,8 @@ class UserAdapter(
         Glide.with(context).load(user.imageurl).into(holder.imageurl)
 
         if (user.userid == auth.currentUser?.uid.toString()) {
-            holder.btn_battle.setText("Profile")
-            holder.btn_battle.setOnClickListener {
+            holder.btnBattle.text = "Profile"
+            holder.btnBattle.setOnClickListener {
                 val intent = Intent(context, ProfileActivity::class.java)
                 context.startActivity(intent)
             }
@@ -72,13 +71,13 @@ class UserAdapter(
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         for (data in task.result!!) {
-                            holder.btn_battle.isEnabled = false
-                            holder.btn_battle.alpha = 0.5f
+                            holder.btnBattle.isEnabled = false
+                            holder.btnBattle.alpha = 0.5f
                         }
                     }
                 }
 
-            holder.btn_battle.setOnClickListener {
+            holder.btnBattle.setOnClickListener {
 
                 notify = true
 
@@ -88,7 +87,7 @@ class UserAdapter(
                 progressDialog.show()
 
                 val docref = firestore.collection("allgames").document(gameid)
-                if (holder.btn_battle.alpha != 0.5f) {
+                if (holder.btnBattle.alpha != 0.5f) {
                     docref.set(
                         hashMapOf(
                             "receiverid" to user.userid,
@@ -105,8 +104,8 @@ class UserAdapter(
                         .addOnSuccessListener {
                             progressDialog.hide()
                             Toast.makeText(context, "Challenge Sent!!", Toast.LENGTH_SHORT).show()
-                            holder.btn_battle.isEnabled = false
-                            holder.btn_battle.alpha = 0.5f
+                            holder.btnBattle.isEnabled = false
+                            holder.btnBattle.alpha = 0.5f
                         }
                 }
 
@@ -133,7 +132,7 @@ class UserAdapter(
         internal var fname: TextView = view.findViewById(R.id.user_fname)
         internal var lname: TextView = view.findViewById(R.id.user_lname)
         internal var imageurl: ImageView = view.findViewById(R.id.user_imageurl)
-        internal var btn_battle: Button = view.findViewById(R.id.btn_battle)
+        internal var btnBattle: Button = view.findViewById(R.id.btn_battle)
     }
 
     private fun sendNotification(receiverId: String) {

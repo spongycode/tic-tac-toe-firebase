@@ -24,8 +24,6 @@ class ProfileActivity : AppCompatActivity() {
 
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var auth: FirebaseAuth
-
     private var linearLayoutManager: LinearLayoutManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,19 +33,14 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor(Helper.tablayout_color)))
 
         firestore = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
 
-        val userid = auth.currentUser?.uid.toString()
-
-        updateWriterImage(userid)
+        updateWriterImage()
 
         loadAllBlogs()
-
-
-
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun loadAllBlogs() {
         firestore.collection("blogs")
                 .orderBy("sysmillis", Query.Direction.DESCENDING)
@@ -57,7 +50,7 @@ class ProfileActivity : AppCompatActivity() {
                         val blogList = mutableListOf<EachBlog>()
                         for (document in documents) {
                             val blog = document.toObject(EachBlog::class.java)
-                            if (blog.userid == auth.currentUser?.uid.toString()) {
+                            if (blog.userid == Helper.userlogged.uid) {
                                 blogList.add(blog)
                             }
 
@@ -66,22 +59,19 @@ class ProfileActivity : AppCompatActivity() {
 
                         linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
                         recyclerViewStatus?.layoutManager = linearLayoutManager
-                        recyclerViewStatus?.adapter = BlogRvAdapter(blogList, this,"profile", firestore) // Your adapter
+                        recyclerViewStatus?.adapter = BlogRvAdapter(blogList, this,"profile")
                         val adapter = recyclerViewStatus?.adapter
                         adapter?.notifyDataSetChanged()
-                        recyclerViewStatus?.setHasFixedSize(true);
+                        recyclerViewStatus?.setHasFixedSize(true)
                     } catch (ex: Exception) {
                         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
                     }
 
                 }
-                .addOnFailureListener { exception ->
-                    // error handle
-                }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateWriterImage(userid: String) {
+    private fun updateWriterImage() {
         Glide.with(this).load(Helper.userlogged.imageurl).into(imageViewAvatar)
         textViewName.text = Helper.userlogged.fname + " " + Helper.userlogged.lname
         imageViewAvatar.setOnClickListener {
@@ -90,6 +80,4 @@ class ProfileActivity : AppCompatActivity() {
             this.startActivity(intent)
         }
     }
-
-
 }

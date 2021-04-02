@@ -36,7 +36,6 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/tv_signin_password_mat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

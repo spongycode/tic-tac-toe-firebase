@@ -7,8 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
-import android.view.View
-import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -35,20 +33,18 @@ import kotlinx.android.synthetic.main.activity_home.*
 @Suppress("DEPRECATION")
 class HomeActivity : AppCompatActivity() {
 
-    lateinit var toggle: ActionBarDrawerToggle
-    lateinit var tabLayout: TabLayout
-    lateinit var viewPager: ViewPager
-
+    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var tabLayout: TabLayout
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
-
+    lateinit var viewPager: ViewPager
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val btn_toggle = nav_view.getHeaderView(0).findViewById<Switch>(R.id.toggle_day_night)
+        val btnToggle = nav_view.getHeaderView(0).findViewById<Switch>(R.id.toggle_day_night)
 
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor(Helper.tablayout_color)))
 
@@ -90,8 +86,8 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-        btn_toggle.setOnClickListener { view: View ->
-            if (btn_toggle.isChecked) {
+        btnToggle.setOnClickListener {
+            if (btnToggle.isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 Helper.tablayout_color = "#212d3b"
 
@@ -142,13 +138,11 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getProfileNameAndPic() {
 
-        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_fname)
-                .setText(Helper.userlogged.fname)
-        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_lname)
-                .setText(Helper.userlogged.lname)
+        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_fname).text = Helper.userlogged.fname
+        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_head_lname).text = Helper.userlogged.lname
 
         Glide.with(applicationContext).load(Helper.userlogged.imageurl)
-                .into(nav_view.getHeaderView(0).findViewById<ImageView>(R.id.nav_profile_pic))
+                .into(nav_view.getHeaderView(0).findViewById(R.id.nav_profile_pic))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

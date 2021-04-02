@@ -13,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-        <!--        <activity android:name=".Starter"></activity>-->
         <activity android:name=".ui.blog.EditBlogActivity" />
         <activity android:name=".ui.PhotoViewerActivity" />
         <activity android:name=".ui.drawer.ProfileActivity" />

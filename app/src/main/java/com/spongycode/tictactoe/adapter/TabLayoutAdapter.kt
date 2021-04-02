@@ -12,7 +12,7 @@ import com.spongycode.tictactoe.fragments.LiveGames
 internal class TabLayoutAdapter(
         var context: Context,
         fm: FragmentManager,
-        var totalTabs: Int) :
+        private var totalTabs: Int) :
         FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         return when (position) {

@@ -3,6 +3,7 @@ package com.spongycode.tictactoe.ui.welcome
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -28,7 +29,6 @@ class StarterActivity : AppCompatActivity() {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-
         firestore = FirebaseFirestore.getInstance()
         val currentUser: FirebaseUser? = auth.currentUser
         if (currentUser != null) {
@@ -43,7 +43,10 @@ class StarterActivity : AppCompatActivity() {
                                 Helper.userlogged.fname = data.toObject(UserDataClass::class.java).fname
                                 Helper.userlogged.lname = data.toObject(UserDataClass::class.java).lname
                                 Helper.userlogged.imageurl = data.toObject(UserDataClass::class.java).imageurl
-                                startActivity(Intent(this, HomeActivity::class.java))
+                                val intent = Intent(this, HomeActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                startActivity(intent)
                                 finish()
                             }
                         }

@@ -1,5 +1,6 @@
 package com.spongycode.tictactoe.ui.blog
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -59,6 +60,7 @@ class EditBlogActivity : AppCompatActivity() {
         }
 
         edit_post_et_content.addTextChangedListener(object : TextWatcher {
+            @SuppressLint("SetTextI18n")
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 val text = s.toString()
                 val len = text.trimStart(' ').length
@@ -67,14 +69,14 @@ class EditBlogActivity : AppCompatActivity() {
                     lenH = 1024
                 }
                 val height: Int = (lenH*200/1024)
-                edit_blog_counter_text_size.setText("$len/1024")
+                edit_blog_counter_text_size.text = "$len/1024"
                 setDimensions(edit_blog_counter_st_live, height)
-                val state = len > 0 && len <= 1024
+                val state = len in 1..1024
                 edit_post_btn_post.isEnabled = state // trim <initial blank spaces not allowed>
                 if (state) {
-                    edit_post_btn_post.setAlpha(1f)
+                    edit_post_btn_post.alpha = 1f
                 } else {
-                    edit_post_btn_post.setAlpha(.5f)
+                    edit_post_btn_post.alpha = .5f
                 }
 
             }
@@ -88,8 +90,8 @@ class EditBlogActivity : AppCompatActivity() {
     }
 
     private fun setDimensions(view: View, height: Int) {
-        val params: ViewGroup.LayoutParams = view.getLayoutParams()
+        val params: ViewGroup.LayoutParams = view.layoutParams
         params.height = height
-        view.setLayoutParams(params)
+        view.layoutParams = params
     }
 }

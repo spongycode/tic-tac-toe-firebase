@@ -23,18 +23,12 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.spongycode.tictactoe.EachBlog
 import com.spongycode.tictactoe.R
-import com.spongycode.tictactoe.model.UserDataClass
-import com.spongycode.tictactoe.ui.welcome.HomeActivity
 import com.spongycode.tictactoe.utils.BitmapScaler
 import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_edit_blog.*
@@ -42,6 +36,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.android.synthetic.main.activity_write_post.*
 import java.io.ByteArrayOutputStream
+import java.util.*
 
 
 @Suppress("DEPRECATION")
@@ -49,7 +44,6 @@ class WriteBlogActivity : AppCompatActivity() {
 
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var auth: FirebaseAuth
     private var storageReference: StorageReference? = null
 
     private val pickImage = 100
@@ -69,9 +63,6 @@ class WriteBlogActivity : AppCompatActivity() {
 
         write_post_progressbar.isVisible = false
         storageReference = FirebaseStorage.getInstance().reference
-        auth = Firebase.auth
-        val currentUser: FirebaseUser? = auth.currentUser
-        val userid = currentUser?.uid
         firestore = FirebaseFirestore.getInstance()
 
 
@@ -98,7 +89,7 @@ class WriteBlogActivity : AppCompatActivity() {
 
 
         write_post_btn_post.isEnabled = false
-        write_post_btn_post.setAlpha(.5f);
+        write_post_btn_post.alpha = .5f
 
 
         write_post_et_content.addTextChangedListener(object : TextWatcher {
@@ -112,14 +103,14 @@ class WriteBlogActivity : AppCompatActivity() {
                     lenH = 1024
                 }
                 val height: Int = (lenH * 200 / 1024)
-                counter_text_size.setText("$len/1024")
+                counter_text_size.text = "$len/1024"
                 setDimensions(counter_st_live, height)
-                val state = len > 0 && len <= 1024 && imageRouteClear
+                val state = len in 1..1024 && imageRouteClear
                 write_post_btn_post.isEnabled = state // trim <initial blank spaces not allowed>
                 if (state) {
-                    write_post_btn_post.setAlpha(1f)
+                    write_post_btn_post.alpha = 1f
                 } else {
-                    write_post_btn_post.setAlpha(.5f);
+                    write_post_btn_post.alpha = .5f
                 }
             }
 
@@ -146,7 +137,7 @@ class WriteBlogActivity : AppCompatActivity() {
             millis.toString(),
             write_post_et_content.text.toString(),
             downloadUri.toString(),
-            auth.currentUser?.uid.toString(),
+            Helper.userlogged.uid,
             Timestamp.now(),
             millis
         )
@@ -185,10 +176,6 @@ class WriteBlogActivity : AppCompatActivity() {
             }
     }
 
-
-    val REQUEST_CODE = 200
-
-
     @SuppressLint("ResourceAsColor")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -196,8 +183,8 @@ class WriteBlogActivity : AppCompatActivity() {
             imageRouteClear = false
             write_post_btn_post.isEnabled= false
             write_post_progressbar.isVisible = true
-            write_post_btn_post.setAlpha(.5f);
-            write_post_tv_add_image.setText("Uploading...")
+            write_post_btn_post.alpha = .5f
+            write_post_tv_add_image.text = "Uploading..."
             write_post_upd_img.isClickable = false
 
             val imageUri: Uri = data.data!!
@@ -208,41 +195,38 @@ class WriteBlogActivity : AppCompatActivity() {
                 imageUri.toString().substring(imageUri.toString().lastIndexOf("."))
 
             val uploadTask: UploadTask
-            if (extension.toLowerCase().trim() != ".gif") {
-                val imageByteArray = getImageByteArray(imageUri)
-                uploadTask = ref.putBytes(imageByteArray as ByteArray)
+            uploadTask = if (extension.toLowerCase(Locale.ROOT).trim() != ".gif") {
+                val  imageByteArray = getImageByteArray(imageUri)
+                ref.putBytes(imageByteArray)
             } else {
-                uploadTask = ref.putFile(imageUri)
+                ref.putFile(imageUri)
             }
 
-            val urlTask =
-                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                    if (!task.isSuccessful) {
-                        task.exception?.let {
-                            throw it
-                        }
+            uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
                     }
-                    return@Continuation ref.downloadUrl
-                }).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        downloadUri = task.result
-                        write_post_progressbar.isVisible = false
-                        write_post_tv_add_image.setText("Uploaded!!")
-
-                        val text = write_post_et_content.text.toString()
-                        val len = text.trimStart(' ').length
-
-                        if (len in 1..1024) {
-                            write_post_btn_post.setAlpha(1f)
-                            write_post_btn_post.isEnabled = true
-
-                        }
-
-                        imageRouteClear = true
-                    }
-                }.addOnFailureListener {
-                    // handle it
                 }
+                return@Continuation ref.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    downloadUri = task.result
+                    write_post_progressbar.isVisible = false
+                    write_post_tv_add_image.text = "Uploaded!!"
+
+                    val text = write_post_et_content.text.toString()
+                    val len = text.trimStart(' ').length
+
+                    if (len in 1..1024) {
+                        write_post_btn_post.alpha = 1f
+                        write_post_btn_post.isEnabled = true
+
+                    }
+
+                    imageRouteClear = true
+                }
+            }
         }
     }
 
@@ -261,9 +245,9 @@ class WriteBlogActivity : AppCompatActivity() {
 
 
     private fun setDimensions(view: View, height: Int) {
-        val params: ViewGroup.LayoutParams = view.getLayoutParams()
+        val params: ViewGroup.LayoutParams = view.layoutParams
         params.height = height
-        view.setLayoutParams(params)
+        view.layoutParams = params
     }
 
 }
