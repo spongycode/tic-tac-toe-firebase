@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.ImageDecoder
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -63,6 +65,7 @@ class WriteBlogActivity : AppCompatActivity() {
 
 
         this.title = "Blog"
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor(Helper.tablayout_color)))
 
         write_post_progressbar.isVisible = false
         storageReference = FirebaseStorage.getInstance().reference
@@ -72,7 +75,7 @@ class WriteBlogActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
 
 
-        Helper.buttonEffect(write_post_btn_post, "#FF1A749E")
+        Helper.buttonEffect(write_post_btn_post, "#C665F37D")
 
 
 
@@ -191,7 +194,7 @@ class WriteBlogActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == pickImage && data != null) {
             imageRouteClear = false
-            write_post_btn_post.isClickable = false
+            write_post_btn_post.isEnabled= false
             write_post_progressbar.isVisible = true
             write_post_btn_post.setAlpha(.5f);
             write_post_tv_add_image.setText("Uploading...")
@@ -232,7 +235,6 @@ class WriteBlogActivity : AppCompatActivity() {
                         if (len in 1..1024) {
                             write_post_btn_post.setAlpha(1f)
                             write_post_btn_post.isEnabled = true
-                            write_post_btn_post.isClickable = true
 
                         }
 

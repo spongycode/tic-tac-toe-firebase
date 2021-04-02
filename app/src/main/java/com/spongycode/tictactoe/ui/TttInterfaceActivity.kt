@@ -1,6 +1,8 @@
 package com.spongycode.tictactoe.ui
 
 import android.app.ProgressDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -27,6 +29,8 @@ class TttInterfaceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ttt_interface)
+
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor(Helper.tablayout_color)))
 
         Helper.buttonEffect(btn_exit, "#FFED4F4F")
         Helper.buttonEffect(btn_rematch, "#FF68C84C")
@@ -57,15 +61,15 @@ class TttInterfaceActivity : AppCompatActivity() {
         // find state <dot cross> end
 
         firestore.collection("allgames").document(gameid)
-                .addSnapshotListener { snapshot, e ->
-                    seekToEnableButtons(gameid)
-                    seekAllPostionMark(gameid, opponentid)
-                    findWinner(MY_STATE, gameid, opponentid)
-                    updateScore(gameid, opponentid)
-                    checkrematch(gameid)
+            .addSnapshotListener { snapshot, e ->
+                seekToEnableButtons(gameid)
+                seekAllPostionMark(gameid, opponentid)
+                findWinner(MY_STATE, gameid, opponentid)
+                updateScore(gameid, opponentid)
+                checkrematch(gameid)
 //                    seekToEnableButtons(gameid)
 
-                }
+            }
 
 
         //findWinner()
@@ -84,12 +88,12 @@ class TttInterfaceActivity : AppCompatActivity() {
 
 
             firestore.collection("allgames").document(gameid)
-                    .update("rematchto", "none")
-                    .addOnCompleteListener {
-                        seekToEnableButtons(gameid)
-                        seekAllPostionMark(gameid, opponentid)
-                        Toast.makeText(this, "Your Chance, Make your Move", Toast.LENGTH_LONG).show()
-                    }
+                .update("rematchto", "none")
+                .addOnCompleteListener {
+                    seekToEnableButtons(gameid)
+                    seekAllPostionMark(gameid, opponentid)
+                    Toast.makeText(this, "Your Chance, Make your Move", Toast.LENGTH_LONG).show()
+                }
 
         }
 
@@ -99,11 +103,11 @@ class TttInterfaceActivity : AppCompatActivity() {
             progressDialog.setMessage("Destroying Room")
             progressDialog.show()
             firestore.collection("allgames").document(gameid)
-                    .delete()
-                    .addOnSuccessListener {
-                        progressDialog.hide()
-                        finish()
-                    }
+                .delete()
+                .addOnSuccessListener {
+                    progressDialog.hide()
+                    finish()
+                }
         }
 
         ib_exit_rematch.setOnClickListener {
@@ -112,11 +116,11 @@ class TttInterfaceActivity : AppCompatActivity() {
             progressDialog.setMessage("Destroying Room")
             progressDialog.show()
             firestore.collection("allgames").document(gameid)
-                    .delete()
-                    .addOnSuccessListener {
-                        progressDialog.hide()
-                        finish()
-                    }
+                .delete()
+                .addOnSuccessListener {
+                    progressDialog.hide()
+                    finish()
+                }
         }
 
         btn_rematch.setOnClickListener {
@@ -127,45 +131,55 @@ class TttInterfaceActivity : AppCompatActivity() {
             progressDialog.show()
 
             firestore.collection("allgames")
-                    .whereEqualTo("gameid", gameid)
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            if (document.get("rematchto").toString() == "none") {
+                .whereEqualTo("gameid", gameid)
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        if (document.get("rematchto").toString() == "none") {
 
-                                var myscore = "20"
-                                var opponentscore = "30"
+                            var myscore = "20"
+                            var opponentscore = "30"
 
-                                firestore.collection("allgames")
-                                        .whereEqualTo("gameid", gameid)
-                                        .get()
-                                        .addOnSuccessListener { documents ->
-                                            for (document in documents) {
-                                                myscore = document.get(auth.currentUser?.uid.toString()).toString()
-                                                opponentscore = document.get(opponentid).toString()
+                            firestore.collection("allgames")
+                                .whereEqualTo("gameid", gameid)
+                                .get()
+                                .addOnSuccessListener { documents ->
+                                    for (document in documents) {
+                                        myscore = document.get(auth.currentUser?.uid.toString())
+                                            .toString()
+                                        opponentscore = document.get(opponentid).toString()
 
-                                                firestore.collection("allgames").document(gameid)
-                                                        .delete()
-                                                        .addOnCompleteListener {
-                                                            progressDialog.hide()
-                                                            Toast.makeText(this, "Rematch offer Sent, Wait!!", Toast.LENGTH_SHORT).show()
-                                                            offWinningLines()
-                                                            message_placeholder.visibility = GONE
-                                                            btn_exit.visibility = GONE
-                                                            btn_rematch.visibility = GONE
+                                        firestore.collection("allgames").document(gameid)
+                                            .delete()
+                                            .addOnCompleteListener {
+                                                progressDialog.hide()
+                                                Toast.makeText(
+                                                    this,
+                                                    "Rematch offer Sent, Wait!!",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                offWinningLines()
+                                                message_placeholder.visibility = GONE
+                                                btn_exit.visibility = GONE
+                                                btn_rematch.visibility = GONE
 
-                                                            initButtonState()
+                                                initButtonState()
 
-                                                            addnewrematch(gameid, opponentid, myscore, opponentscore)
-                                                        }
-
+                                                addnewrematch(
+                                                    gameid,
+                                                    opponentid,
+                                                    myscore,
+                                                    opponentscore
+                                                )
                                             }
-                                        }
+
+                                    }
+                                }
 
 
-                            }
                         }
                     }
+                }
 
 
 
@@ -223,16 +237,25 @@ class TttInterfaceActivity : AppCompatActivity() {
 
 
         firestore.collection("allgames")
-                .whereEqualTo("gameid", gameid)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val myscore = document.get(auth.currentUser?.uid.toString()).toString()
-                        val opponentscore = document.get(opponentid).toString()
-                        player_score.setText(myscore)
-                        opponent_score.setText(opponentscore)
+            .whereEqualTo("gameid", gameid)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val myscore = document.get(auth.currentUser?.uid.toString()).toString()
+                    val opponentscore = document.get(opponentid).toString()
+                    if (player_score.text.toString() != myscore) {
+                        player_score.text = myscore
+                        btn_exit.visibility = VISIBLE
+                        btn_rematch.visibility = VISIBLE
+                    }
+
+                    if (opponent_score.text.toString() != opponentscore){
+                        opponent_score.text = opponentscore
+                        btn_exit.visibility = VISIBLE
+                        btn_rematch.visibility = VISIBLE
                     }
                 }
+            }
 
 
     }
@@ -251,37 +274,42 @@ class TttInterfaceActivity : AppCompatActivity() {
 
     private fun checkmystate(gameid: String) {
         firestore.collection("allgames")
-                .whereEqualTo("gameid", gameid)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        if (document.toObject(LiveGameData::class.java).receiverid == auth.currentUser?.uid.toString()) {
-                            MY_STATE = "X"
-                            Glide.with(this).load(R.drawable.ic_cross).into(image_holder_player_state)
-                            Glide.with(this).load(R.drawable.ic_dot).into(image_holder_opponent_state)
-                        } else {
-                            MY_STATE = "O"
-                            Glide.with(this).load(R.drawable.ic_dot).into(image_holder_player_state)
-                            Glide.with(this).load(R.drawable.ic_cross).into(image_holder_opponent_state)
-                        }
+            .whereEqualTo("gameid", gameid)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (document.toObject(LiveGameData::class.java).receiverid == auth.currentUser?.uid.toString()) {
+                        MY_STATE = "X"
+                        Glide.with(this).load(R.drawable.ic_cross).into(image_holder_player_state)
+                        Glide.with(this).load(R.drawable.ic_dot).into(image_holder_opponent_state)
+                    } else {
+                        MY_STATE = "O"
+                        Glide.with(this).load(R.drawable.ic_dot).into(image_holder_player_state)
+                        Glide.with(this).load(R.drawable.ic_cross).into(image_holder_opponent_state)
                     }
                 }
+            }
     }
 
-    private fun addnewrematch(gameid: String, opponentid: String, myscore: String, opponentscore: String) {
+    private fun addnewrematch(
+        gameid: String,
+        opponentid: String,
+        myscore: String,
+        opponentscore: String
+    ) {
         val docref = firestore.collection("allgames").document(gameid)
         docref.set(
-                hashMapOf(
-                        "receiverid" to opponentid,
-                        "senderid" to auth.currentUser?.uid.toString(),
-                        "canplay" to opponentid,
-                        "gamestat" to "notstart",
-                        "gameid" to gameid,
-                        "rematchto" to opponentid,
-                        "winnerfound" to "no",
-                        opponentid to opponentscore,
-                        auth.currentUser?.uid.toString() to myscore
-                )
+            hashMapOf(
+                "receiverid" to opponentid,
+                "senderid" to auth.currentUser?.uid.toString(),
+                "canplay" to opponentid,
+                "gamestat" to "notstart",
+                "gameid" to gameid,
+                "rematchto" to opponentid,
+                "winnerfound" to "no",
+                opponentid to opponentscore,
+                auth.currentUser?.uid.toString() to myscore
+            )
         )
 
 
@@ -289,42 +317,87 @@ class TttInterfaceActivity : AppCompatActivity() {
 
     private fun checkrematch(gameid: String) {
         firestore.collection("allgames")
-                .whereEqualTo("gameid", gameid)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        if (document.get("rematchto").toString() == auth.currentUser?.uid.toString()) {
-                            initButtonState()
-                            offWinningLines()
-                            btn_exit.visibility = GONE
-                            btn_rematch.visibility = GONE
-                            ib_accept_rematch.visibility = VISIBLE
-                            ib_exit_rematch.visibility = VISIBLE
-                            message_placeholder.setText("Opponent offers Rematch")
-                            message_placeholder.visibility = VISIBLE
+            .whereEqualTo("gameid", gameid)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (document.get("rematchto").toString() == auth.currentUser?.uid.toString()) {
+                        initButtonState()
+                        offWinningLines()
+                        btn_exit.visibility = GONE
+                        btn_rematch.visibility = GONE
+                        ib_accept_rematch.visibility = VISIBLE
+                        ib_exit_rematch.visibility = VISIBLE
+                        message_placeholder.setText("Opponent offers Rematch")
+                        message_placeholder.visibility = VISIBLE
 
-                        }
                     }
                 }
+            }
     }
 
     private fun seekAllPostionMark(gameid: String, opponentid: String) {
         firestore.collection("allgames")
-                .whereEqualTo("gameid", gameid)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        tapDotCross(document.get("pos1").toString(), findViewById(R.id.button1), gameid, opponentid)
-                        tapDotCross(document.get("pos2").toString(), findViewById(R.id.button2), gameid, opponentid)
-                        tapDotCross(document.get("pos3").toString(), findViewById(R.id.button3), gameid, opponentid)
-                        tapDotCross(document.get("pos4").toString(), findViewById(R.id.button4), gameid, opponentid)
-                        tapDotCross(document.get("pos5").toString(), findViewById(R.id.button5), gameid, opponentid)
-                        tapDotCross(document.get("pos6").toString(), findViewById(R.id.button6), gameid, opponentid)
-                        tapDotCross(document.get("pos7").toString(), findViewById(R.id.button7), gameid, opponentid)
-                        tapDotCross(document.get("pos8").toString(), findViewById(R.id.button8), gameid, opponentid)
-                        tapDotCross(document.get("pos9").toString(), findViewById(R.id.button9), gameid, opponentid)
-                    }
+            .whereEqualTo("gameid", gameid)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    tapDotCross(
+                        document.get("pos1").toString(),
+                        findViewById(R.id.button1),
+                        gameid,
+                        opponentid
+                    )
+                    tapDotCross(
+                        document.get("pos2").toString(),
+                        findViewById(R.id.button2),
+                        gameid,
+                        opponentid
+                    )
+                    tapDotCross(
+                        document.get("pos3").toString(),
+                        findViewById(R.id.button3),
+                        gameid,
+                        opponentid
+                    )
+                    tapDotCross(
+                        document.get("pos4").toString(),
+                        findViewById(R.id.button4),
+                        gameid,
+                        opponentid
+                    )
+                    tapDotCross(
+                        document.get("pos5").toString(),
+                        findViewById(R.id.button5),
+                        gameid,
+                        opponentid
+                    )
+                    tapDotCross(
+                        document.get("pos6").toString(),
+                        findViewById(R.id.button6),
+                        gameid,
+                        opponentid
+                    )
+                    tapDotCross(
+                        document.get("pos7").toString(),
+                        findViewById(R.id.button7),
+                        gameid,
+                        opponentid
+                    )
+                    tapDotCross(
+                        document.get("pos8").toString(),
+                        findViewById(R.id.button8),
+                        gameid,
+                        opponentid
+                    )
+                    tapDotCross(
+                        document.get("pos9").toString(),
+                        findViewById(R.id.button9),
+                        gameid,
+                        opponentid
+                    )
                 }
+            }
     }
 
     private fun tapDotCross(dc: String, buttonid: Button, gameid: String, opponentid: String) {
@@ -345,13 +418,24 @@ class TttInterfaceActivity : AppCompatActivity() {
         findWinner(MY_STATE, gameid, opponentid)
     }
 
-    private fun tapButtonOnline(myState: String, buttonid: Button, pos: Int, opponentid: String = "", gameid: String) {
+    private fun tapButtonOnline(
+        myState: String,
+        buttonid: Button,
+        pos: Int,
+        opponentid: String = "",
+        gameid: String
+    ) {
 
         val vibrate = applicationContext.getSystemService<Vibrator>()
 
         vibrate?.let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrate.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                vibrate.vibrate(
+                    VibrationEffect.createOneShot(
+                        100,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                    )
+                )
             } else {
                 //deprecated in API 26
                 vibrate.vibrate(100)
@@ -371,18 +455,18 @@ class TttInterfaceActivity : AppCompatActivity() {
         }
         disableButtons(true)
         firestore.collection("allgames").document(gameid)
-                .update("canplay", opponentid)
-                .addOnCompleteListener {
-                }
+            .update("canplay", opponentid)
+            .addOnCompleteListener {
+            }
         firestore.collection("allgames").document(gameid)
-                .update("pos" + pos.toString(), myState)
-                .addOnCompleteListener {
+            .update("pos" + pos.toString(), myState)
+            .addOnCompleteListener {
 
-                }
+            }
         firestore.collection("allgames").document(gameid)
-                .update("gamestat", "start")
-                .addOnCompleteListener {
-                }
+            .update("gamestat", "start")
+            .addOnCompleteListener {
+            }
 //        findWinner(MY_STATE, gameid, opponentid)
 
 
@@ -390,64 +474,85 @@ class TttInterfaceActivity : AppCompatActivity() {
 
     private fun seekToEnableButtons(gameid: String) {
         firestore.collection("allgames")
-                .whereEqualTo("gameid", gameid)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val canplay = document.toObject(LiveGameData::class.java).canplay
-                        if (canplay == auth.currentUser?.uid.toString() &&
-                                document.toObject(LiveGameData::class.java).rematchto != auth.currentUser?.uid.toString() &&
-                                document.toObject(LiveGameData::class.java).winnerfound != "yes") {
-                            disableButtons(false)
-                            cl_player_bg.setBackgroundColor(ContextCompat.getColor(this, R.color.canplay))
-                            cl_opponent_bg.setBackgroundColor(ContextCompat.getColor(this, R.color.cantplay))
+            .whereEqualTo("gameid", gameid)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val canplay = document.toObject(LiveGameData::class.java).canplay
+                    if (canplay == auth.currentUser?.uid.toString() &&
+                        document.toObject(LiveGameData::class.java).rematchto != auth.currentUser?.uid.toString() &&
+                        document.toObject(LiveGameData::class.java).winnerfound != "yes"
+                    ) {
+                        disableButtons(false)
+                        cl_player_bg.setBackgroundColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.canplay
+                            )
+                        )
+                        cl_opponent_bg.setBackgroundColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.cantplay
+                            )
+                        )
 
-                        } else {
-                            disableButtons(true)
-                            cl_player_bg.setBackgroundColor(ContextCompat.getColor(this, R.color.cantplay))
-                            cl_opponent_bg.setBackgroundColor(ContextCompat.getColor(this, R.color.canplay))
-                        }
+                    } else {
+                        disableButtons(true)
+                        cl_player_bg.setBackgroundColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.cantplay
+                            )
+                        )
+                        cl_opponent_bg.setBackgroundColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.canplay
+                            )
+                        )
                     }
                 }
+            }
 
 
     }
 
     private fun updateImageNameBothPlayer(opponentid: String) {
         firestore.collection("users").whereEqualTo("userid", auth.currentUser?.uid.toString())
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (data in task.result!!) {
-                            val fname = data.toObject(UserDataClass::class.java).fname
-                            val lname = data.toObject(UserDataClass::class.java).lname
-                            val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                            fname_holder_player.setText(fname)
-                            lname_holder_player.setText(lname)
-                            Glide.with(this).load(imageurl)
-                                    .into(image_holder_player)
-                        }
-                    } else {
-
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (data in task.result!!) {
+                        val fname = data.toObject(UserDataClass::class.java).fname
+                        val lname = data.toObject(UserDataClass::class.java).lname
+                        val imageurl = data.toObject(UserDataClass::class.java).imageurl
+                        fname_holder_player.setText(fname)
+                        lname_holder_player.setText(lname)
+                        Glide.with(this).load(imageurl)
+                            .into(image_holder_player)
                     }
+                } else {
+
                 }
+            }
         firestore.collection("users").whereEqualTo("userid", opponentid)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (data in task.result!!) {
-                            val fname = data.toObject(UserDataClass::class.java).fname
-                            val lname = data.toObject(UserDataClass::class.java).lname
-                            val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                            fname_holder_opponent.setText(fname)
-                            lname_holder_opponent.setText(lname)
-                            Glide.with(applicationContext).load(imageurl)
-                                    .into(image_holder_opponent)
-                        }
-                    } else {
-
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (data in task.result!!) {
+                        val fname = data.toObject(UserDataClass::class.java).fname
+                        val lname = data.toObject(UserDataClass::class.java).lname
+                        val imageurl = data.toObject(UserDataClass::class.java).imageurl
+                        fname_holder_opponent.setText(fname)
+                        lname_holder_opponent.setText(lname)
+                        Glide.with(applicationContext).load(imageurl)
+                            .into(image_holder_opponent)
                     }
+                } else {
+
                 }
+            }
 
 
     }
@@ -585,76 +690,78 @@ class TttInterfaceActivity : AppCompatActivity() {
             if (winnerstate == myState) {
                 message_placeholder.setText("You Win!!")
                 firestore.collection("allgames")
-                        .whereEqualTo("gameid", gameid)
-                        .get()
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                for (data in task.result!!) {
-                                    var receiveridtbs = ""
-                                    var senderidtbs = ""
+                    .whereEqualTo("gameid", gameid)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            for (data in task.result!!) {
+                                var receiveridtbs = ""
+                                var senderidtbs = ""
 
-                                    val receiverid = data.get("receiverid").toString()
+                                val receiverid = data.get("receiverid").toString()
 
-                                    if (receiverid == auth.currentUser?.uid.toString()) {
-                                        receiveridtbs = auth.currentUser?.uid.toString()
-                                        senderidtbs = data.get("senderid").toString()
-                                    } else {
-                                        receiveridtbs = data.get("senderid").toString()
-                                        senderidtbs = auth.currentUser?.uid.toString()
-                                    }
-                                    val currscoremine = data.get(auth.currentUser?.uid.toString()).toString()
-                                    val currscoreopp = data.get(opponentid).toString()
-                                    val canplay = data.get("canplay").toString()
-
-                                    firestore.collection("allgames").document(gameid)
-                                            .delete()
-                                            .addOnCompleteListener {
-                                                val docref = firestore.collection("allgames").document(gameid)
-                                                docref.set(
-                                                        hashMapOf(
-                                                                "receiverid" to receiveridtbs,
-                                                                "senderid" to senderidtbs,
-                                                                "canplay" to canplay,
-                                                                "gamestat" to "notstart",
-                                                                "gameid" to gameid,
-                                                                "rematchto" to "none",
-                                                                "winnerfound" to "yes",
-                                                                opponentid to currscoreopp,
-                                                                auth.currentUser?.uid.toString() to currscoremine.toInt() + 1
-                                                        )
-                                                )
-
-                                            }
-
+                                if (receiverid == auth.currentUser?.uid.toString()) {
+                                    receiveridtbs = auth.currentUser?.uid.toString()
+                                    senderidtbs = data.get("senderid").toString()
+                                } else {
+                                    receiveridtbs = data.get("senderid").toString()
+                                    senderidtbs = auth.currentUser?.uid.toString()
                                 }
-                            } else {
+                                val currscoremine =
+                                    data.get(auth.currentUser?.uid.toString()).toString()
+                                val currscoreopp = data.get(opponentid).toString()
+                                val canplay = data.get("canplay").toString()
+
+                                firestore.collection("allgames").document(gameid)
+                                    .delete()
+                                    .addOnCompleteListener {
+                                        val docref =
+                                            firestore.collection("allgames").document(gameid)
+                                        docref.set(
+                                            hashMapOf(
+                                                "receiverid" to receiveridtbs,
+                                                "senderid" to senderidtbs,
+                                                "canplay" to canplay,
+                                                "gamestat" to "notstart",
+                                                "gameid" to gameid,
+                                                "rematchto" to "none",
+                                                "winnerfound" to "yes",
+                                                opponentid to currscoreopp,
+                                                auth.currentUser?.uid.toString() to currscoremine.toInt() + 1
+                                            )
+                                        )
+
+                                    }
 
                             }
+                        } else {
+
                         }
+                    }
 
             } else {
-                message_placeholder.setText("You Lose!!")
+                message_placeholder.text = "You Lose!!"
             }
 
             message_placeholder.visibility = VISIBLE
-            btn_exit.visibility = VISIBLE
-            btn_rematch.visibility = VISIBLE
+
             disableButtons(true)
         }
 
 
 
         if (button1.text != "-1" && button2.text != "-1" && button3.text != "-1" &&
-                button4.text != "-1" && button5.text != "-1" && button6.text != "-1" &&
-                button7.text != "-1" && button8.text != "-1" && button9.text != "-1" && !foundWinner ){
+            button4.text != "-1" && button5.text != "-1" && button6.text != "-1" &&
+            button7.text != "-1" && button8.text != "-1" && button9.text != "-1" && !foundWinner
+        ) {
 
             settextm1()
             disableButtons(true)
-            message_placeholder.setText("Draw")
+            message_placeholder.text = "Draw"
             message_placeholder.visibility = VISIBLE
             btn_exit.visibility = VISIBLE
             btn_rematch.visibility = VISIBLE
-            
+
         }
 
 

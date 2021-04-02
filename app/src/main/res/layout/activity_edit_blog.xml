@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fragments_background"
-    tools:context=".ui.blog.WriteBlogActivity">
+    tools:context=".ui.blog.EditBlogActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/edit_post_profile_pic_cv"
@@ -89,10 +89,10 @@
 
     <Button
         android:id="@+id/edit_post_btn_post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_marginTop="20dp"
-        android:background="#406DDF"
+        android:background="@drawable/round_button"
         android:text="Post"
         android:textColor="@color/white"
         app:cornerRadius="100dp"

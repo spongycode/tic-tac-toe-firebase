@@ -1,5 +1,8 @@
 package com.spongycode.tictactoe.ui.blog
 
+import android.app.ProgressDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -14,7 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.spongycode.tictactoe.R
 import com.spongycode.tictactoe.model.UserDataClass
+import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_edit_blog.*
+import kotlinx.android.synthetic.main.activity_write_post.*
 
 class EditBlogActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -25,28 +30,26 @@ class EditBlogActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_blog)
 
         this.title = "Blog"
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor(Helper.tablayout_color)))
+
+        Helper.buttonEffect(edit_post_btn_post, "#C665F37D")
+
 
         auth = Firebase.auth
         firestore = FirebaseFirestore.getInstance()
         val currentText = intent?.getStringExtra("currentText")
         val docId = intent?.getStringExtra("docId")
 
-        firestore.collection("users")
-            .whereEqualTo("userid", auth.currentUser?.uid.toString())
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (data in task.result!!) {
-                        val imageurl = data.toObject(UserDataClass::class.java).imageurl
-                        Glide.with(this).load(imageurl).into(edit_post_profile_pic)
-                        edit_post_et_content.setText(currentText)
-                    }
-                }
-            }
 
-
+        Glide.with(this).load(Helper.userlogged.imageurl).into(edit_post_profile_pic)
+        edit_post_et_content.setText(currentText)
 
         edit_post_btn_post.setOnClickListener {
+            val progressDialog = ProgressDialog(this)
+            progressDialog.setTitle("Uploading...")
+            progressDialog.setMessage("Working on it, Please Wait")
+            progressDialog.show()
+
             firestore.collection("blogs").document(docId!!)
                 .update("content", edit_post_et_content.text.toString())
                 .addOnCompleteListener {

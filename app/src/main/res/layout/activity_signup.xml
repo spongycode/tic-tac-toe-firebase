@@ -102,13 +102,11 @@
 
         <Button
             android:id="@+id/btn_sign_up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="100dp"
+            android:layout_width="160dp"
+            android:layout_height="50dp"
             android:layout_marginTop="10dp"
-            android:background="#C618E13A"
-
-            android:padding="16dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/round_button"
             android:text="@string/sign_up"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
