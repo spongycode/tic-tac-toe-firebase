@@ -16,15 +16,12 @@ Android app in which registered users can play <b>Tic-Tac-Toe</b> realtime again
 
 ## Screenshots:
 
-<img width="200px" height="375px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/login.png' /><img width="200px" height="375px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/register.png' />  <img  width="200px" height="375px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/draw0.png' /><img  width="200px" height="375px"  src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/draw1.png' />
-
-<img  width="200px" height="375px" height="280px"  src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/feeds0.png' /><img  width="200px" height="375px"  src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/feeds1.png' /> <img  width="200px" height="375px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/friends1.png' /><img  width="200px" height="375px"  src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/friends0.png' /> 
-
-
-<img  width="200px" height="375px"  src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/accept.png' /> <img width="200px" height="375px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/wait.png' /> <img  width="200px" height="375px"  src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/l_game.png' />
-
-<img  width="200px" height="375px"  src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/w_blogs.png' /> <img  width="200px" height="375px"  src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/profile.png' /> <img  width="200px" height="375px"  src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/e_name.png' />
-
+<img width="650px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/login.jpg' />
+<img width="650px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/drawer.jpg' />
+<img width="650px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/blogs.jpg' />
+<img width="650px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/users.jpg' />
+<img width="650px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/wait.jpg' />
+<img width="650px" src='https://github.com/SpongyCode/tic-tac-toe-firebase/blob/master/assets/three.jpg' />
 
 ## Libraries used:
 - **Glide: https://github.com/bumptech/glide**
