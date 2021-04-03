@@ -32,8 +32,6 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/ic_day_night"
-
-
         app:layout_constraintBottom_toTopOf="@id/toggle_day_night"
         app:layout_constraintLeft_toLeftOf="@id/toggle_day_night"
         app:layout_constraintRight_toRightOf="@id/toggle_day_night" />
@@ -71,9 +69,7 @@
         android:textColor="@color/nav_head_text"
         android:textSize="20sp"
         android:textStyle="bold"
-
         app:layout_constraintLeft_toRightOf="@id/nav_head_fname"
-
         app:layout_constraintTop_toTopOf="@id/nav_head_fname" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

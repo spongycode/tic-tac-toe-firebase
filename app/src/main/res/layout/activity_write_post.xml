@@ -32,9 +32,8 @@
     <ImageView
         android:id="@+id/counter_st_fade"
         android:layout_width="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_height="200px"
-
+        android:layout_marginTop="20dp"
         android:src="@drawable/ver_counter_fade"
         app:layout_constraintLeft_toLeftOf="@id/write_post_profile_pic_cv"
         app:layout_constraintRight_toRightOf="@id/write_post_profile_pic_cv"
@@ -44,12 +43,12 @@
     <ImageView
         android:id="@+id/counter_st_live"
         android:layout_width="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/ver_counter_live"
+        app:layout_constraintBottom_toBottomOf="@id/counter_st_fade"
         app:layout_constraintLeft_toLeftOf="@id/write_post_profile_pic_cv"
-        app:layout_constraintRight_toRightOf="@id/write_post_profile_pic_cv"
-        app:layout_constraintBottom_toBottomOf="@id/counter_st_fade" />
+        app:layout_constraintRight_toRightOf="@id/write_post_profile_pic_cv" />
 
 
     <TextView
@@ -60,8 +59,7 @@
         android:textColor="@color/regular_text_level2"
         app:layout_constraintLeft_toLeftOf="@id/counter_st_fade"
         app:layout_constraintRight_toRightOf="@id/counter_st_fade"
-        app:layout_constraintTop_toBottomOf="@id/counter_st_fade"
-        />
+        app:layout_constraintTop_toBottomOf="@id/counter_st_fade" />
 
 
     <EditText
@@ -71,10 +69,10 @@
         android:background="@drawable/custom_box_text_input"
         android:gravity="top|left"
         android:hint="Share Something..."
-        android:textColorHint="@color/regular_text_level2"
-        android:textColor="@color/regular_text_level1"
         android:paddingHorizontal="15dp"
         android:paddingVertical="15dp"
+        android:textColor="@color/regular_text_level1"
+        android:textColorHint="@color/regular_text_level2"
         android:textSize="20sp"
         app:layout_constraintLeft_toRightOf="@id/write_post_profile_pic_cv"
         app:layout_constraintRight_toRightOf="parent"
@@ -86,10 +84,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
-
         android:layout_marginTop="15dp"
         android:background="@drawable/ic_attachment"
-
         android:textAllCaps="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/write_post_et_content" />
@@ -103,7 +99,6 @@
         android:textColor="@color/regular_text_level1"
         android:textSize="18sp"
         android:textStyle="bold"
-
         app:layout_constraintBottom_toBottomOf="@id/write_post_upd_img"
         app:layout_constraintLeft_toRightOf="@id/write_post_upd_img"
         app:layout_constraintTop_toTopOf="@id/write_post_upd_img" />
@@ -117,9 +112,7 @@
         android:indeterminateTint="@color/fab"
         app:layout_constraintBottom_toBottomOf="@id/write_post_upd_img"
         app:layout_constraintLeft_toRightOf="@id/write_post_tv_add_image"
-
         app:layout_constraintTop_toTopOf="@id/write_post_upd_img" />
-
 
     <Button
         android:id="@+id/write_post_btn_post"
@@ -133,7 +126,5 @@
         app:layout_constraintBottom_toBottomOf="@id/write_post_upd_img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/write_post_upd_img" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

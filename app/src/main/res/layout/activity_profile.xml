@@ -37,9 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.cardview.widget.CardView>
 
-
     <TextView
-
         android:id="@+id/textViewName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,7 +47,6 @@
         android:textColor="#FFFBFB"
         android:textSize="20sp"
         android:textStyle="bold"
-
         app:layout_constraintBottom_toBottomOf="@id/imageViewAvatar_cv"
         app:layout_constraintLeft_toRightOf="@id/imageViewAvatar_cv"
         app:layout_constraintTop_toTopOf="@+id/imageViewAvatar_cv" />
@@ -76,14 +73,10 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_myblogs"
         tools:listitem="@layout/blog_layout">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-
-
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

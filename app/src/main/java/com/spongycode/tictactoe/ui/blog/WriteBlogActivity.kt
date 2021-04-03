@@ -135,7 +135,7 @@ class WriteBlogActivity : AppCompatActivity() {
 
         val eachBlog = EachBlog(
             millis.toString(),
-            write_post_et_content.text.toString(),
+            write_post_et_content.text.toString().trim(),
             downloadUri.toString(),
             Helper.userlogged.uid,
             Timestamp.now(),

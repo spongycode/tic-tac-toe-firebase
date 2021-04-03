@@ -26,6 +26,7 @@ class EditBlogActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_blog)
@@ -44,6 +45,8 @@ class EditBlogActivity : AppCompatActivity() {
 
         Glide.with(this).load(Helper.userlogged.imageurl).into(edit_post_profile_pic)
         edit_post_et_content.setText(currentText)
+        edit_blog_counter_text_size.text = "${currentText?.length}/1024"
+        setDimensions(edit_blog_counter_st_live,(currentText?.length!!*200/1024) )
 
         edit_post_btn_post.setOnClickListener {
             val progressDialog = ProgressDialog(this)
@@ -52,7 +55,7 @@ class EditBlogActivity : AppCompatActivity() {
             progressDialog.show()
 
             firestore.collection("blogs").document(docId!!)
-                .update("content", edit_post_et_content.text.toString())
+                .update("content", edit_post_et_content.text.toString().trim())
                 .addOnCompleteListener {
                     Toast.makeText(this, "Blog Updated", Toast.LENGTH_SHORT).show()
                     finish()

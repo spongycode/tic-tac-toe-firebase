@@ -1,100 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FEFFFF"
     tools:context=".ui.welcome.SigninActivity">
-        <ImageView
-            android:id="@+id/main_logo"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="80dp"
-            android:src="@drawable/ttt_logo"
-            android:layout_gravity="center"
-            />
 
-        <EditText
-            android:id="@+id/tv_signin_email"
+    <ImageView
+        android:id="@+id/main_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/ttt_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/tv_signin_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text_round"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:paddingVertical="10dp"
+        android:paddingLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_logo" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tv_signin_password_mat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:hintEnabled="false"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_signin_email"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tv_signin_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="35dp"
-            android:layout_marginTop="10dp"
-            android:paddingVertical="10dp"
-            android:paddingLeft="8dp"
             android:background="@drawable/edit_text_round"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_logo"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress" />
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingVertical="10dp"
+            android:paddingLeft="8dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
+    <Button
+        android:id="@+id/btn_log_in"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/round_button"
+        android:text="@string/signin"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_signin_password_mat" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tv_signin_password_mat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            android:layout_marginTop="10dp"
-            app:hintEnabled="false"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_signin_email">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tv_signin_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="35dp"
-                    android:paddingVertical="10dp"
-                    android:paddingLeft="8dp"
-                    android:background="@drawable/edit_text_round"
-                    android:hint="Password"
-                    android:inputType="textPassword"/>
-        </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/don_t_have_an_account"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-        <Button
-            android:id="@+id/btn_log_in"
-            android:layout_width="140dp"
-            android:layout_height="50dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_signin_password_mat"
-            android:layout_marginTop="15dp"
-            android:text="@string/signin"
-            android:textAllCaps="false"
-            android:background="@drawable/round_button"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
-            android:layout_marginBottom="10dp"
-            android:text="@string/don_t_have_an_account"
-            android:textColor="@color/black"/>
-
-        <Button
-            android:id="@+id/btn_sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-
-            android:layout_marginBottom="80dp"
-            android:background="@color/design_default_color_primary"
-            android:padding="16dp"
-            android:text="@string/dont_have_account"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+    <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:background="@color/design_default_color_primary"
+        android:padding="16dp"
+        android:text="@string/dont_have_account"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

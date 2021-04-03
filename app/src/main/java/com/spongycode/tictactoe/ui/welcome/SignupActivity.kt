@@ -16,6 +16,7 @@ import com.spongycode.tictactoe.model.UserDataClass
 import com.spongycode.tictactoe.utils.Helper
 import kotlinx.android.synthetic.main.activity_signin.btn_sign_up
 import kotlinx.android.synthetic.main.activity_signup.*
+import java.util.*
 
 @Suppress("DEPRECATION")
 class SignupActivity : AppCompatActivity() {
@@ -30,12 +31,12 @@ class SignupActivity : AppCompatActivity() {
         auth = Firebase.auth
         this.supportActionBar?.hide()
 
-        val profileImages = listOf("cat", "croc","dino","mong", "wolf")
+        val profileImages = listOf("cat", "croc", "dino", "mong", "wolf")
         var imageUrlProfile = ""
 
         Helper.buttonEffect(btn_sign_up, "#C665F37D")
 
-        when(profileImages.random()){
+        when (profileImages.random()) {
             "cat" -> {
                 imageUrlProfile = "https://firebasestorage.googleapis.com/v0/b/tic-tac-toe-fb8df.appspot.com/o/profilepics%2Fcat.png?alt=media&token=894a2674-ee8d-449d-a8d1-8867a3ab1057"
                 signup_profile_iv.setImageResource(R.drawable.cat)
@@ -69,13 +70,13 @@ class SignupActivity : AppCompatActivity() {
 
     }
 
-    private fun signUpUser(imageurl : String) {
-        if (tv_signup_fname.text.toString().isEmpty()) {
+    private fun signUpUser(imageurl: String) {
+        if (tv_signup_fname.text.toString().trim().isEmpty()) {
             tv_signup_fname.error = "Field Required"
             tv_signup_fname.requestFocus()
             return
         }
-        if (tv_signup_lname.text.toString().isEmpty()) {
+        if (tv_signup_lname.text.toString().trim().isEmpty()) {
             tv_signup_lname.error = "Field Required"
             tv_signup_lname.requestFocus()
             return
@@ -85,7 +86,7 @@ class SignupActivity : AppCompatActivity() {
             tv_signup_email.requestFocus()
             return
         }
-        if (!Patterns.EMAIL_ADDRESS.matcher(tv_signup_email.text.toString()).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(tv_signup_email.text.toString().trim()).matches()) {
             tv_signup_email.error = "Please enter valid Email"
             tv_signup_email.requestFocus()
             return
@@ -102,24 +103,28 @@ class SignupActivity : AppCompatActivity() {
         progressDialog.setMessage("Working on it, Please Wait")
         progressDialog.show()
 
-        auth.createUserWithEmailAndPassword(tv_signup_email.text.toString(), tv_signup_password.text.toString())
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
+        auth.createUserWithEmailAndPassword(tv_signup_email.text.toString().trim(), tv_signup_password.text.toString())
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
 
-                    // Accessing Firestore
-                    val userid = auth.currentUser?.uid.toString()
-                    firestore = FirebaseFirestore.getInstance()
-                    firestore.collection("users").document(auth.currentUser?.uid.toString())
-                        .set(UserDataClass(tv_signup_fname.text.toString(),tv_signup_lname.text.toString(),tv_signup_email.text.toString(),userid,imageurl))
-                        .addOnSuccessListener { Log.d("BlogActivity", "DocumentSnapshot successfully written!") }
-                        .addOnFailureListener { e -> Log.w("BlogActivity", "Error writing document", e) }
-                    startActivity(Intent(this, StarterActivity::class.java))
-                    finish()
-                } else {
-                    progressDialog.hide()
-                    Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                        // Accessing Firestore
+                        val userid = auth.currentUser?.uid.toString()
+                        firestore = FirebaseFirestore.getInstance()
+                        firestore.collection("users").document(auth.currentUser?.uid.toString())
+                                .set(UserDataClass(tv_signup_fname.text.toString().trim().capitalize(Locale.ROOT),
+                                        tv_signup_lname.text.toString().trim().capitalize(Locale.ROOT),
+                                        tv_signup_email.text.toString().trim(),
+                                        userid,
+                                        imageurl))
+                                .addOnSuccessListener { Log.d("BlogActivity", "DocumentSnapshot successfully written!") }
+                                .addOnFailureListener { e -> Log.w("BlogActivity", "Error writing document", e) }
+                        startActivity(Intent(this, StarterActivity::class.java))
+                        finish()
+                    } else {
+                        progressDialog.hide()
+                        Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
 
     }
 }
